@@ -16,6 +16,9 @@ writable /system/etc/hosts via mount --bind
    - fix magisk support
    
   1.3.4
-   - hardcode moddir  
+   - hardcode moddir
+  
+  1.3.5
+   - spoof last modified time  
 
 [Download](https://raw.githubusercontent.com/backslashxx/bindhosts/master/module.zip)
