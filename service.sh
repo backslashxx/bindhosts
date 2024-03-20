@@ -8,7 +8,7 @@ done
 
 ls $MODDIR/hosts > /dev/null || cat /system/etc/hosts > $MODDIR/hosts
 chcon -r u:object_r:system_file:s0 "$MODDIR/hosts"
-chmod 644 $MODDIR/hosts
+chmod 600 $MODDIR/hosts
 mount --bind "$MODDIR/hosts" /system/etc/hosts
 touch -acmr /bin/ls /system/etc/hosts
 sleep 1
