@@ -10,13 +10,16 @@ writable /system/etc/hosts via mount --bind
    - fix magisk support
    - hardcode moddir
   
-  1.3.5
+  1.3.5 - 1.3.6
    - spoof last modified time
-   
-  1.3.6
    - 644 -> 600 on hosts file permission (better hide)
+   
+  1.3.7
+   - restore old behavior, cancel 1.3.5 and 1.3.6 changes
 
 
 [Download](https://raw.githubusercontent.com/backslashxx/bindhosts/master/module.zip)
 
 [report for any issues](https://github.com/backslashxx/bindhosts/issues)
+
+[Building your own kernel? grab this!](https://github.com/tiann/KernelSU/pull/1494)
