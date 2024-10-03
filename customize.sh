@@ -42,14 +42,17 @@ chcon -r u:object_r:system_file:s0 "$MODDIR/hosts"
 chmod 644 $MODDIR/hosts
 
 if [ -f ${SUSFS_BIN} ] ; then
-	#susfs >= 110 support
-	echo "susfs >= 1.1.0 found! adding to try_umount list...."
+	echo "susfs found!"
+	${SUSFS_BIN} add_sus_kstat '/system/etc/hosts' > /dev/null 2>&1
 	mount --bind "$MODDIR/hosts" /system/etc/hosts
-	${SUSFS_BIN} add_try_umount /system/etc/hosts
+	${SUSFS_BIN} update_sus_kstat '/system/etc/hosts' > /dev/null 2>&1
+	${SUSFS_BIN} add_try_umount /system/etc/hosts '1' > /dev/null 2>&1
+	
+	# for leagacy susfs
+	${SUSFS_BIN} add_try_umount /system/etc/hosts > /dev/null 2>&1
 else
 	mount --bind "$MODDIR/hosts" /system/etc/hosts
 fi
-
 
 sleep 1
 sed -i '/description/d' $MODDIR/module.prop

@@ -12,7 +12,10 @@ writable /system/etc/hosts via mount --bind
    - disable and copy old hosts file from other modules too
    
   1.3.9
-   - [susfs >= 1.1.0](https://gitlab.com/simonpunk/susfs4ksu) try_umount support added
+   - [susfs](https://gitlab.com/simonpunk/susfs4ksu) try_umount support added
+   
+  1.4.0
+   - [susfs](https://gitlab.com/simonpunk/susfs4ksu) modernize susfs support ( tested at 1.3.8)
 
 
 [Download](https://raw.githubusercontent.com/backslashxx/bindhosts/master/module.zip)
