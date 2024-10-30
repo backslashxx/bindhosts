@@ -1,0 +1,3 @@
+# Blacklist
+# everything you add in here will be blacklisted
+# one per line

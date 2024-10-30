@@ -1,0 +1,14 @@
+# Blacklist sources for action.sh
+# one per line
+# comment out to enable other sources
+# source type should be
+# 127.0.0.1 host.to.block
+# or
+# 0.0.0.0 host.to.block
+#
+https://adaway.org/hosts.txt
+https://raw.githubusercontent.com/r-a-y/mobile-hosts/master/AdguardMobileAds.txt
+#https://raw.githubusercontent.com/r-a-y/mobile-hosts/master/AdguardDNS.txt
+#https://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=0&mimetype=plaintext
+#https://raw.githubusercontent.com/StevenBlack/hosts/refs/heads/master/hosts
+

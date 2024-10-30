@@ -11,12 +11,17 @@ writable /system/etc/hosts via mount --bind
    - hardcode moddir
    - disable and copy old hosts file from other modules too
    - [susfs](https://gitlab.com/simonpunk/susfs4ksu) try_umount support added
-   
-  1.4.0
    - [susfs](https://gitlab.com/simonpunk/susfs4ksu) modernized susfs support
    
   1.4.1
    -  simple action.sh demo
+
+  1.4.2
+   - extensive action.sh demo
+   - sources, blacklist and whitelist support
+   
+
+
 
 [Download](https://raw.githubusercontent.com/backslashxx/bindhosts/master/module.zip)
 
