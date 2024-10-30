@@ -2,7 +2,7 @@ bindhosts
 
 writable /system/etc/hosts via mount --bind
   
-  1.0.0 - 1.3.8
+  1.0.0 - 1.3.9
    - initial
    - you dont even need to reboot now (customize.sh)
    - copies old hosts file on update
@@ -10,13 +10,13 @@ writable /system/etc/hosts via mount --bind
    - fix magisk support
    - hardcode moddir
    - disable and copy old hosts file from other modules too
-   
-  1.3.9
    - [susfs](https://gitlab.com/simonpunk/susfs4ksu) try_umount support added
    
   1.4.0
-   - [susfs](https://gitlab.com/simonpunk/susfs4ksu) modernize susfs support ( tested at 1.3.8)
-
+   - [susfs](https://gitlab.com/simonpunk/susfs4ksu) modernized susfs support
+   
+  1.4.1
+   -  simple action.sh demo
 
 [Download](https://raw.githubusercontent.com/backslashxx/bindhosts/master/module.zip)
 
