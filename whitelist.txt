@@ -1,3 +1,4 @@
 # Whitelist
 # everything you add in here wont be blacklisted
 # one per line
+raw.githubusercontent.com

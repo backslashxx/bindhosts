@@ -2,6 +2,7 @@
 # one per line
 # comment out to enable other sources
 # source type should be
+#
 # 127.0.0.1 host.to.block
 # or
 # 0.0.0.0 host.to.block

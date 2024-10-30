@@ -6,8 +6,6 @@ SUSFS_BIN=/data/adb/ksu/bin/ksu_susfs
 
 echo "[+] bindhosts: action.sh DEMO"
 
-
-
 # these are unlikely
 if [ -w /system/etc/hosts ] ; then
         curl --version > /dev/null 2>&1 || (echo "[x] No curl, no go, exiting..." ; exit)
@@ -15,7 +13,7 @@ else
 	echo "unwritable hosts file 😭 needs correction 💢" ; exit
 fi
 
-# test out writables, prefer a tmpfs
+# test out writables, prefer tmpfs
 folder=$MODDIR
 [ -w /storage ] && folder=/storage
 [ -w /tmp ] && folder=/tmp 
@@ -43,13 +41,10 @@ adblock() {
 	done
 	# blacklist.txt
 	for i in $(grep -v "#" blacklist.txt ); do echo "127.0.0.1 $i" >> $folder/temphosts; done
-	
 	# whitelist.txt
 	echo "[+] processing whitelist"
-	whitelist=$(for i in $(grep -v "#" $MODDIR/whitelist.txt); do printf "$i|" ; done ; printf "#" )
-	# echo $whitelist #debug
-	# need to do this better next time
-	sed 's/0.0.0.0/127.0.0.1/g' $folder/temphosts | sort -n | uniq | grep -vE "$whitelist" > /system/etc/hosts
+	# optimization thanks to Earnestly from #bash on libera, TIL something 
+	sed '/#/d; s/0.0.0.0/127.0.0.1/' $folder/temphosts | sort -u | grep -Fxvf $MODDIR/whitelist.txt > /system/etc/hosts
 }
 
 reset() {
@@ -86,4 +81,3 @@ else
 fi
 
 # EOF
-
