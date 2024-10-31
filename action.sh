@@ -6,9 +6,12 @@ SUSFS_BIN=/data/adb/ksu/bin/ksu_susfs
 
 echo "[+] bindhosts: action.sh DEMO"
 
-# these are unlikely
 if [ -w /system/etc/hosts ] ; then
-        curl --version > /dev/null 2>&1 || (echo "[x] No curl, no go, exiting..." ; exit)
+	# look for downloaders
+     	# low pref, no ssl
+        busybox | grep wget > /dev/null 2>&1 && alias download='busybox wget --no-check-certificate -qO -'
+        # higher pref, most of the times has ssl on android
+        which curl > /dev/null 2>&1 && alias download='curl -s'
 else
 	echo "unwritable hosts file 😭 needs correction 💢" ; exit
 fi
@@ -35,7 +38,7 @@ adblock() {
 	for url in $(grep -v "#" $MODDIR/sources.txt | grep http) ; do 
 		echo "[+] grabbing.."
 		echo "[*] >$url"
-		curl -s "$url" >> $folder/temphosts || echo "[x] failed downloading $url"
+		download "$url" >> $folder/temphosts || echo "[x] failed downloading $url"
 		 # add a newline incase they dont
 		echo "" >> $folder/temphosts
 	done
