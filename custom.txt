@@ -1,0 +1,7 @@
+# custom rules
+# WARNING! custom rules are added on both run and reset!
+#
+# add custom redirects here
+# ip hostname
+127.0.0.1 localhost
+::1 localhost

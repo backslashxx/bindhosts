@@ -12,16 +12,16 @@ writable /system/etc/hosts via mount --bind
    - disable and copy old hosts file from other modules too
    - [susfs](https://gitlab.com/simonpunk/susfs4ksu) try_umount support added
    - [susfs](https://gitlab.com/simonpunk/susfs4ksu) modernized susfs support
-   
-  1.4.1
    -  simple action.sh demo
 
   1.4.2 - 1.4.3
    - extensive action.sh demo
    - sources, blacklist and whitelist support
    - optimize and check for other downloaders
+  
+  1.4.4
+   - fully implemented standalone hosts-based-adblocking implementation
    
-
 
 
 [Download](https://raw.githubusercontent.com/backslashxx/bindhosts/master/module.zip)
