@@ -6,18 +6,20 @@ versionCode=$(grep versionCode $MODDIR/module.prop | sed 's/versionCode=//g' )
 
 # test out writables, prefer tmpfs
 folder=$MODDIR
-[ -w /storage ] && folder=/storage
-[ -w /tmp ] && folder=/tmp 
 [ -w /debug_ramdisk ] && folder=/debug_ramdisk
 
 
 echo "[+] bindhosts v$versionCode"
 echo "[%] action.sh"
 echo "[%] standalone hosts-based-adblocking implementation"
-
+if [ ${KSU} = true ] ; then
+	# it still works on magisk
+	# do some checks later like if user has Adaway installed
+	echo "[%] 🚨 not compatible with AdAway ❌"
+fi
 
 # just in case user deletes them
-files="blacklist.txt sources.txt whitelist.txt"
+files="custom.txt blacklist.txt sources.txt whitelist.txt"
 for i in $files ; do
 	if [ ! -f $MODDIR/$i ] ; then
 		# dont do anything weird, probably intentional
@@ -25,14 +27,9 @@ for i in $files ; do
 		touch $MODDIR/$i
 	fi	
 done
-if [ ! -f $MODDIR/custom.txt ] ; then
-	echo "[ ] generating defaults"
-	printf "127.0.0.1 localhost\n::1 localhost\n" > $MODDIR/custom.txt	
-fi	
 
 
-
-if [ -w /system/etc/hosts ] ; then
+if [ -w $MODDIR/system/etc/hosts ] ; then
 	# probe for downloaders
      	# low pref, no ssl, b-b-b-b-but that libera/freenode(rip) meme
      	# https doesn't hide the fact that i'm using https so that's why i don't use encryption because everyone is trying to crack encryption so i just don't use encryption because no one is looking at unencrypted data because everyone wants encrypted data to crack
@@ -51,8 +48,6 @@ illusion () {
 
 adblock() {
 	illusion
-	# always restore user's custom rules
-	grep -v "#" $MODDIR/custom.txt > $folder/temphosts
 	# sources	
 	echo "[+] processing sources"
 	grep -v "#" $MODDIR/sources.txt | grep http > /dev/null || (echo "[x] no sources found 😭" ; echo "[x] sources.txt needs correction 💢")
@@ -63,6 +58,10 @@ adblock() {
 		 # add a newline incase they dont
 		echo "" >> $folder/temphosts
 	done
+	# localhost
+	printf "127.0.0.1 localhost\n::1 localhost\n" > $MODDIR/system/etc/hosts
+	# always restore user's custom rules
+	grep -v "#" $MODDIR/custom.txt >> $MODDIR/system/etc/hosts
 	# blacklist.txt
 	for i in $(grep -v "#" $MODDIR/blacklist.txt ); do echo "127.0.0.1 $i" >> $folder/temphosts; done
 	# whitelist.txt
@@ -70,17 +69,19 @@ adblock() {
 	# optimization thanks to Earnestly from #bash on libera, TIL something 
 	# sed strip out everything with #, double space to single space, replace all 0.0.0.0 with 127.0.0.1
 	# then sort uniq, then grep out whitelist.txt from it
-	sed '/#/d; s/  / /g; s/0.0.0.0/127.0.0.1/' $folder/temphosts | sort -u | grep -Fxvf $MODDIR/whitelist.txt > /system/etc/hosts
+	sed '/#/d; s/  / /g; s/0.0.0.0/127.0.0.1/' $folder/temphosts | sort -u | grep -Fxvf $MODDIR/whitelist.txt >> $MODDIR/system/etc/hosts
 	# mark it, will be read by service.sh to deduce
-	echo "# bindhosts v$versionCode" >> /system/etc/hosts
+	echo "# bindhosts v$versionCode" >> $MODDIR/system/etc/hosts
 }
 
 reset() {
 	echo "[+] reset toggled!" 
+	# localhost
+	printf "127.0.0.1 localhost\n::1 localhost\n" > $MODDIR/system/etc/hosts
 	# always restore user's custom rules
-	grep -v "#" $MODDIR/custom.txt > /system/etc/hosts
+	grep -v "#" $MODDIR/custom.txt >> $MODDIR/system/etc/hosts
         sed -i '/description/d' $MODDIR/module.prop
-        echo "description=status: active ✅" >> $MODDIR/module.prop
+        echo "description=status: disabled ❌" >> $MODDIR/module.prop
         illusion
         sleep 1
         echo "[+] hosts file reset!"
@@ -92,11 +93,13 @@ run() {
 	adblock
 	illusion
 	sleep 1
-	echo "[+] action.sh blocked $(grep -c "127.0.0.1" /system/etc/hosts ) hosts!"
+	echo "[+] action.sh blocked $(grep -c "127.0.0.1" $MODDIR/system/etc/hosts ) hosts!"
 	sed -i '/description/d' $MODDIR/module.prop
-	echo "description=status: active ✅ | action.sh blocked $(grep -c "127.0.0.1" /system/etc/hosts ) hosts" >> $MODDIR/module.prop
+	echo "description=status: active ✅ | action.sh blocked $(grep -c "127.0.0.1" $MODDIR/system/etc/hosts ) hosts" >> $MODDIR/module.prop
 	# ready for reset again
 	(cd $MODDIR ; (cat blacklist.txt custom.txt sources.txt whitelist.txt ; date +%F) | md5sum | cut -f1 -d " " > $folder/bindhosts_state )
+	# cleanup
+	rm $folder/temphosts	
 	sleep 3
 }
 
@@ -116,7 +119,7 @@ if [ -f $folder/bindhosts_state ]; then
 	fi
 else
 	# basically if no bindhosts_state and hosts file is marked, it likely device rebooted, assume user is triggering an upgrade.
-	grep "# bindhosts v" /system/etc/hosts > /dev/null 2>&1 && echo "[+] update triggered!"
+	grep "# bindhosts v" $MODDIR/system/etc/hosts > /dev/null 2>&1 && echo "[+] update triggered!"
 	run
 fi
 
