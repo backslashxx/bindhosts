@@ -1,5 +1,6 @@
 #!/usr/bin/env sh
 MODDIR="/data/adb/modules/bindhosts"
+
 # grab own info (version)
 versionCode=$(grep versionCode $MODDIR/module.prop | sed 's/versionCode=//g' )
 
@@ -9,19 +10,38 @@ folder=$MODDIR
 [ -w /tmp ] && folder=/tmp 
 [ -w /debug_ramdisk ] && folder=/debug_ramdisk
 
+
 echo "[+] bindhosts v$versionCode"
 echo "[%] action.sh"
 echo "[%] standalone hosts-based-adblocking implementation"
 
+
+# just in case user deletes them
+files="blacklist.txt sources.txt whitelist.txt"
+for i in $files ; do
+	if [ ! -f $MODDIR/$i ] ; then
+		# dont do anything weird, probably intentional
+		echo "[-] $i not found."
+		touch $MODDIR/$i
+	fi	
+done
+if [ ! -f $MODDIR/custom.txt ] ; then
+	echo "[ ] generating defaults"
+	printf "127.0.0.1 localhost\n::1 localhost\n" > $MODDIR/custom.txt	
+fi	
+
+
+
 if [ -w /system/etc/hosts ] ; then
-	# look for downloaders
+	# probe for downloaders
      	# low pref, no ssl, b-b-b-b-but that libera/freenode(rip) meme
      	# https doesn't hide the fact that i'm using https so that's why i don't use encryption because everyone is trying to crack encryption so i just don't use encryption because no one is looking at unencrypted data because everyone wants encrypted data to crack
         busybox | grep wget > /dev/null 2>&1 && alias download='busybox wget --no-check-certificate -qO -'
         # higher pref, most of the times has ssl on android
         which curl > /dev/null 2>&1 && alias download='curl -s'
 else
-	echo "unwritable hosts file 😭 needs correction 💢" ; exit
+	# no fucking way
+	echo "[x] unwritable hosts file 😭 needs correction 💢" ; exit
 fi
 
 ##### functions
@@ -34,8 +54,8 @@ adblock() {
 	# always restore user's custom rules
 	grep -v "#" $MODDIR/custom.txt > $folder/temphosts
 	# sources	
-	ls $MODDIR/sources.txt > /dev/null || (echo "[x] no sources.txt found!" ; sleep 3 ; exit)
 	echo "[+] processing sources"
+	grep -v "#" $MODDIR/sources.txt | grep http > /dev/null || (echo "[x] no sources found 😭" ; echo "[x] sources.txt needs correction 💢")
 	for url in $(grep -v "#" $MODDIR/sources.txt | grep http) ; do 
 		echo "[+] grabbing.."
 		echo "[*] >$url"
@@ -48,6 +68,8 @@ adblock() {
 	# whitelist.txt
 	echo "[+] processing whitelist"
 	# optimization thanks to Earnestly from #bash on libera, TIL something 
+	# sed strip out everything with #, double space to single space, replace all 0.0.0.0 with 127.0.0.1
+	# then sort uniq, then grep out whitelist.txt from it
 	sed '/#/d; s/  / /g; s/0.0.0.0/127.0.0.1/' $folder/temphosts | sort -u | grep -Fxvf $MODDIR/whitelist.txt > /system/etc/hosts
 	# mark it, will be read by service.sh to deduce
 	echo "# bindhosts v$versionCode" >> /system/etc/hosts
@@ -62,9 +84,9 @@ reset() {
         illusion
         sleep 1
         echo "[+] hosts file reset!"
-        sleep 3
         # reset state
         rm $folder/bindhosts_state
+        sleep 3
 }
 run() {
 	adblock
@@ -73,16 +95,27 @@ run() {
 	echo "[+] action.sh blocked $(grep -c "127.0.0.1" /system/etc/hosts ) hosts!"
 	sed -i '/description/d' $MODDIR/module.prop
 	echo "description=status: active ✅ | action.sh blocked $(grep -c "127.0.0.1" /system/etc/hosts ) hosts" >> $MODDIR/module.prop
-	sleep 3
 	# ready for reset again
-	touch $folder/bindhosts_state
+	(cd $MODDIR ; (cat blacklist.txt custom.txt sources.txt whitelist.txt ; date +%F) | md5sum | cut -f1 -d " " > $folder/bindhosts_state )
+	sleep 3
 }
 
 # toggle
 if [ -f $folder/bindhosts_state ]; then
-	reset
+	# handle rule changes, add date change detect, I guess a change of 1 day to update is sane.
+	newhash=$(cd $MODDIR ; (cat blacklist.txt custom.txt sources.txt whitelist.txt ; date +%F) | md5sum | cut -f1 -d " ")
+	oldhash=$(cat $folder/bindhosts_state)
+	if [ $newhash == $oldhash ]; then
+		# well if theres no rule change, user just wants to disable adblocking
+		reset
+	else
+		echo "[+] rule change detected!"
+		echo "[*] new: $newhash"
+		echo "[*] old: $oldhash"
+		run
+	fi
 else
-	# basically if no bindhosts_state and hosts file is marked, it likely device rebooted and user is triggering an upgrade.
+	# basically if no bindhosts_state and hosts file is marked, it likely device rebooted, assume user is triggering an upgrade.
 	grep "# bindhosts v" /system/etc/hosts > /dev/null 2>&1 && echo "[+] update triggered!"
 	run
 fi
