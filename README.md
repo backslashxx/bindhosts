@@ -16,9 +16,10 @@ writable /system/etc/hosts via mount --bind
   1.4.1
    -  simple action.sh demo
 
-  1.4.2
+  1.4.2 - 1.4.3
    - extensive action.sh demo
    - sources, blacklist and whitelist support
+   - optimize and check for other downloaders
    
 
 
