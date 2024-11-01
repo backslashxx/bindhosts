@@ -11,21 +11,30 @@ writable /system/etc/hosts via mount --bind
    - fix magisk support
    - hardcode moddir
    - disable and copy old hosts file from other modules too
-   - [susfs](https://gitlab.com/simonpunk/susfs4ksu) try_umount support added
-   - [susfs](https://gitlab.com/simonpunk/susfs4ksu) modernized susfs support
+   - [susfs](https://gitlab.com/simonpunk/susfs4ksu) support
 
-  1.4.2 - 1.4.4
+  1.4.2 - 1.4.5
    - custom rules, modifiable sources, blacklist and whitelist support
    - optimizations and check for other downloaders
-   - fully implemented, self-updating, standalone hosts-based-adblocking
-
-  1.4.5
    - detect user changes, fix localhost bug
 
+  1.4.6
+   - leverage skip mount, migrate to compat
 
-Will likely require Cherish Peekabo (APatch) / [SuSFS](https://gitlab.com/simonpunk/susfs4ksu) (KernelSU) to be **well hidden**
 
-[Download](https://raw.githubusercontent.com/backslashxx/bindhosts/master/module.zip)
+
+
+Hiding: 
+
+  - APatch - Cherish Peekabo, hosts_file_redirect
+
+  - KernelSU - [SuSFS](https://gitlab.com/simonpunk/susfs4ksu), [source-modification](https://github.com/tiann/KernelSU/commit/2b2b0733d7c57324b742c017c302fc2c411fe0eb)
+
+  - Magisk - Denylist, Shamiko
+
+
+  
+[Download](https://raw.githubusercontent.com/backslashxx/bindhosts/compat/module.zip)
 
 [report for any issues](https://github.com/backslashxx/bindhosts/issues)
 

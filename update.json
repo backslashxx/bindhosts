@@ -1,6 +1,6 @@
 {
-  "version": "v1.4.5",
-  "versionCode": 145,
-  "zipUrl": "https://raw.githubusercontent.com/backslashxx/bindhosts/master/module.zip",
-  "changelog": "https://raw.githubusercontent.com/backslashxx/bindhosts/master/README.md"
+  "version": "v1.4.6c",
+  "versionCode": 146,
+  "zipUrl": "https://raw.githubusercontent.com/backslashxx/bindhosts/compat/module.zip",
+  "changelog": "https://raw.githubusercontent.com/backslashxx/bindhosts/compat/README.md"
 }

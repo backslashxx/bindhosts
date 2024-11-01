@@ -9,35 +9,38 @@ until [ "$(getprop sys.boot_completed)" == "1" ]; do
 done
 
 
-ls $MODDIR/hosts > /dev/null || cat /system/etc/hosts > $MODDIR/hosts
-chcon -r u:object_r:system_file:s0 "$MODDIR/hosts"
-chmod 644 $MODDIR/hosts
+ls $MODDIR/system/etc/hosts > /dev/null || cat /system/etc/hosts > $MODDIR/system/etc/hosts
+chcon -r u:object_r:system_file:s0 "$MODDIR/system/etc/hosts"
+chmod 644 $MODDIR/system/etc/hosts
 
-if [ -f ${SUSFS_BIN} ] ; then
-	${SUSFS_BIN} add_sus_kstat '/system/etc/hosts' > /dev/null 2>&1
-	mount --bind "$MODDIR/hosts" /system/etc/hosts
-	${SUSFS_BIN} update_sus_kstat '/system/etc/hosts' > /dev/null 2>&1
-	${SUSFS_BIN} add_try_umount /system/etc/hosts '1' > /dev/null 2>&1
-	
-	# for leagcy susfs
-	${SUSFS_BIN} add_try_umount /system/etc/hosts > /dev/null 2>&1
-else
-	mount --bind "$MODDIR/hosts" /system/etc/hosts
+if [ ${KSU} = true ] ; then
+	# mount --bind only on ksu/apatch, magisk will auto leverage magisk mount
+	mount --bind "$MODDIR/system/etc/hosts" /system/etc/hosts
+	# if susfs exists, leverage it
+	[ -f ${SUSFS_BIN} ] && { 
+		# ? ${SUSFS_BIN} add_sus_mount /system/etc/hosts 
+		${SUSFS_BIN} add_try_umount /system/etc/hosts '1' 
+		# legacy susfs
+		${SUSFS_BIN} add_try_umount /system/etc/hosts 
+	} > /dev/null 2>&1
 fi
+
 
 sleep 1
 
 
 
-if [ -w /system/etc/hosts ] 
-then
+if [ -w /system/etc/hosts ] ; then
 	echo "bindhosts: service.sh - active ✅" >> /dev/kmsg
-	sed -i 's/^description=.*/description=status: active ✅/g' $MODDIR/module.prop
+	# default string
+	string="description=status: active ✅"
+	# readout if action.sh did something
+	grep "# bindhosts v" /system/etc/hosts > /dev/null 2>&1 && string="description=status: active ✅ | action.sh blocked $(grep -c "0.0.0.0" /system/etc/hosts ) hosts" 
+	# write it
+	sed -i "s/^description=.*/$string/g" $MODDIR/module.prop
 else
 	sed -i 's/^description=.*/description=status: failed 😭 needs correction 💢/g' $MODDIR/module.prop
 fi
 
-# readout if action.sh did something
-grep "# bindhosts v" /system/etc/hosts > /dev/null 2>&1 && string="description=status: active ✅ | action.sh blocked $(grep -c "127.0.0.1" /system/etc/hosts ) hosts" && sed -i "s/^description=.*/$string/g" $MODDIR/module.prop
 
 
