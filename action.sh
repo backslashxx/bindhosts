@@ -38,7 +38,7 @@ if [ -w $MODDIR/system/etc/hosts ] ; then
         which curl > /dev/null 2>&1 && alias download='curl -s'
 else
 	# no fucking way
-	echo "[x] unwritable hosts file 😭 needs correction 💢" ; exit
+	echo "[x] unwritable hosts file 😭 needs correction 💢" ; sleep 5 ; exit 1
 fi
 
 ##### functions
@@ -63,13 +63,13 @@ adblock() {
 	# always restore user's custom rules
 	grep -v "#" $MODDIR/custom.txt >> $MODDIR/system/etc/hosts
 	# blacklist.txt
-	for i in $(grep -v "#" $MODDIR/blacklist.txt ); do echo "127.0.0.1 $i" >> $folder/temphosts; done
+	for i in $(grep -v "#" $MODDIR/blacklist.txt ); do echo "0.0.0.0 $i" >> $folder/temphosts; done
 	# whitelist.txt
 	echo "[+] processing whitelist"
 	# optimization thanks to Earnestly from #bash on libera, TIL something 
-	# sed strip out everything with #, double space to single space, replace all 0.0.0.0 with 127.0.0.1
+	# sed strip out everything with #, double space to single space, replace all 127.0.0.1 with 0.0.0.0
 	# then sort uniq, then grep out whitelist.txt from it
-	sed '/#/d; s/  / /g; s/0.0.0.0/127.0.0.1/' $folder/temphosts | sort -u | grep -Fxvf $MODDIR/whitelist.txt >> $MODDIR/system/etc/hosts
+	sed '/#/d; s/  / /g; s/127.0.0.1/0.0.0.0/' $folder/temphosts | sort -u | grep -Fxvf $MODDIR/whitelist.txt >> $MODDIR/system/etc/hosts
 	# mark it, will be read by service.sh to deduce
 	echo "# bindhosts v$versionCode" >> $MODDIR/system/etc/hosts
 }
@@ -80,8 +80,8 @@ reset() {
 	printf "127.0.0.1 localhost\n::1 localhost\n" > $MODDIR/system/etc/hosts
 	# always restore user's custom rules
 	grep -v "#" $MODDIR/custom.txt >> $MODDIR/system/etc/hosts
-        sed -i '/description/d' $MODDIR/module.prop
-        echo "description=status: disabled ❌" >> $MODDIR/module.prop
+        string="description=status: disabled ❌ "
+        sed -i "s/^description=.*/$string/g" $MODDIR/module.prop
         illusion
         sleep 1
         echo "[+] hosts file reset!"
@@ -93,9 +93,9 @@ run() {
 	adblock
 	illusion
 	sleep 1
-	echo "[+] action.sh blocked $(grep -c "127.0.0.1" $MODDIR/system/etc/hosts ) hosts!"
-	sed -i '/description/d' $MODDIR/module.prop
-	echo "description=status: active ✅ | action.sh blocked $(grep -c "127.0.0.1" $MODDIR/system/etc/hosts ) hosts" >> $MODDIR/module.prop
+	echo "[+] action.sh blocked $(grep -c "0.0.0.0" $MODDIR/system/etc/hosts ) hosts!"
+	string="description=status: active ✅ | action.sh blocked $(grep -c "0.0.0.0" $MODDIR/system/etc/hosts ) hosts"
+	sed -i "s/^description=.*/$string/g" $MODDIR/module.prop
 	# ready for reset again
 	(cd $MODDIR ; (cat blacklist.txt custom.txt sources.txt whitelist.txt ; date +%F) | md5sum | cut -f1 -d " " > $folder/bindhosts_state )
 	# cleanup
