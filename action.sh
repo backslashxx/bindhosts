@@ -63,7 +63,7 @@ adblock() {
 	# optimization thanks to Earnestly from #bash on libera, TIL something 
 	# sed strip out everything with #, double space to single space, replace all 127.0.0.1 to 0.0.0.0
 	# then sort uniq, then grep out whitelist.txt from it
-	sed '/#/d; s/  / /g; s/127.0.0.1/0.0.0.0/' $folder/temphosts | sort -u | grep -Fxvf $MODDIR/whitelist.txt >> /system/etc/hosts
+	sed '/#/d; s/  / /g; /^$/d; s/127.0.0.1/0.0.0.0/' $folder/temphosts | sort -u | grep -Fxvf $MODDIR/whitelist.txt >> /system/etc/hosts
 	# mark it, will be read by service.sh to deduce
 	echo "# bindhosts v$versionCode" >> /system/etc/hosts
 }
@@ -87,8 +87,8 @@ run() {
 	adblock
 	illusion
 	sleep 1
-	echo "[+] action.sh blocked $(grep -c "0.0.0.0" /system/etc/hosts ) hosts!"
-	string="description=status: active ✅ | action.sh blocked $(grep -c "0.0.0.0" /system/etc/hosts ) hosts"
+	echo "[+] blocked: $(grep -c "0.0.0.0" /system/etc/hosts ) | custom: $( grep -vEc "0.0.0.0| localhost|#" /system/etc/hosts )"
+	string="description=status: active ✅ | blocked: $(grep -c "0.0.0.0" /system/etc/hosts ) 🛑 | custom: $( grep -vEc "0.0.0.0| localhost|#" /system/etc/hosts ) 🤖 "
 	sed -i "s/^description=.*/$string/g" $MODDIR/module.prop
 	# ready for reset again
 	(cd $MODDIR ; (cat blacklist.txt custom.txt sources.txt whitelist.txt ; date +%F) | md5sum | cut -f1 -d " " > $folder/bindhosts_state )

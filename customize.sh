@@ -8,6 +8,13 @@ if [ ${KSU} = true ] || [ ${APATCH} = true ] ; then
 	MODDIR=$MODPATH
 fi
 
+
+# grab own info (version)
+versionCode=$(grep versionCode $MODDIR/module.prop | sed 's/versionCode=//g' )
+
+echo "[+] bindhosts v$versionCode "
+echo "[%] customize.sh "
+
 # check for other systemless hosts modules and disable them
 
 if [ -d /data/adb/modules/hosts ] ; then
@@ -24,18 +31,18 @@ fi
 # they differ so not worth doing a loop
 
 if [ -f /data/adb/modules/hosts/system/etc/hosts ] ; then
-	echo "[+] migrating old hosts file to new install"
+	echo "[+] migrating hosts file "
 	cp /data/adb/modules/hosts/system/etc/hosts $MODDIR/system/etc/hosts
 fi
 
 if [ -f /data/adb/modules/systemless-hosts-KernelSU-module/system/etc/hosts ] ; then
-	echo "[+] migrating old hosts file to new install"
+	echo "[+] migrating hosts file "
 	cp /data/adb/modules/systemless-hosts-KernelSU-module/system/etc/hosts $MODDIR/system/etc/hosts
 fi
 
 # bindhosts-master =< 145
 if [ -f /data/adb/modules/bindhosts/hosts ] ; then
-	echo "[+] migrating old hosts file to new install"
+	echo "[+] migrating hosts file "
 	cp /data/adb/modules/bindhosts/hosts $MODDIR/system/etc/hosts
 fi
 
@@ -43,7 +50,7 @@ fi
 files="system/etc/hosts blacklist.txt custom.txt sources.txt whitelist.txt"
 for i in $files ; do
 	if [ -f /data/adb/modules/bindhosts/$i ] ; then
-		echo "[+] migrating old $i to new install"
+		echo "[+] migrating $i "
 		cp /data/adb/modules/bindhosts/$i $MODDIR/$i
 	fi	
 done
@@ -74,15 +81,15 @@ if [ ${KSU} = true ] || [ ${APATCH} = true ] ; then
 	touch $MODDIR/skip_mount
 fi
 
-sed -i '/description/d' $MODDIR/module.prop
-
 # we can check right away if hosts is writable after mount bind
 if [ -w /system/etc/hosts ] ; then
-   echo "bindhosts: customize.sh - active ✅" >> /dev/kmsg
-   echo "description=status: active ✅" >> $MODDIR/module.prop
-   echo "status: active ✅"
+	echo "bindhosts: customize.sh - active ✅" >> /dev/kmsg
+	string="description=status: active ✅"
+	sed -i "s/^description=.*/$string/g" $MODDIR/module.prop
+	echo "status: active ✅"
 else
-   echo "description=status: failed 😭 needs correction 💢" >> $MODDIR/module.prop
+	string="description=status: failed 😭 needs correction 💢"
+	sed -i "s/^description=.*/$string/g" $MODDIR/module.prop
 fi
 
 # EOF
