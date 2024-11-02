@@ -13,13 +13,14 @@ writable /system/etc/hosts via mount --bind
    - disable and copy old hosts file from other modules too
    - [susfs](https://gitlab.com/simonpunk/susfs4ksu) support
 
-  1.4.2 - 1.4.5
+  1.4.2 - 1.4.6
    - custom rules, modifiable sources, blacklist and whitelist support
    - optimizations and check for other downloaders
    - detect user changes, fix localhost bug
-
-  1.4.6
    - leverage skip mount, migrate to compat
+
+  1.4.7
+   - fixup! apatch's environment detection
 
 
 

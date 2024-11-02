@@ -13,7 +13,7 @@ ls $MODDIR/system/etc/hosts > /dev/null || cat /system/etc/hosts > $MODDIR/syste
 chcon -r u:object_r:system_file:s0 "$MODDIR/system/etc/hosts"
 chmod 644 $MODDIR/system/etc/hosts
 
-if [ ${KSU} = true ] ; then
+if [ ${KSU} = true ] || [ ${APATCH} = true ] ; then
 	# mount --bind only on ksu/apatch, magisk will auto leverage magisk mount
 	mount --bind "$MODDIR/system/etc/hosts" /system/etc/hosts
 	# if susfs exists, leverage it

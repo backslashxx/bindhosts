@@ -4,7 +4,7 @@ MODDIR="${0%/*}"
 #susfs >=110 support
 SUSFS_BIN=/data/adb/ksu/bin/ksu_susfs
 
-if [ ${KSU} = true ] ; then
+if [ ${KSU} = true ] || [ ${APATCH} = true ] ; then
 	MODDIR=$MODPATH
 fi
 
@@ -69,7 +69,7 @@ mount --bind "$MODDIR/system/etc/hosts" /system/etc/hosts
 
 sleep 1
 
-if [ ${KSU} = true ] ; then
+if [ ${KSU} = true ] || [ ${APATCH} = true ] ; then
 	# skip ksu/apatch mount (adaway compat version)
 	touch $MODDIR/skip_mount
 fi
