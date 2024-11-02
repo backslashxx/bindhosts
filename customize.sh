@@ -6,17 +6,17 @@ illusion () {
 	x=$((RANDOM%4 + 6)); while [ $x -gt 1 ] ; do echo '[.]' ; sleep 0.1 ; x=$((x-1)) ; done &
 }
 
-if [ ${KSU} = true ] ; then
+if [ ${KSU} = true ] || [ ${APATCH} = true ] ; then
 	MODDIR=$MODPATH
 fi
 
 # grab own info (version)
 versionCode=$(grep versionCode $MODDIR/module.prop | sed 's/versionCode=//g' )
 
-echo "[+] bindhosts v$versionCode "
+echo "[+] bindhosts $versionCode "
 echo "[+] customize.sh "
 
-if [ ${KSU} = true ] ; then
+if [ ${KSU} = true ] || [ ${APATCH} = true ] ; then
 	# it still works on magisk
 	# do some checks later like if user has Adaway installed
 	echo "[%] 🚨 not compatible with AdAway ❌"

@@ -12,9 +12,11 @@ fully standalone, self-updating, hosts-based-adblocking implementation
    - optimize and check for other downloaders
    - fully implemented, self-updating, standalone hosts-based-adblocking
    - fork off and kill adaway compatibility (uses ksu mount)
-     
-  1.4.6
    - detect user changes, fix localhost bug
+     
+  1.4.7
+   - fixup! apatch's environment detection
+   
 
 
 [Download](https://raw.githubusercontent.com/backslashxx/bindhosts/standalone/module.zip)
