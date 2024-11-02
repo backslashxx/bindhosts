@@ -9,13 +9,14 @@ folder=$MODDIR
 [ -w /debug_ramdisk ] && folder=/debug_ramdisk
 
 
-echo "[+] bindhosts v$versionCode"
-echo "[%] action.sh"
-echo "[%] standalone hosts-based-adblocking implementation"
-if [ ${KSU} = true ] ; then
-	# it still works on magisk
-	# do some checks later like if user has Adaway installed
-	echo "[%] 🚨 not compatible with AdAway ❌"
+echo "[+] bindhosts v$versionCode "
+echo "[%] action.sh "
+echo "[ ] standalone hosts-based-adblocking implementation "
+echo "[.] "
+
+# it still works on magisk, but not on apatch/ksu, warn user
+if [ ${KSU} = true ] || [ ${APATCH} = true ] ; then
+	pm path org.adaway > /dev/null 2>&1 && echo "[-] 🚨 This version may not work with AdAway 📛"
 fi
 
 # just in case user deletes them
@@ -69,7 +70,7 @@ adblock() {
 	# optimization thanks to Earnestly from #bash on libera, TIL something 
 	# sed strip out everything with #, double space to single space, replace all 127.0.0.1 with 0.0.0.0
 	# then sort uniq, then grep out whitelist.txt from it
-	sed '/#/d; s/  / /g; s/127.0.0.1/0.0.0.0/' $folder/temphosts | sort -u | grep -Fxvf $MODDIR/whitelist.txt >> $MODDIR/system/etc/hosts
+	sed '/#/d; s/  / /g; /^$/d; s/127.0.0.1/0.0.0.0/' $folder/temphosts | sort -u | grep -Fxvf $MODDIR/whitelist.txt >> $MODDIR/system/etc/hosts
 	# mark it, will be read by service.sh to deduce
 	echo "# bindhosts v$versionCode" >> $MODDIR/system/etc/hosts
 }
@@ -80,7 +81,7 @@ reset() {
 	printf "127.0.0.1 localhost\n::1 localhost\n" > $MODDIR/system/etc/hosts
 	# always restore user's custom rules
 	grep -v "#" $MODDIR/custom.txt >> $MODDIR/system/etc/hosts
-        string="description=status: disabled ❌ "
+        string="description=status: disabled ❌ | $(date)"
         sed -i "s/^description=.*/$string/g" $MODDIR/module.prop
         illusion
         sleep 1
@@ -93,8 +94,8 @@ run() {
 	adblock
 	illusion
 	sleep 1
-	echo "[+] action.sh blocked $(grep -c "0.0.0.0" $MODDIR/system/etc/hosts ) hosts!"
-	string="description=status: active ✅ | action.sh blocked $(grep -c "0.0.0.0" $MODDIR/system/etc/hosts ) hosts"
+	echo "[+] blocked: $(grep -c "0.0.0.0" $MODDIR/system/etc/hosts ) | custom: $( grep -vEc "0.0.0.0| localhost|#" $MODDIR/system/etc/hosts )"
+	string="description=status: active ✅ | blocked: $(grep -c "0.0.0.0" $MODDIR/system/etc/hosts ) 🛑 | custom: $( grep -vEc "0.0.0.0| localhost|#" $MODDIR/system/etc/hosts ) 🤖"
 	sed -i "s/^description=.*/$string/g" $MODDIR/module.prop
 	# ready for reset again
 	(cd $MODDIR ; (cat blacklist.txt custom.txt sources.txt whitelist.txt ; date +%F) | md5sum | cut -f1 -d " " > $folder/bindhosts_state )
