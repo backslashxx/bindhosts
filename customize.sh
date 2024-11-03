@@ -17,6 +17,16 @@ if [ ${KSU} = true ] || [ ${APATCH} = true ] ; then
 	pm path org.adaway > /dev/null 2>&1 && echo "[-] 🚨 This version may not work with AdAway 📛"
 fi
 
+target_hostsfile="$MODDIR/system/etc/hosts"
+
+if [ -d /data/adb/modules/hostsredirect ] ; then
+	# assume its in a working state, just write hosts file in, it doesnt have one on def
+	target_hostsfile="/data/adb/hostsredirect/hosts"
+	echo "[+] aviraxp's ZN-hostsredirect found!"
+	echo "[+] installing in helper mode"
+	touch $MODDIR/skip_mount
+fi
+
 # check for other systemless hosts modules and disable them
 if [ -d /data/adb/modules/hosts ] ; then
 	echo "[?] are you even sure you need this on magisk?!"
@@ -33,14 +43,14 @@ modlist="hosts systemless-hosts-KernelSU-module bindhosts"
 for i in $modlist ; do
 	if [ -f /data/adb/modules/$i/system/etc/hosts ] ; then
 		echo "[+] migrating hosts file"
-		cp /data/adb/modules/$i/system/etc/hosts $MODDIR/system/etc/hosts
+		cp /data/adb/modules/$i/system/etc/hosts $target_hostsfile
 	fi	
 done
 
 # bindhosts-master =< 145
 if [ -f /data/adb/modules/bindhosts/hosts ] ; then
 	echo "[+] migrating hosts file "
-	cp /data/adb/modules/bindhosts/hosts $MODDIR/system/etc/hosts
+	cp /data/adb/modules/bindhosts/hosts $target_hostsfile
 fi
 
 
@@ -58,6 +68,7 @@ grep -v "#" $MODDIR/system/etc/hosts > /dev/null || cat /system/etc/hosts > $MOD
 chcon -r u:object_r:system_file:s0 "$MODDIR/system/etc/hosts"
 chmod 644 $MODDIR/system/etc/hosts
 } > /dev/null 2>&1 
+
 
 sleep 2 
 
