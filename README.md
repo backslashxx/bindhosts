@@ -2,7 +2,7 @@ bindhosts
 
 writable /system/etc/hosts via mount --bind
 
-(🟢 Adaway compatible ✅)
+(🕊️ AdAway compatible ✅)
   
   1.0.0 - 1.4.1
    - initial
@@ -20,9 +20,9 @@ writable /system/etc/hosts via mount --bind
    - leverage skip mount, migrate to compat
    - fixup! apatch's environment detection
 
-  1.4.8
+  1.4.8 - 1.4.9
    - account custom rules, misc housekeeping stuff
-
+   - Adaway coexistence handling
 
 Hiding: 
 
