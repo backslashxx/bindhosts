@@ -19,7 +19,7 @@ for i in $files ; do
 	if [ ! -f $MODDIR/$i ] ; then
 		# dont do anything weird, probably intentional
 		echo "[-] $i not found."
-		touch $MODDIR/$i
+		echo "#" > $MODDIR/$i
 	fi	
 done
 
