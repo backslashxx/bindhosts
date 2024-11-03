@@ -1,3 +1,7 @@
 # Blacklist
 # everything you add in here will be blacklisted
 # one per line
+# example:
+# line1.host.to.block
+# line2.host.to.block
+# line3.host.to.block
