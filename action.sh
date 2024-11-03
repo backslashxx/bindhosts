@@ -41,10 +41,15 @@ illusion () {
 }
 
 adblock() {
-	illusion
 	# sources	
 	echo "[+] processing sources"
-	grep -v "#" $MODDIR/sources.txt | grep http > /dev/null || (echo "[x] no sources found 😭" ; echo "[x] sources.txt needs correction 💢")
+	grep -v "#" $MODDIR/sources.txt | grep http > /dev/null || {
+			echo "[x] no sources found 😭" 
+			echo "[x] sources.txt needs correction 💢"
+			sleep 10
+			exit 1
+			}
+	illusion
 	for url in $(grep -v "#" $MODDIR/sources.txt | grep http) ; do 
 		echo "[+] grabbing.."
 		echo "[*] >$url"
