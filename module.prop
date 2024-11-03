@@ -1,7 +1,7 @@
 id=bindhosts
 name=bindhosts
-version=v1.4.8
-versionCode=148
+version=v1.4.9
+versionCode=149
 author=xx
 updateJson=https://raw.githubusercontent.com/backslashxx/bindhosts/standalone/update.json
 description=standalone hosts-file-based adblocking implementation
