@@ -1,5 +1,9 @@
 # custom rules
-# WARNING! custom rules are added on both run and reset!
+# WARNING! custom rules are loaded on both run and reset!
 #
 # add custom redirects here
 # ip hostname
+#
+# example:
+# 1.1.1.1 one.one.one.one
+# 93.184.215.14 example.com
