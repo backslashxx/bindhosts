@@ -21,6 +21,8 @@ if [ ${KSU} = true ] || [ ${APATCH} = true ] ; then
 	mount -o bind "$MODDIR/system/etc/hosts" /system/etc/hosts
 	${SUSFS_BIN} update_sus_kstat '/system/etc/hosts'
 	${SUSFS_BIN} add_try_umount /system/etc/hosts 1
+	# legacy susfs
+	${SUSFS_BIN} add_try_umount /system/etc/hosts > /dev/null 2>&1
 fi
 
 
