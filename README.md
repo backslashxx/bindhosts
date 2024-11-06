@@ -4,26 +4,18 @@ writable /system/etc/hosts via mount --bind
 
 (🕊️ AdAway compatible ✅)
   
-  1.0.0 - 1.4.1
-   - initial
-   - various stuff
-   - copies old hosts file on update
-   - fix magisk support
-   - hardcode moddir
-   - disable and copy old hosts file from other modules too
-   - [susfs](https://gitlab.com/simonpunk/susfs4ksu) support
-
-  1.4.2 - 1.4.7
+  1.4.2 - 1.4.9
    - custom rules, modifiable sources, blacklist and whitelist support
    - optimizations and check for other downloaders
    - detect user changes, fix localhost bug
    - leverage skip mount, migrate to compat
    - fixup! apatch's environment detection
-
-  1.4.8 - 1.4.9
    - account custom rules, misc housekeeping stuff
    - Adaway coexistence handling
 
+  1.5.0
+   - misc cleanups, adjust rules a bit
+    
 Hiding: 
 
   - APatch - Cherish Peekabo [?], hosts_file_redirect [?]
