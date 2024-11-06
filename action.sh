@@ -116,7 +116,7 @@ reset() {
         sleep 1
         echo "[+] hosts file reset!"
         # reset state
-        rm $folder/bindhosts_state
+        rm $MODDIR/bindhosts_state
         sleep 3
 }
 run() {
@@ -127,17 +127,17 @@ run() {
 	string="description=status: active ✅ | blocked: $(grep -c "0.0.0.0" $target_hostsfile ) 🚫 | custom: $( grep -vEc "0.0.0.0| localhost|#" $target_hostsfile ) 🤖 $helper_mode"
 	sed -i "s/^description=.*/$string/g" $MODDIR/module.prop
 	# ready for reset again
-	(cd $MODDIR ; (cat blacklist.txt custom.txt sources.txt whitelist.txt ; date +%F) | md5sum | cut -f1 -d " " > $folder/bindhosts_state )
+	(cd $MODDIR ; (cat blacklist.txt custom.txt sources.txt whitelist.txt ; date +%F) | md5sum | cut -f1 -d " " > $MODDIR/bindhosts_state )
 	# cleanup
 	rm $folder/temphosts	
 	sleep 3
 }
 
 # toggle
-if [ -f $folder/bindhosts_state ]; then
+if [ -f $MODDIR/bindhosts_state ]; then
 	# handle rule changes, add date change detect, I guess a change of 1 day to update is sane.
 	newhash=$(cd $MODDIR ; (cat blacklist.txt custom.txt sources.txt whitelist.txt ; date +%F) | md5sum | cut -f1 -d " ")
-	oldhash=$(cat $folder/bindhosts_state)
+	oldhash=$(cat $MODDIR/bindhosts_state)
 	if [ $newhash == $oldhash ]; then
 		# well if theres no rule change, user just wants to disable adblocking
 		reset
@@ -148,8 +148,9 @@ if [ -f $folder/bindhosts_state ]; then
 		run
 	fi
 else
-	# basically if no bindhosts_state and hosts file is marked, it likely device rebooted, assume user is triggering an upgrade.
+	# basically if no bindhosts_state and hosts file is marked just update, its a reinstall
 	grep "# bindhosts v" $target_hostsfile > /dev/null 2>&1 && echo "[+] update triggered!"
+	# normal flow
 	run
 fi
 
