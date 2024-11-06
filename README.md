@@ -15,9 +15,11 @@ fully standalone, self-updating, hosts-based-adblocking implementation
    - detect user changes, fix localhost bug
    - fixup! apatch's environment detection
    - account custom rules, misc housekeeping stuff
-   
-  1.4.9
    - implement [ZN-hostsredirect](https://github.com/aviraxp/ZN-hostsredirect) helper mode (requires zygisk next)
+
+  1.5.0
+   - misc cleanups, adjust rules a bit
+
 
 Hiding: 
 
