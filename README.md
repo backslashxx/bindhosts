@@ -19,13 +19,13 @@ fully standalone, self-updating, hosts-based-adblocking implementation
    - misc cleanups, adjust rules a bit
 
   1.5.2
-   - implement hosts_file_redirect helper mode
+   - implement [hosts_file_redirect](https://github.com/AndroidPatch/kpm/tree/main/src/hosts_file_redirect) helper mode
 
 Hiding: 
 
-  - APatch - hosts_file_redirect ([tutorial](https://github.com/backslashxx/bindhosts/issues/3#issue-2640292721))
+  - APatch - hosts_file_redirect ([how-to](https://github.com/backslashxx/bindhosts/issues/3#issue-2640292721)), or ZN-hostsredirect
 
-  - KernelSU - Umount Modules
+  - KernelSU - Umount Modules or ZN-hostsredirect
 
   - Magisk - Denylist, Shamiko
 
