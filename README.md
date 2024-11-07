@@ -13,14 +13,14 @@ writable /system/etc/hosts via mount --bind
    - account custom rules, misc housekeeping stuff
    - Adaway coexistence handling
 
-  1.5.0
+  1.5.0 - 1.5.1
    - misc cleanups, adjust rules a bit
     
 Hiding: 
 
-  - APatch - Cherish Peekabo [?], hosts_file_redirect [?]
+  - APatch - questionable hiding, use [standalone](https://github.com/backslashxx/bindhosts/tree/standalone) instead
 
-  - KernelSU - [SuSFS](https://gitlab.com/simonpunk/susfs4ksu), [source-modification](https://github.com/tiann/KernelSU/commit/2b2b0733d7c57324b742c017c302fc2c411fe0eb)
+  - KernelSU - [SuSFS](https://gitlab.com/simonpunk/susfs4ksu), or [source-modification](https://github.com/tiann/KernelSU/commit/2b2b0733d7c57324b742c017c302fc2c411fe0eb), or use [standalone](https://github.com/backslashxx/bindhosts/tree/standalone)
 
   - Magisk - Denylist, Shamiko
 
