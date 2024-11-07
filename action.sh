@@ -35,25 +35,38 @@ done
 target_hostsfile="$MODDIR/system/etc/hosts"
 helper_mode=""
 
+# implement hosts_file_redirect helper mode
+# use if we find $MODDIR/.hfr_found 
+if [ ${APATCH} = true ] && [ -f $MODDIR/.hfr_found ]; then
+	target_hostsfile="/data/adb/hosts"
+	echo "[+] skkk's hosts_file_redirect found!"
+	echo "[+] running in helper mode"
+	helper_mode=" | hosts_file_redirect 💉"
+	# idk if needed, leaving to make sure
+	ls /data/adb/hosts > /dev/null 2>&1 || cat /system/etc/hosts > /data/adb/hosts
+	chcon -r u:object_r:system_file:s0 "/data/adb/hosts"
+	chmod 644 /data/adb/hosts
+fi
+
 # implement znhr helper mode, might as well do a pr on them later, that module can just use this script
 # https://github.com/aviraxp/ZN-hostsredirect
 # just use if found
-if [ -d /data/adb/modules/hostsredirect ] ; then
+if [ ! -f $MODDIR/.hfr_found ] && [ -d /data/adb/modules/hostsredirect ] ; then
 	# assume its in a working state, just write hosts file in, it doesnt have one on def
 	( mkdir -p /data/adb/hostsredirect ; touch /data/adb/hostsredirect/hosts ) > /dev/null 2>&1
 	target_hostsfile="/data/adb/hostsredirect/hosts"
 	echo "[+] aviraxp's ZN-hostsredirect found!"
 	echo "[+] running in helper mode"
 	helper_mode=" | ZN-hostsredirect 💉"
-else
-	[ -f $MODDIR/skip_mount ] && {
+fi
+
+if [ -f $MODDIR/skip_mount ] && [ ! -d /data/adb/modules/hostsredirect ] && [ ! -f $MODDIR/.hfr_found ]; then
 		rm $MODDIR/skip_mount
 		echo "[-] reboot to restore operation"
 		string="description=status: 🚨 reboot required 🛠️"
 		sed -i "s/^description=.*/$string/g" $MODDIR/module.prop
 		sleep 5
 		exit 1
-	}
 fi	
 	
 if [ -w $target_hostsfile ] ; then

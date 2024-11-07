@@ -7,7 +7,7 @@ fully standalone, self-updating, hosts-based-adblocking implementation
   ...
   
   
-  1.4.2 - 1.4.8
+  1.4.2 - 1.5.1
    - custom rules, modifiable sources, blacklist and whitelist support
    - optimize and check for other downloaders
    - fully implemented, self-updating, standalone hosts-based-adblocking
@@ -15,17 +15,17 @@ fully standalone, self-updating, hosts-based-adblocking implementation
    - detect user changes, fix localhost bug
    - fixup! apatch's environment detection
    - account custom rules, misc housekeeping stuff
-   - implement [ZN-hostsredirect](https://github.com/aviraxp/ZN-hostsredirect) helper mode (requires zygisk next)
-
-  1.5.0 - 1.5.1
+   - implement [ZN-hostsredirect](https://github.com/aviraxp/ZN-hostsredirect) helper mode
    - misc cleanups, adjust rules a bit
 
+  1.5.2
+   - implement hosts_file_redirect helper mode
 
 Hiding: 
 
-  - APatch - [ZN-hostsredirect](https://github.com/aviraxp/ZN-hostsredirect) 
+  - APatch - hosts_file_redirect ([tutorial](https://github.com/backslashxx/bindhosts/issues/3#issue-2640292721))
 
-  - KernelSU - Umount Modules, if no umount, [ZN-hostsredirect](https://github.com/aviraxp/ZN-hostsredirect) 
+  - KernelSU - Umount Modules
 
   - Magisk - Denylist, Shamiko
 

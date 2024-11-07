@@ -1,6 +1,6 @@
 id=bindhosts
 name=bindhosts
-version=v1.5.1s
+version=v1.5.1s-hfr_beta
 versionCode=151
 author=xx
 updateJson=https://raw.githubusercontent.com/backslashxx/bindhosts/standalone/update.json
