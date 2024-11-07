@@ -17,7 +17,7 @@ fully standalone, self-updating, hosts-based-adblocking implementation
    - account custom rules, misc housekeeping stuff
    - implement [ZN-hostsredirect](https://github.com/aviraxp/ZN-hostsredirect) helper mode (requires zygisk next)
 
-  1.5.0
+  1.5.0 - 1.5.1
    - misc cleanups, adjust rules a bit
 
 
