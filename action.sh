@@ -34,7 +34,9 @@ if [ -w /system/etc/hosts ] ; then
         which curl > /dev/null 2>&1 && alias download='curl --connect-timeout 10 -s'
 else
 	# no fucking way
-	echo "[x] unwritable hosts file 😭 needs correction 💢" ; sleep 5 ; exit 1
+	echo "[x] unwritable hosts file 😭 needs correction 💢"
+	sleep 5
+	exit 1
 fi
 
 ##### functions
