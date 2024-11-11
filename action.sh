@@ -100,7 +100,7 @@ adblock() {
 	illusion
 	for url in $(grep -v "#" $MODDIR/sources.txt | grep http) ; do 
 		echo "[+] grabbing.."
-		echo "[*] >$url"
+		echo "[>] $url"
 		download "$url" >> $folder/temphosts || echo "[x] failed downloading $url"
 		 # add a newline incase they dont
 		echo "" >> $folder/temphosts
