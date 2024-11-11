@@ -69,10 +69,10 @@ mount --bind "$MODDIR/system/etc/hosts" /system/etc/hosts
 [ -f ${SUSFS_BIN} ] && { 
 	echo "[+] leveraging susfs's try_umount"
 	# ? ${SUSFS_BIN} add_sus_mount /system/etc/hosts 
-	${SUSFS_BIN} add_try_umount /system/etc/hosts '1' 
+	${SUSFS_BIN} add_try_umount /system/etc/hosts '1' > /dev/null 2>&1
 	# legacy susfs
-	${SUSFS_BIN} add_try_umount /system/etc/hosts 
-} > /dev/null 2>&1
+	${SUSFS_BIN} add_try_umount /system/etc/hosts > /dev/null 2>&1
+} 
 
 sleep 1
 
