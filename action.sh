@@ -69,10 +69,12 @@ adblock() {
 	for i in $(grep -v "#" $MODDIR/blacklist.txt ); do echo "0.0.0.0 $i" >> $folder/temphosts; done
 	# whitelist.txt
 	echo "[+] processing whitelist"
+	# how do i do this better?
+	for i in $(grep -v "#" $MODDIR/whitelist.txt); do echo "0.0.0.0 $i" ; done > $folder/tempwhitelist
 	# optimization thanks to Earnestly from #bash on libera, TIL something 
 	# sed strip out everything with #, double space to single space, replace all 127.0.0.1 to 0.0.0.0
 	# then sort uniq, then grep out whitelist.txt from it
-	sed '/#/d; s/  / /g; /^$/d; s/127.0.0.1/0.0.0.0/' $folder/temphosts | sort -u | grep -Fxvf $MODDIR/whitelist.txt >> /system/etc/hosts
+	sed '/#/d; s/  / /g; /^$/d; s/127.0.0.1/0.0.0.0/' $folder/temphosts | sort -u | grep -Fxvf $folder/tempwhitelist >> /system/etc/hosts
 	# mark it, will be read by service.sh to deduce
 	echo "# bindhosts v$versionCode" >> /system/etc/hosts
 }
@@ -102,7 +104,7 @@ run() {
 	# ready for reset again
 	(cd $MODDIR ; (cat blacklist.txt custom.txt sources.txt whitelist.txt ; date +%F) | md5sum | cut -f1 -d " " > $MODDIR/bindhosts_state )
 	# cleanup
-	rm $folder/temphosts
+	rm -f $folder/temphosts $folder/tempwhitelist
 	sleep 3
 }
 
