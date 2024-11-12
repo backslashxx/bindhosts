@@ -7,7 +7,7 @@ fully standalone, self-updating, hosts-based-adblocking implementation
   ...
   
   
-  1.4.2 - 1.5.1
+  1.4.2 - 1.5.2
    - custom rules, modifiable sources, blacklist and whitelist support
    - optimize and check for other downloaders
    - fully implemented, self-updating, standalone hosts-based-adblocking
@@ -16,10 +16,10 @@ fully standalone, self-updating, hosts-based-adblocking implementation
    - fixup! apatch's environment detection
    - account custom rules, misc housekeeping stuff
    - implement [ZN-hostsredirect](https://github.com/aviraxp/ZN-hostsredirect) helper mode
-   - misc cleanups, adjust rules a bit
-
-  1.5.2
    - implement [hosts_file_redirect](https://github.com/AndroidPatch/kpm/tree/main/src/hosts_file_redirect) helper mode
+   
+  1.5.3
+   - fixup! whitelist processing
 
 Hiding: 
 
