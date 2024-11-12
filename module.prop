@@ -1,7 +1,7 @@
 id=bindhosts
 name=bindhosts
-version=v1.5.1c
-versionCode=151
+version=v1.5.3c
+versionCode=153
 author=xx
 updateJson=https://raw.githubusercontent.com/backslashxx/bindhosts/compat/update.json
 description=writable /system/etc/hosts via mount --bind

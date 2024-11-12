@@ -4,7 +4,7 @@ writable /system/etc/hosts via mount --bind
 
 (🕊️ AdAway compatible ✅)
   
-  1.4.2 - 1.4.9
+  1.4.2 - 1.5.1
    - custom rules, modifiable sources, blacklist and whitelist support
    - optimizations and check for other downloaders
    - detect user changes, fix localhost bug
@@ -13,8 +13,8 @@ writable /system/etc/hosts via mount --bind
    - account custom rules, misc housekeeping stuff
    - Adaway coexistence handling
 
-  1.5.0 - 1.5.1
-   - misc cleanups, adjust rules a bit
+  1.5.3
+   - fixup! whitelist processing
     
 Hiding: 
 
