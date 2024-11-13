@@ -32,18 +32,18 @@ fi
 
 if [ -f /data/adb/modules/hosts/system/etc/hosts ] ; then
 	echo "[+] migrating hosts file "
-	cp /data/adb/modules/hosts/system/etc/hosts $MODDIR/system/etc/hosts
+	cat /data/adb/modules/hosts/system/etc/hosts > $MODDIR/system/etc/hosts
 fi
 
 if [ -f /data/adb/modules/systemless-hosts-KernelSU-module/system/etc/hosts ] ; then
 	echo "[+] migrating hosts file "
-	cp /data/adb/modules/systemless-hosts-KernelSU-module/system/etc/hosts $MODDIR/system/etc/hosts
+	cat /data/adb/modules/systemless-hosts-KernelSU-module/system/etc/hosts > $MODDIR/system/etc/hosts
 fi
 
 # bindhosts-master =< 145
 if [ -f /data/adb/modules/bindhosts/hosts ] ; then
 	echo "[+] migrating hosts file "
-	cp /data/adb/modules/bindhosts/hosts $MODDIR/system/etc/hosts
+	cat /data/adb/modules/bindhosts/hosts > $MODDIR/system/etc/hosts
 fi
 
 # handle upgrades/reinstalls
@@ -51,7 +51,7 @@ files="system/etc/hosts blacklist.txt custom.txt sources.txt whitelist.txt"
 for i in $files ; do
 	if [ -f /data/adb/modules/bindhosts/$i ] ; then
 		echo "[+] migrating $i "
-		cp /data/adb/modules/bindhosts/$i $MODDIR/$i
+		cat /data/adb/modules/bindhosts/$i > $MODDIR/$i
 	fi	
 done
 
