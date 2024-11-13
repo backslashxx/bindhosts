@@ -8,12 +8,18 @@ if [ ${KSU} = true ] || [ ${APATCH} = true ] ; then
 	MODDIR=$MODPATH
 fi
 
-
 # grab own info (version)
 versionCode=$(grep versionCode $MODDIR/module.prop | sed 's/versionCode=//g' )
 
 echo "[+] bindhosts v$versionCode "
 echo "[%] customize.sh "
+
+# try to fix update fuckups
+if [ -d /data/adb/modules/bindhosts ] ; then
+	folder=/data/adb/modules_update/bindhosts
+	mkdir -p $folder
+	MODDIR=$folder
+fi
 
 # check for other systemless hosts modules and disable them
 
