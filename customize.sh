@@ -12,6 +12,13 @@ versionCode=$(grep versionCode $MODDIR/module.prop | sed 's/versionCode=//g' )
 echo "[+] bindhosts v$versionCode "
 echo "[%] customize.sh "
 
+# try to fix update fuckups
+if [ -d /data/adb/modules/bindhosts ] ; then
+	folder=/data/adb/modules_update/bindhosts
+	mkdir -p $folder
+	MODDIR=$folder
+fi
+
 # it still works on magisk, but not on apatch/ksu, warn user
 if [ ${KSU} = true ] || [ ${APATCH} = true ] ; then
 	pm path org.adaway > /dev/null 2>&1 && echo "[-] 🚨 This version may not work with AdAway 📛"
