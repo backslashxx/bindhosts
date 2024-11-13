@@ -43,14 +43,14 @@ modlist="hosts systemless-hosts-KernelSU-module bindhosts"
 for i in $modlist ; do
 	if [ -f /data/adb/modules/$i/system/etc/hosts ] ; then
 		echo "[+] migrating hosts file"
-		cp /data/adb/modules/$i/system/etc/hosts $target_hostsfile
+		cat /data/adb/modules/$i/system/etc/hosts > $target_hostsfile
 	fi	
 done
 
 # bindhosts-master =< 145
 if [ -f /data/adb/modules/bindhosts/hosts ] ; then
 	echo "[+] migrating hosts file "
-	cp /data/adb/modules/bindhosts/hosts $target_hostsfile
+	cat /data/adb/modules/bindhosts/hosts > $target_hostsfile
 fi
 
 
@@ -59,7 +59,7 @@ files="blacklist.txt custom.txt sources.txt whitelist.txt"
 for i in $files ; do
 	if [ -f /data/adb/modules/bindhosts/$i ] ; then
 		echo "[+] migrating $i "
-		cp /data/adb/modules/bindhosts/$i $MODDIR/$i
+		cat /data/adb/modules/bindhosts/$i > $MODDIR/$i
 	fi	
 done
 
