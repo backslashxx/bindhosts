@@ -6,7 +6,7 @@ chcon -r u:object_r:system_file:s0 "$MODDIR/system/etc/hosts"
 chmod 644 $MODDIR/system/etc/hosts
 
 # catch hfr
-dmesg | grep "hosts_file_redirect" > /dev/null 2>&1 && {
+dmesg | grep -q "hosts_file_redirect" && {
 	touch $MODDIR/skip_mount
 	touch $MODDIR/.hfr_found
 }

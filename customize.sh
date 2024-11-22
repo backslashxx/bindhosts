@@ -71,7 +71,7 @@ for i in $files ; do
 done
 
 {
-grep -v "#" $MODDIR/system/etc/hosts > /dev/null || cat /system/etc/hosts > $MODDIR/system/etc/hosts
+grep -qv "#" $MODDIR/system/etc/hosts || cat /system/etc/hosts > $MODDIR/system/etc/hosts
 chcon -r u:object_r:system_file:s0 "$MODDIR/system/etc/hosts"
 chmod 644 $MODDIR/system/etc/hosts
 } > /dev/null 2>&1 
