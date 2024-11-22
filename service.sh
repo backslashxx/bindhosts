@@ -18,7 +18,7 @@ if [ ${KSU} = true ] || [ ${APATCH} = true ] ; then
 	# no need to check, let it fail
 	# if susfs exists, leverage it
 	${SUSFS_BIN} add_sus_kstat '/system/etc/hosts'
-	mount -o bind "$MODDIR/system/etc/hosts" /system/etc/hosts
+	mount --bind "$MODDIR/system/etc/hosts" /system/etc/hosts
 	${SUSFS_BIN} update_sus_kstat '/system/etc/hosts'
 	${SUSFS_BIN} add_try_umount /system/etc/hosts 1
 	# legacy susfs
