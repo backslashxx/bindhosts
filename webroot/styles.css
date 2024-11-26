@@ -6,17 +6,19 @@ body {
     display: flex;
     position: fixed;
     top: 0;
+    left: 0;
     height: 50px;
-    width: 95vw;
+    width: 100vw;
     background-color: #F5F5F5;
     justify-content: space-between;
     align-items: center;
-    padding-right: 25px;
     z-index: 1100;
+    padding: 0 15px;
+    box-sizing: border-box;
 }
 
 #title {
-    font-size: 20px;
+    font-size: 22px;
     font-weight: bold;
 }
 
@@ -40,12 +42,15 @@ body {
 .content {
     margin-top: 45px;
     padding: 10px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     gap: 15px;
 }
 
 .box {
+    width: 85vw;
+    max-width: 800px;
     background-color: #fff;
     border: none;
     border-radius: 15px;
