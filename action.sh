@@ -108,7 +108,7 @@ run() {
 	(cd $PERSISTENT_DIR ; (cat blacklist.txt custom.txt sources.txt whitelist.txt ; date +%F) | md5sum | cut -f1 -d " " > $PERSISTENT_DIR/bindhosts_state )
 	# cleanup
 	rm -f $folder/temphosts $folder/tempwhitelist
-	sleep 3
+	sleep 1
 }
 
 # adaway is installed and hosts are modified by adaway, dont overthrow
