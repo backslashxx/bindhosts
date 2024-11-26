@@ -41,7 +41,7 @@
 					</button>
 				</h2>
 				<div class="category-container">
-					<input id="sources-input" type="text" placeholder="127.0.0.1 source.to.host" />
+					<input id="sources-input" type="text" placeholder="https://adaway.org/hosts.txt" />
 					<button id="sources-add" onclick="handleAdd('sources')">+</button>
 				</div>
 				<ul id="sources-list"></ul>
@@ -89,8 +89,8 @@
 				<button class="close-btn" onclick="closeOverlay('sources-help')">&#x2715;</button>
 				<h2>Blacklist Sources</h2>
 				<ul>
-					<li>Blacklist sources for action.sh, comment out to enable other sources</li>
-					<li>Example:<br>127.0.0.1 host to block<br>0.0.0.0 host.to.block</li>
+					<li>Blacklist sources for action.sh</li>
+					<li>Format:<br>127.0.0.1 host to block<br>0.0.0.0 host.to.block</li>
 					<li><br>Alternatively you can also add links to custom rulsets here, mainly used to circumvent dns based filering by upstream (ISP, telecom, network provider), they wont be filter out.</li>
 					<li>Example:<br>https://someonewhocares.org/hosts/zero/hosts<br><br>https://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=0&mimetype=plaintext<br><br>https://raw.githubusercontent.com/StevenBlack/hosts/refs/heads/master/hosts<br><br>Warning! Huge list:<br>https://raw.githubusercontent.com/jerryn70/GoodbyeAds/master/Hosts/GoodbyeAds.txt</li>
 				</ul>
@@ -118,7 +118,7 @@
 		</div>
 		<div id="prompt" class="prompt"></div>
 		<div class="footer">
-			<div id="author">backslashxx/bindhosts</div>
+			<div id="module">bindhosts</div>
 			<div id="webui">WebUI by KOWX712</div>
 		</div>
 	</body>
