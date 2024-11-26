@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Bindhost</title>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="/styles.css" type="text/css">
+		<script type="module" crossorigin src="/index.js"></script>
+	</head>
+	<body>
+		<div class="header">
+			<div id="title">bindhosts</div>
+			<button id="actionButton" class="action-button">Action
+			<i class="fa fa-play"></i>
+			</button>
+		</div>
+		<div class="content">
+			<div class="box" id="status-box">
+				<h2>Status</h2>
+				<p id="status-text">Initializing...</p>
+			</div>
+			<div class="box">
+				<h2>
+					Custom Rules
+					<button class="help-btn" data-type="custom">
+					<i class="fa fa-question-circle"></i>
+					</button>
+				</h2>
+				<div class="category-container">
+					<input id="custom-input" type="text" placeholder="93.184.215.14 example.com" />
+					<button id="custom-add" onclick="handleAdd('custom')">+</button>
+				</div>
+				<ul id="custom-list"></ul>
+			</div>
+			<div class="box">
+				<h2>
+					Blacklist Sources
+					<button class="help-btn" data-type="sources">
+					<i class="fa fa-question-circle"></i>
+					</button>
+				</h2>
+				<div class="category-container">
+					<input id="sources-input" type="text" placeholder="127.0.0.1 source.to.host" />
+					<button id="sources-add" onclick="handleAdd('sources')">+</button>
+				</div>
+				<ul id="sources-list"></ul>
+			</div>
+			<div class="box">
+				<h2>
+					Blacklist
+					<button class="help-btn" data-type="blacklist">
+					<i class="fa fa-question-circle"></i>
+					</button>
+				</h2>
+				<div class="category-container">
+					<input id="blacklist-input" type="text" placeholder="host.to.block" />
+					<button id="blacklist-add" onclick="handleAdd('blacklist')">+</button>
+				</div>
+				<ul id="blacklist-list"></ul>
+			</div>
+			<div class="box">
+				<h2>
+					Whitelist
+					<button class="help-btn" data-type="whitelist">
+					<i class="fa fa-question-circle"></i>
+					</button>
+				</h2>
+				<div class="category-container">
+					<input id="whitelist-input" type="text" placeholder="domain.not.to.block" />
+					<button id="whitelist-add" onclick="handleAdd('whitelist')">+</button>
+				</div>
+				<ul id="whitelist-list"></ul>
+			</div>
+		</div>
+		<div id="custom-help" class="overlay">
+			<div class="overlay-content">
+				<button class="close-btn" onclick="closeOverlay('custom-help')">&#x2715;</button>
+				<h2>Custom Rules</h2>
+				<ul>
+					<li>WARNING! custom rules are loaded on both run and reset!</li>
+					<li>Add custom redirect here</li>
+					<li>Example:<br>1.1.1.1 one.one.one.one<br>93.184.215.14 example.com</li>
+				</ul>
+			</div>
+		</div>
+		<div id="sources-help" class="overlay">
+			<div class="overlay-content">
+				<button class="close-btn" onclick="closeOverlay('sources-help')">&#x2715;</button>
+				<h2>Blacklist Sources</h2>
+				<ul>
+					<li>Blacklist sources for action.sh, comment out to enable other sources</li>
+					<li>Example:<br>127.0.0.1 host to block<br>0.0.0.0 host.to.block</li>
+					<li><br>Alternatively you can also add links to custom rulsets here, mainly used to circumvent dns based filering by upstream (ISP, telecom, network provider), they wont be filter out.</li>
+					<li>Example:<br>https://someonewhocares.org/hosts/zero/hosts<br><br>https://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=0&mimetype=plaintext<br><br>https://raw.githubusercontent.com/StevenBlack/hosts/refs/heads/master/hosts<br><br>Warning! Huge list:<br>https://raw.githubusercontent.com/jerryn70/GoodbyeAds/master/Hosts/GoodbyeAds.txt</li>
+				</ul>
+			</div>
+		</div>
+		<div id="blacklist-help" class="overlay">
+			<div class="overlay-content">
+				<button class="close-btn" onclick="closeOverlay('blacklist-help')">&#x2715;</button>
+				<h2>Blacklist</h2>
+				<ul>
+					<li>Everything you add here will be blacklisted</li>
+					<li>Example:<br>host.to.block</li>
+				</ul>
+			</div>
+		</div>
+		<div id="whitelist-help" class="overlay">
+			<div class="overlay-content">
+				<button class="close-btn" onclick="closeOverlay('whitelist-help')">&#x2715;</button>
+				<h2>Whitelist</h2>
+				<ul>
+					<li>Everything you add here won't be blacklisted</li>
+					<li>Example:<br>host.not.to.block</li>
+				</ul>
+			</div>
+		</div>
+		<div id="prompt" class="prompt"></div>
+		<div class="footer">
+			<div id="author">backslashxx/bindhosts</div>
+			<div id="webui">WebUI by KOWX712</div>
+		</div>
+	</body>
+</html>
