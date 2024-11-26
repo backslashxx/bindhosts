@@ -2,7 +2,7 @@
 MODDIR="${0%/*}"
 
 
-if [ ${KSU} = true ] || [ ${APATCH} = true ] ; then
+if [ ${KSU} = true ] || [ $APATCH = true ] ; then
 	MODDIR=$MODPATH
 fi
 
@@ -20,7 +20,7 @@ if [ -d /data/adb/modules/bindhosts ] ; then
 fi
 
 # it still works on magisk, but not on apatch/ksu, warn user
-if [ ${KSU} = true ] || [ ${APATCH} = true ] ; then
+if [ ${KSU} = true ] || [ $APATCH = true ] ; then
 	pm path org.adaway > /dev/null 2>&1 && echo "[-] 🚨 This version may not work with AdAway 📛"
 fi
 
