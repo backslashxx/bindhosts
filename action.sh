@@ -88,8 +88,8 @@ if [ -w $target_hostsfile ] ; then
 else
 	# no fucking way
 	echo "[x] unwritable hosts file 😭 needs correction 💢"
-	sleep 5
-	exit 1
+	sleep 1
+	exit 0
 fi
 
 ##### functions
@@ -103,8 +103,8 @@ adblock() {
 	grep -v "#" $PERSISTENT_DIR/sources.txt | grep http > /dev/null || {
 			echo "[x] no sources found 😭" 
 			echo "[x] sources.txt needs correction 💢"
-			sleep 10
-			exit 1
+			sleep 1
+			exit 0
 			}
 	illusion
 	for url in $(grep -v "#" $PERSISTENT_DIR/sources.txt | grep http) ; do 
@@ -145,7 +145,7 @@ reset() {
         echo "[+] hosts file reset!"
         # reset state
         rm $PERSISTENT_DIR/bindhosts_state
-        sleep 3
+        sleep 1
 }
 
 run() {
