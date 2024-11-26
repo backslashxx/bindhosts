@@ -4,17 +4,17 @@ writable /system/etc/hosts via mount --bind
 
 (🕊️ AdAway compatible ✅)
   
-  1.4.2 - 1.5.5
+  1.4.2 - 1.5.6
    - custom rules, modifiable sources, blacklist and whitelist support
    - optimizations and check for other downloaders
    - detect user changes, fix localhost bug
    - leverage skip mount, migrate to compat
-   - account custom rules, misc housekeeping stuff
    - Adaway coexistence handling
    - fixups: whitelist processing, rare update failures
-  
-  1.5.6
-   - /data/adb/bindhosts migration
+   - /data/adb/bindhosts migration  
+
+  1.6.0
+   - webui on supported managers - KOWX712
     
 Hiding: 
 
