@@ -13,11 +13,10 @@ versionCode=$(grep versionCode $MODDIR/module.prop | sed 's/versionCode=//g' )
 echo "[+] bindhosts v$versionCode "
 echo "[%] customize.sh "
 
-# try to fix update fuckups
-if [ -d /data/adb/modules/bindhosts ] ; then
-	folder=/data/adb/modules_update/bindhosts
-	mkdir -p $folder
-	MODDIR=$folder
+# persistence
+if [ ! -d /data/adb/bindhosts ] ; then
+	PERSISTENT_DIR=/data/adb/bindhosts
+	mkdir -p $PERSISTENT_DIR
 fi
 
 # it still works on magisk, but not on apatch/ksu, warn user
@@ -63,12 +62,23 @@ fi
 
 
 # handle upgrades/reinstalls
+# pre persist migration
 files="blacklist.txt custom.txt sources.txt whitelist.txt"
 for i in $files ; do
 	if [ -f /data/adb/modules/bindhosts/$i ] ; then
 		echo "[+] migrating $i "
 		cat /data/adb/modules/bindhosts/$i > $MODDIR/$i
 	fi	
+done
+
+# normal flow for persistence
+# move over our files, remove after
+files="blacklist.txt custom.txt sources.txt whitelist.txt"
+for i in $files ; do
+	if [ ! -f /data/adb/bindhosts/$i ] ; then
+		cat $MODDIR/$i > $PERSISTENT_DIR/$i
+	fi
+	rm $MODDIR/$i
 done
 
 {
