@@ -114,6 +114,10 @@ li {
 
 li span {
     font-size: 14px;
+    word-wrap: break-word; 
+    word-break: break-word; 
+    overflow-wrap: break-word;
+    max-width: 100%;
 }
 
 li:last-child {
