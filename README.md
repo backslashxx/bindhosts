@@ -6,7 +6,7 @@ fully standalone, self-updating, hosts-based-adblocking implementation
   
   
   
-  1.4.2 - 1.5.4
+  1.4.2 - 1.5.5
    - custom rules, modifiable sources, blacklist and whitelist support
    - fully implemented, self-updating, standalone hosts-based-adblocking
    - fork off and kill adaway compatibility (uses ksu mount)
@@ -15,8 +15,8 @@ fully standalone, self-updating, hosts-based-adblocking implementation
    - helper modes added: [ZN-hostsredirect](https://github.com/aviraxp/ZN-hostsredirect), [hosts_file_redirect](https://github.com/AndroidPatch/kpm/tree/main/src/hosts_file_redirect)
    - fixup whitelist processing, rare update failures
       
-  1.5.5
-   - housekeeping stuff
+  1.5.6
+   - /data/adb/bindhosts migration
 
 Hiding: 
 
