@@ -1,14 +1,8 @@
 #!/usr/bin/env sh
-MODDIR="${0%/*}"
-
-
-if [ ${KSU} = true ] || [ $APATCH = true ] ; then
-	MODDIR=$MODPATH
-fi
-source $MODDIR/utils.sh
+source $MODPATH/utils.sh
 
 # grab own info (version)
-versionCode=$(grep versionCode $MODDIR/module.prop | sed 's/versionCode=//g' )
+versionCode=$(grep versionCode $MODPATH/module.prop | sed 's/versionCode=//g' )
 
 echo "[+] bindhosts v$versionCode "
 echo "[%] customize.sh "
@@ -24,14 +18,14 @@ if [ ${KSU} = true ] || [ $APATCH = true ] ; then
 	pm path org.adaway > /dev/null 2>&1 && echo "[-] 🚨 This version may not work with AdAway 📛"
 fi
 
-target_hostsfile="$MODDIR/system/etc/hosts"
+target_hostsfile="$MODPATH/system/etc/hosts"
 
 if [ -d /data/adb/modules/hostsredirect ] ; then
 	# assume its in a working state, just write hosts file in, it doesnt have one on def
 	target_hostsfile="/data/adb/hostsredirect/hosts"
 	echo "[+] aviraxp's ZN-hostsredirect found!"
 	echo "[+] installing in helper mode"
-	touch $MODDIR/skip_mount
+	touch $MODPATH/skip_mount
 fi
 
 # check for other systemless hosts modules and disable them
@@ -67,7 +61,7 @@ files="blacklist.txt custom.txt sources.txt whitelist.txt"
 for i in $files ; do
 	if [ -f /data/adb/modules/bindhosts/$i ] ; then
 		echo "[+] migrating $i "
-		cat /data/adb/modules/bindhosts/$i > $MODDIR/$i
+		cat /data/adb/modules/bindhosts/$i > $MODPATH/$i
 	fi	
 done
 
@@ -76,14 +70,14 @@ done
 files="blacklist.txt custom.txt sources.txt whitelist.txt"
 for i in $files ; do
 	if [ ! -f /data/adb/bindhosts/$i ] ; then
-		cat $MODDIR/$i > $PERSISTENT_DIR/$i
+		cat $MODPATH/$i > $PERSISTENT_DIR/$i
 	fi
-	rm $MODDIR/$i
+	rm $MODPATH/$i
 done
 
 {
-grep -qv "#" $MODDIR/system/etc/hosts || cat /system/etc/hosts > $MODDIR/system/etc/hosts
-susfs_clone_perm "$MODDIR/system/etc/hosts" /system/etc/hosts
+grep -qv "#" $MODPATH/system/etc/hosts || cat /system/etc/hosts > $MODPATH/system/etc/hosts
+susfs_clone_perm "$MODPATH/system/etc/hosts" /system/etc/hosts
 } > /dev/null 2>&1 
 
 
