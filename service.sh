@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 MODDIR="/data/adb/modules/bindhosts"
-
+source $MODDIR/utils.sh
 #susfs >=110 support
 SUSFS_BIN=/data/adb/ksu/bin/ksu_susfs
 
@@ -10,8 +10,7 @@ done
 
 
 ls $MODDIR/system/etc/hosts > /dev/null || cat /system/etc/hosts > $MODDIR/system/etc/hosts
-chcon -r u:object_r:system_file:s0 "$MODDIR/system/etc/hosts"
-chmod 644 $MODDIR/system/etc/hosts
+susfs_clone_perm "$MODDIR/system/etc/hosts" /system/etc/hosts
 
 # mount --bind only on ksu/apatch, magisk will auto leverage magisk mount
 if [ ${KSU} = true ] || [ ${APATCH} = true ] ; then
