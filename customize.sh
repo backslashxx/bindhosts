@@ -5,6 +5,7 @@ MODDIR="${0%/*}"
 if [ ${KSU} = true ] || [ $APATCH = true ] ; then
 	MODDIR=$MODPATH
 fi
+source $MODDIR/utils.sh
 
 # grab own info (version)
 versionCode=$(grep versionCode $MODDIR/module.prop | sed 's/versionCode=//g' )
@@ -72,8 +73,7 @@ done
 
 {
 grep -qv "#" $MODDIR/system/etc/hosts || cat /system/etc/hosts > $MODDIR/system/etc/hosts
-chcon -r u:object_r:system_file:s0 "$MODDIR/system/etc/hosts"
-chmod 644 $MODDIR/system/etc/hosts
+susfs_clone_perm "$MODDIR/system/etc/hosts" /system/etc/hosts
 } > /dev/null 2>&1 
 
 

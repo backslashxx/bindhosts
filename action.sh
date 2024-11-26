@@ -1,5 +1,6 @@
 #!/usr/bin/env sh
 MODDIR="/data/adb/modules/bindhosts"
+source $MODDIR/utils.sh
 
 # grab own info (version)
 versionCode=$(grep versionCode $MODDIR/module.prop | sed 's/versionCode=//g' )
@@ -42,9 +43,10 @@ if [ ${APATCH} = true ] && [ -f $MODDIR/.hfr_found ]; then
 	echo "[+] running in helper mode"
 	helper_mode=" | hosts_file_redirect 💉"
 	# idk if needed, leaving to make sure
-	ls /data/adb/hosts > /dev/null 2>&1 || cat /system/etc/hosts > /data/adb/hosts
-	chcon -r u:object_r:system_file:s0 "/data/adb/hosts"
-	chmod 644 /data/adb/hosts
+	ls /data/adb/hosts > /dev/null 2>&1 || {
+		cat /system/etc/hosts > /data/adb/hosts
+		susfs_clone_perm "/data/adb/hosts" /system/etc/hosts
+		}
 fi
 
 # implement znhr helper mode, might as well do a pr on them later, that module can just use this script
@@ -52,7 +54,11 @@ fi
 # just use if found
 if [ ! -f $MODDIR/.hfr_found ] && [ -d /data/adb/modules/hostsredirect ] ; then
 	# assume its in a working state, just write hosts file in, it doesnt have one on def
-	( mkdir -p /data/adb/hostsredirect ; touch /data/adb/hostsredirect/hosts ) > /dev/null 2>&1
+	[ ! -f /data/adb/hostsredirect/hosts ] && {
+		mkdir -p /data/adb/hostsredirect
+		cat /system/etc/hosts > /data/adb/hostsredirect/hosts
+		susfs_clone_perm /data/adb/hostsredirect/hosts /system/etc/hosts
+		}
 	target_hostsfile="/data/adb/hostsredirect/hosts"
 	echo "[+] aviraxp's ZN-hostsredirect found!"
 	echo "[+] running in helper mode"
@@ -66,7 +72,7 @@ if [ -f $MODDIR/skip_mount ] && [ ! -d /data/adb/modules/hostsredirect ] && [ ! 
 		sed -i "s/^description=.*/$string/g" $MODDIR/module.prop
 		sleep 5
 		exit 1
-fi	
+fi
 	
 if [ -w $target_hostsfile ] ; then
 	# probe for downloaders
