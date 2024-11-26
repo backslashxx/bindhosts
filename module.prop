@@ -2,6 +2,6 @@ id=bindhosts
 name=bindhosts
 version=v1.5.6c
 versionCode=156
-author=xx
+author=xx, KOWX712
 updateJson=https://raw.githubusercontent.com/backslashxx/bindhosts/compat/update.json
 description=writable /system/etc/hosts via mount --bind
