@@ -1,5 +1,6 @@
 #!/usr/bin/env sh
 MODDIR="/data/adb/modules/bindhosts"
+PERSISTENT_DIR="/data/adb/bindhosts"
 source $MODDIR/utils.sh
 
 # grab own info (version)
@@ -22,13 +23,16 @@ if [ ${KSU} = true ] || [ ${APATCH} = true ] ; then
 fi
 
 # just in case user deletes them
+# persistence
+if [ ! -d /data/adb/bindhosts ] ; then
+	mkdir -p $PERSISTENT_DIR
+fi
 files="custom.txt blacklist.txt sources.txt whitelist.txt"
 for i in $files ; do
-	if [ ! -f $MODDIR/$i ] ; then
+	if [ ! -f $PERSISTENT_DIR/$i ]; then
 		# dont do anything weird, probably intentional
-		echo "[-] $i not found."
-		echo "#" > $MODDIR/$i
-	fi	
+		echo "#" > $PERSISTENT_DIR/$i
+	fi
 done
 
 # impl def for changing variables
@@ -96,14 +100,14 @@ illusion () {
 adblock() {
 	# sources	
 	echo "[+] processing sources"
-	grep -v "#" $MODDIR/sources.txt | grep http > /dev/null || {
+	grep -v "#" $PERSISTENT_DIR/sources.txt | grep http > /dev/null || {
 			echo "[x] no sources found 😭" 
 			echo "[x] sources.txt needs correction 💢"
 			sleep 10
 			exit 1
 			}
 	illusion
-	for url in $(grep -v "#" $MODDIR/sources.txt | grep http) ; do 
+	for url in $(grep -v "#" $PERSISTENT_DIR/sources.txt | grep http) ; do 
 		echo "[+] grabbing.."
 		echo "[>] $url"
 		download "$url" >> $folder/temphosts || echo "[x] failed downloading $url"
@@ -113,13 +117,13 @@ adblock() {
 	# localhost
 	printf "127.0.0.1 localhost\n::1 localhost\n" > $target_hostsfile
 	# always restore user's custom rules
-	grep -v "#" $MODDIR/custom.txt >> $target_hostsfile
+	grep -v "#" $PERSISTENT_DIR/custom.txt >> $target_hostsfile
 	# blacklist.txt
-	for i in $(grep -v "#" $MODDIR/blacklist.txt ); do echo "0.0.0.0 $i" >> $folder/temphosts; done
+	for i in $(grep -v "#" $PERSISTENT_DIR/blacklist.txt ); do echo "0.0.0.0 $i" >> $folder/temphosts; done
 	# whitelist.txt
 	echo "[+] processing whitelist"
 	# how do i do this better?
-	for i in $(grep -v "#" $MODDIR/whitelist.txt); do echo "0.0.0.0 $i" ; done > $folder/tempwhitelist
+	for i in $(grep -v "#" $PERSISTENT_DIR/whitelist.txt); do echo "0.0.0.0 $i" ; done > $folder/tempwhitelist
 	# optimization thanks to Earnestly from #bash on libera, TIL something 
 	# sed strip out everything with #, double space to single space, replace all 127.0.0.1 with 0.0.0.0
 	# then sort uniq, then grep out whitelist.txt from it
@@ -133,16 +137,17 @@ reset() {
 	# localhost
 	printf "127.0.0.1 localhost\n::1 localhost\n" > $target_hostsfile
 	# always restore user's custom rules
-	grep -v "#" $MODDIR/custom.txt >> $target_hostsfile
+	grep -v "#" $PERSISTENT_DIR/custom.txt >> $target_hostsfile
         string="description=status: disabled ❌ | $(date)"
         sed -i "s/^description=.*/$string/g" $MODDIR/module.prop
         illusion
         sleep 1
         echo "[+] hosts file reset!"
         # reset state
-        rm $MODDIR/bindhosts_state
+        rm $PERSISTENT_DIR/bindhosts_state
         sleep 3
 }
+
 run() {
 	adblock
 	illusion
@@ -151,17 +156,17 @@ run() {
 	string="description=status: active ✅ | blocked: $(grep -c "0.0.0.0" $target_hostsfile ) 🚫 | custom: $( grep -vEc "0.0.0.0| localhost|#" $target_hostsfile ) 🤖 $helper_mode"
 	sed -i "s/^description=.*/$string/g" $MODDIR/module.prop
 	# ready for reset again
-	(cd $MODDIR ; (cat blacklist.txt custom.txt sources.txt whitelist.txt ; date +%F) | md5sum | cut -f1 -d " " > $MODDIR/bindhosts_state )
+	(cd $PERSISTENT_DIR ; (cat blacklist.txt custom.txt sources.txt whitelist.txt ; date +%F) | md5sum | cut -f1 -d " " > $PERSISTENT_DIR/bindhosts_state )
 	# cleanup
 	rm -f $folder/temphosts $folder/tempwhitelist
 	sleep 3
 }
 
 # toggle
-if [ -f $MODDIR/bindhosts_state ]; then
+if [ -f $PERSISTENT_DIR/bindhosts_state ]; then
 	# handle rule changes, add date change detect, I guess a change of 1 day to update is sane.
-	newhash=$(cd $MODDIR ; (cat blacklist.txt custom.txt sources.txt whitelist.txt ; date +%F) | md5sum | cut -f1 -d " ")
-	oldhash=$(cat $MODDIR/bindhosts_state)
+	newhash=$(cd $PERSISTENT_DIR ; (cat blacklist.txt custom.txt sources.txt whitelist.txt ; date +%F) | md5sum | cut -f1 -d " ")
+	oldhash=$(cat $PERSISTENT_DIR/bindhosts_state)
 	if [ $newhash == $oldhash ]; then
 		# well if theres no rule change, user just wants to disable adblocking
 		reset
