@@ -1,16 +1,9 @@
 #!/usr/bin/env sh
-MODDIR="${0%/*}"
-
-#susfs >=110 support
 SUSFS_BIN=/data/adb/ksu/bin/ksu_susfs
-
-if [ ${KSU} = true ] || [ $APATCH = true ] ; then
-	MODDIR=$MODPATH
-fi
-source $MODDIR/utils.sh
+source $MODPATH/utils.sh
 
 # grab own info (version)
-versionCode=$(grep versionCode $MODDIR/module.prop | sed 's/versionCode=//g' )
+versionCode=$(grep versionCode $MODPATH/module.prop | sed 's/versionCode=//g' )
 
 echo "[+] bindhosts v$versionCode "
 echo "[%] customize.sh "
@@ -38,18 +31,18 @@ fi
 
 if [ -f /data/adb/modules/hosts/system/etc/hosts ] ; then
 	echo "[+] migrating hosts file "
-	cat /data/adb/modules/hosts/system/etc/hosts > $MODDIR/system/etc/hosts
+	cat /data/adb/modules/hosts/system/etc/hosts > $MODPATH/system/etc/hosts
 fi
 
 if [ -f /data/adb/modules/systemless-hosts-KernelSU-module/system/etc/hosts ] ; then
 	echo "[+] migrating hosts file "
-	cat /data/adb/modules/systemless-hosts-KernelSU-module/system/etc/hosts > $MODDIR/system/etc/hosts
+	cat /data/adb/modules/systemless-hosts-KernelSU-module/system/etc/hosts > $MODPATH/system/etc/hosts
 fi
 
 # bindhosts-master =< 145
 if [ -f /data/adb/modules/bindhosts/hosts ] ; then
 	echo "[+] migrating hosts file "
-	cat /data/adb/modules/bindhosts/hosts > $MODDIR/system/etc/hosts
+	cat /data/adb/modules/bindhosts/hosts > $MODPATH/system/etc/hosts
 fi
 
 # handle upgrades/reinstalls
@@ -58,7 +51,7 @@ files="system/etc/hosts blacklist.txt custom.txt sources.txt whitelist.txt"
 for i in $files ; do
 	if [ -f /data/adb/modules/bindhosts/$i ] ; then
 		echo "[+] migrating $i "
-		cat /data/adb/modules/bindhosts/$i > $MODDIR/$i
+		cat /data/adb/modules/bindhosts/$i > $MODPATH/$i
 	fi	
 done
 
@@ -67,18 +60,18 @@ done
 files="blacklist.txt custom.txt sources.txt whitelist.txt"
 for i in $files ; do
 	if [ ! -f /data/adb/bindhosts/$i ] ; then
-		cat $MODDIR/$i > $PERSISTENT_DIR/$i
+		cat $MODPATH/$i > $PERSISTENT_DIR/$i
 	fi
-	rm $MODDIR/$i
+	rm $MODPATH/$i
 done
 
 # standard stuff
-grep -q "#" $MODDIR/system/etc/hosts || cat /system/etc/hosts > $MODDIR/system/etc/hosts
-susfs_clone_perm "$MODDIR/system/etc/hosts" /system/etc/hosts
+grep -q "#" $MODPATH/system/etc/hosts || cat /system/etc/hosts > $MODPATH/system/etc/hosts
+susfs_clone_perm "$MODPATH/system/etc/hosts" /system/etc/hosts
 
 # mount bind on all managers
 # this way reboot is optional
-mount --bind "$MODDIR/system/etc/hosts" /system/etc/hosts
+mount --bind "$MODPATH/system/etc/hosts" /system/etc/hosts
 
 # if susfs exists, leverage it
 [ -f ${SUSFS_BIN} ] && { 
@@ -93,18 +86,18 @@ sleep 1
 
 if [ ${KSU} = true ] || [ $APATCH = true ] ; then
 	# skip ksu/apatch mount (adaway compat version)
-	touch $MODDIR/skip_mount
+	touch $MODPATH/skip_mount
 fi
 
 # we can check right away if hosts is writable after mount bind
 if [ -w /system/etc/hosts ] ; then
 	echo "bindhosts: customize.sh - active ✅" >> /dev/kmsg
 	string="description=status: active ✅"
-	sed -i "s/^description=.*/$string/g" $MODDIR/module.prop
+	sed -i "s/^description=.*/$string/g" $MODPATH/module.prop
 	echo "status: active ✅"
 else
 	string="description=status: failed 😭 needs correction 💢"
-	sed -i "s/^description=.*/$string/g" $MODDIR/module.prop
+	sed -i "s/^description=.*/$string/g" $MODPATH/module.prop
 fi
 
 # EOF
