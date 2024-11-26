@@ -35,7 +35,7 @@
 			</div>
 			<div class="box">
 				<h2>
-					Blacklist Sources
+					Sources
 					<button class="help-btn" data-type="sources">
 					<i class="fa fa-question-circle"></i>
 					</button>
@@ -87,12 +87,14 @@
 		<div id="sources-help" class="overlay">
 			<div class="overlay-content">
 				<button class="close-btn" onclick="closeOverlay('sources-help')">&#x2715;</button>
-				<h2>Blacklist Sources</h2>
+				<h2>Sources</h2>
 				<ul>
-					<li>Blacklist sources for action.sh</li>
-					<li>Format:<br>127.0.0.1 host to block<br>0.0.0.0 host.to.block</li>
-					<li><br>Alternatively you can also add links to custom rulsets here, mainly used to circumvent dns based filering by upstream (ISP, telecom, network provider), they wont be filter out.</li>
-					<li>Example:<br>https://someonewhocares.org/hosts/zero/hosts<br><br>https://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=0&mimetype=plaintext<br><br>https://raw.githubusercontent.com/StevenBlack/hosts/refs/heads/master/hosts<br><br>Warning! Huge list:<br>https://raw.githubusercontent.com/jerryn70/GoodbyeAds/master/Hosts/GoodbyeAds.txt</li>
+					<li>Blacklist sources</li>
+					<li>Format:<br>127.0.0.1 some.ads.site<br>0.0.0.0 some.ads.site</li>
+					<li>Example:<br>https://adaway.org/hosts.txt<br>https://raw.githubusercontent.com/StevenBlack/hosts/refs/heads/master/hosts<br>
+					<li><br>Custom rulesets</li>
+					<li>Format:<br>186.2.163.20 nyaa.si</li>
+					<li>Example:<br>https://raw.githubusercontent.com/bebasid/bebasid/refs/heads/master/releases/hosts<br>
 				</ul>
 			</div>
 		</div>
