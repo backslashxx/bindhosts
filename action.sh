@@ -1,4 +1,5 @@
 #!/usr/bin/env sh
+PATH=$PATH:/data/adb/ap/bin:/data/adb/magisk:/data/adb/ksu/bin
 MODDIR="/data/adb/modules/bindhosts"
 PERSISTENT_DIR="/data/adb/bindhosts"
 source $MODDIR/utils.sh
