@@ -32,7 +32,7 @@ done
 # impl def for changing variables
 target_hostsfile="$MODDIR/system/etc/hosts"
 
-if [ ${KSU} = true ] || [ $APATCH = true ] ; then
+if command -v ksud >/dev/null 2>&1 || command -v apd >/dev/null 2>&1 ; then
 	target_hostsfile="/system/etc/hosts"
 fi
 
