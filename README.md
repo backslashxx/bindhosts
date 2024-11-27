@@ -16,8 +16,9 @@ fully standalone, self-updating, hosts-based-adblocking implementation
    - fixup whitelist processing, rare update failures
    - /data/adb/bindhosts migration
 
-  1.6.0 ~ 1.6.2
+  1.6.0 ~ 1.6.3
    - webui on supported managers - KOWX712
+   - small fixups
 
 Hiding: 
 
