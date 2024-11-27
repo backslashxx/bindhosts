@@ -13,7 +13,7 @@ writable /system/etc/hosts via mount --bind
    - fixups: whitelist processing, rare update failures
    - /data/adb/bindhosts migration  
 
-  1.6.0 / 1.6.1
+  1.6.0 ~ 1.6.2
    - webui on supported managers - KOWX712
     
 Hiding: 
