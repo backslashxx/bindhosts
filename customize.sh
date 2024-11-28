@@ -69,35 +69,4 @@ done
 grep -q "#" $MODPATH/system/etc/hosts || cat /system/etc/hosts > $MODPATH/system/etc/hosts
 susfs_clone_perm "$MODPATH/system/etc/hosts" /system/etc/hosts
 
-# mount bind on all managers
-# this way reboot is optional
-mount --bind "$MODPATH/system/etc/hosts" /system/etc/hosts
-
-# if susfs exists, leverage it
-[ -f ${SUSFS_BIN} ] && { 
-	echo "[+] leveraging susfs's try_umount"
-	# ? ${SUSFS_BIN} add_sus_mount /system/etc/hosts 
-	${SUSFS_BIN} add_try_umount /system/etc/hosts '1' > /dev/null 2>&1
-	# legacy susfs
-	${SUSFS_BIN} add_try_umount /system/etc/hosts > /dev/null 2>&1
-} 
-
-sleep 1
-
-if [ ${KSU} = true ] || [ $APATCH = true ] ; then
-	# skip ksu/apatch mount (adaway compat version)
-	touch $MODPATH/skip_mount
-fi
-
-# we can check right away if hosts is writable after mount bind
-if [ -w /system/etc/hosts ] ; then
-	echo "bindhosts: customize.sh - active ✅" >> /dev/kmsg
-	string="description=status: active ✅"
-	sed -i "s/^description=.*/$string/g" $MODPATH/module.prop
-	echo "status: active ✅"
-else
-	string="description=status: failed 😭 needs correction 💢"
-	sed -i "s/^description=.*/$string/g" $MODPATH/module.prop
-fi
-
 # EOF
