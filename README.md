@@ -5,26 +5,26 @@ Systemless hosts for Apatch, KernelSU and Magisk
 Fully standalone, self-updating.
 
 ## Features
- - action button control
- - WebUI control
- - both Adaway coexistence (on certain modes)
- - injection and redirect modes (znhr, hfr, open_redirect)
- - whatever brah just try
+- Action button control
+- WebUI control
+- Both Adaway coexistence (on certain modes)
+- Injection and redirect modes (znhr, hfr, open_redirect)
 
-Supports following root managers:
- - [APatch](https://github.com/bmax121/APatch)
- - [KernelSU](https://github.com/tiann/KernelSU)
- - [Magisk](https://github.com/topjohnwu/Magisk) + [KsuWebUI](https://github.com/5ec1cff/KsuWebUIStandalone)
- 
-Operating Modes
- - [read modes.md](https://github.com/backslashxx/bindhosts/blob/dev/unified/Documentation/modes.md)
+## Supported Root Managers
+- [APatch](https://github.com/bmax121/APatch)
+- [KernelSU](https://github.com/tiann/KernelSU)
+- [Magisk](https://github.com/topjohnwu/Magisk) + [KsuWebUI](https://github.com/5ec1cff/KsuWebUIStandalone)
 
-Hiding: 
- - read modes.md for now, will add later
+## Operating Modes
+- Read [bindhosts operation modes](https://github.com/backslashxx/bindhosts/blob/dev/unified/Documentation/modes.md).
 
-  
-[Download](https://raw.githubusercontent.com/backslashxx/bindhosts/staging/module.zip)
+## Hiding
+- read modes.md for now, will add later
 
-[report for any issues](https://github.com/backslashxx/bindhosts/issues)
+## Links
+Download [here](https://raw.githubusercontent.com/backslashxx/bindhosts/staging/module.zip)
 
-[Pull requests welcome](https://github.com/backslashxx/bindhosts/pulls)
+## Help and Support
+Report [here](https://github.com/backslashxx/bindhosts/issues) if you encounter any issues.
+
+[Pull requests](https://github.com/backslashxx/bindhosts/pulls) are always welcome.
