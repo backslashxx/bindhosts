@@ -26,12 +26,14 @@ if [ ${KSU} = true ] && [ -f ${SUSFS_BIN} ] ; then
 		}
 fi
 
-# normal apatch operating mode, no hides at all
+# plain bindhosts operating mode, no hides at all
 # hightly detectable
-if [ $APATCH = true ]; then
-	mode=2
-	skip_mount=1
-fi
+# disabled as this is practically useless for now
+# still can be used in override
+# if [ $APATCH = true ]; then
+# 	mode=2
+# 	skip_mount=1
+# fi
 
 # hosts_file_redirect operating_mode
 # this method is APatch only
