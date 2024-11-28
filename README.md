@@ -16,13 +16,13 @@ Fully standalone, self-updating.
 - [Magisk](https://github.com/topjohnwu/Magisk) + [KsuWebUI](https://github.com/5ec1cff/KsuWebUIStandalone)
 
 ## Operating Modes
-- Read [bindhosts operation modes](https://github.com/backslashxx/bindhosts/blob/dev/unified/Documentation/modes.md).
+- Read [bindhosts operation modes](https://github.com/backslashxx/bindhosts/blob/master/Documentation/modes.md).
 
 ## Hiding
 - read modes.md for now, will add later
 
 ## Links
-Download [here](https://raw.githubusercontent.com/backslashxx/bindhosts/staging/module.zip)
+Download [here](https://raw.githubusercontent.com/backslashxx/bindhosts/master/module.zip)
 
 ## Help and Support
 Report [here](https://github.com/backslashxx/bindhosts/issues) if you encounter any issues.

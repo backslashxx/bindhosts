@@ -4,7 +4,7 @@ Systemless hosts for Apatch, KernelSU and Magisk
 ---
 
 # Changelog
-### 1.7.x ?
+### 1.7.0
 - implement operating modes
 - unify codebases (scriptbases? on such case)
 
