@@ -1,127 +1,171 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Bindhost</title>
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-		<link rel="stylesheet" href="/styles.css" type="text/css">
-		<script type="module" crossorigin src="/index.js"></script>
-	</head>
-	<body>
-		<div class="header">
-			<div id="title">bindhosts</div>
-			<button id="actionButton" class="action-button">Action
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Bindhost</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/styles.css" type="text/css">
+	<script type="module" crossorigin src="/index.js"></script>
+</head>
+
+<body>
+	<div class="header">
+		<div id="title">bindhosts</div>
+		<button id="actionButton" class="action-button">Action
 			<i class="fa fa-play"></i>
-			</button>
+		</button>
+	</div>
+	<div class="content">
+		<div class="box" id="status-box">
+			<h2>Status</h2>
+			<p id="status-text">Initializing...</p>
 		</div>
-		<div class="content">
-			<div class="box" id="status-box">
-				<h2>Status</h2>
-				<p id="status-text">Initializing...</p>
-			</div>
-			<div class="box">
-				<h2>
-					Custom Rules
-					<button class="help-btn" data-type="custom">
+		<div class="box">
+			<h2>
+				Custom Rules
+				<button class="help-btn" data-type="custom">
 					<i class="fa fa-question-circle"></i>
-					</button>
-				</h2>
-				<div class="category-container">
-					<input id="custom-input" type="text" placeholder="93.184.215.14 example.com" />
-					<button id="custom-add" onclick="handleAdd('custom')">+</button>
-				</div>
-				<ul id="custom-list"></ul>
+				</button>
+			</h2>
+			<div class="category-container">
+				<input id="custom-input" type="text" placeholder="93.184.215.14 example.com" />
+				<button id="custom-add" onclick="handleAdd('custom')">+</button>
 			</div>
-			<div class="box">
-				<h2>
-					Sources
-					<button class="help-btn" data-type="sources">
+			<ul id="custom-list"></ul>
+		</div>
+		<div class="box">
+			<h2>
+				Sources
+				<button class="help-btn" data-type="sources">
 					<i class="fa fa-question-circle"></i>
-					</button>
-				</h2>
-				<div class="category-container">
-					<input id="sources-input" type="text" placeholder="https://adaway.org/hosts.txt" />
-					<button id="sources-add" onclick="handleAdd('sources')">+</button>
-				</div>
-				<ul id="sources-list"></ul>
+				</button>
+			</h2>
+			<div class="category-container">
+				<input id="sources-input" type="text" placeholder="https://adaway.org/hosts.txt" />
+				<button id="sources-add" onclick="handleAdd('sources')">+</button>
 			</div>
-			<div class="box">
-				<h2>
-					Blacklist
-					<button class="help-btn" data-type="blacklist">
+			<ul id="sources-list"></ul>
+		</div>
+		<div class="box">
+			<h2>
+				Blacklist
+				<button class="help-btn" data-type="blacklist">
 					<i class="fa fa-question-circle"></i>
-					</button>
-				</h2>
-				<div class="category-container">
-					<input id="blacklist-input" type="text" placeholder="host.to.block" />
-					<button id="blacklist-add" onclick="handleAdd('blacklist')">+</button>
-				</div>
-				<ul id="blacklist-list"></ul>
+				</button>
+			</h2>
+			<div class="category-container">
+				<input id="blacklist-input" type="text" placeholder="host.to.block" />
+				<button id="blacklist-add" onclick="handleAdd('blacklist')">+</button>
 			</div>
-			<div class="box">
-				<h2>
-					Whitelist
-					<button class="help-btn" data-type="whitelist">
+			<ul id="blacklist-list"></ul>
+		</div>
+		<div class="box">
+			<h2>
+				Whitelist
+				<button class="help-btn" data-type="whitelist">
 					<i class="fa fa-question-circle"></i>
-					</button>
-				</h2>
-				<div class="category-container">
-					<input id="whitelist-input" type="text" placeholder="domain.not.to.block" />
-					<button id="whitelist-add" onclick="handleAdd('whitelist')">+</button>
-				</div>
-				<ul id="whitelist-list"></ul>
+				</button>
+			</h2>
+			<div class="category-container">
+				<input id="whitelist-input" type="text" placeholder="domain.not.to.block" />
+				<button id="whitelist-add" onclick="handleAdd('whitelist')">+</button>
+			</div>
+			<ul id="whitelist-list"></ul>
+		</div>
+	</div>
+	<div id="custom-help" class="overlay">
+		<div class="overlay-content">
+			<button class="close-btn" onclick="closeOverlay('custom-help')">&#x2715;</button>
+			<h2>Custom Rules</h2>
+			<ul>
+				<li>Add custom redirects here</li>
+				<li>Example:<br>1.1.1.1 one.one.one.one<br>93.184.215.14 example.com</li>
+				<li>WARNING: Custom rules are loaded on both run and reset!</li>
+			</ul>
+		</div>
+	</div>
+	<div id="sources-help" class="overlay">
+		<div class="overlay-content">
+			<button class="close-btn" onclick="closeOverlay('sources-help')">&#x2715;</button>
+			<h2>Sources</h2>
+			<ul>
+				<li>Blacklist sources</li>
+				<li>Format:<br>127.0.0.1 some.ads.site<br>0.0.0.0 some.ads.site</li>
+				<li>Example:<br>https://adaway.org/hosts.txt<br>https://raw.githubusercontent.com/r-a-y/mobile-hosts/master/AdguardDNS.txt<br>
+				<li><br>Custom rulesets</li>
+				<li>Format:<br>186.2.163.20 nyaa.si</li>
+				<li>Example:<br>https://raw.githubusercontent.com/bebasid/bebasid/refs/heads/master/releases/hosts<br>
+			</ul>
+		</div>
+	</div>
+	<div id="blacklist-help" class="overlay">
+		<div class="overlay-content">
+			<button class="close-btn" onclick="closeOverlay('blacklist-help')">&#x2715;</button>
+			<h2>Blacklist</h2>
+			<ul>
+				<li>Everything you add here will be blacklisted</li>
+				<li>Example:<br>host.to.block</li>
+			</ul>
+		</div>
+	</div>
+	<div id="whitelist-help" class="overlay">
+		<div class="overlay-content">
+			<button class="close-btn" onclick="closeOverlay('whitelist-help')">&#x2715;</button>
+			<h2>Whitelist</h2>
+			<ul>
+				<li>Everything you add here won't be blacklisted</li>
+				<li>Example:<br>host.not.to.block</li>
+			</ul>
+		</div>
+	</div>
+	<div id="mode-menu" class="overlay">
+		<div class="overlay-content">
+			<button class="close-btn" onclick="closeOverlay('mode-menu')">&#x2715;</button>
+			<h2>Operation Mode</h2>
+			<form id="mode-options">
+				<label>
+					<input type="radio" name="mode" value="0">
+					<span><strong>Mode 0</strong><br> Default</span>
+				</label><br>
+				<label>
+					<input type="radio" name="mode" value="1">
+					<span><strong>Mode 1</strong><br> ksu_susfs_bind</span>
+				</label><br>
+				<label>
+					<input type="radio" name="mode" value="2">
+					<span><strong>Mode 2</strong><br> plain bindhosts</span>
+				</label><br>
+				<label>
+					<input type="radio" name="mode" value="3">
+					<span><strong>Mode 3</strong><br> apatch_hfr, hosts_file_redirect</span>
+				</label><br>
+				<label>
+					<input type="radio" name="mode" value="4">
+					<span><strong>Mode 4</strong><br> zn_hostsredirect</span>
+				</label><br>
+				<label>
+					<input type="radio" name="mode" value="5">
+					<span><strong>Mode 5</strong><br> ksu_susfs_open_redirect</span>
+				</label><br>
+				<label>
+					<input type="radio" name="mode" value="6">
+					<span><strong>Mode 6</strong><br> ksu_source_mod</span>
+				</label><br>
+			</form>
+			<div class="reference-reset">
+				<a href="https://github.com/backslashxx/bindhosts/blob/master/Documentation/modes.md#bindhosts-operating-modes"
+					class="learn-more">Learn more</a>
+				<button id="reset-mode">Reset (auto)</button>
 			</div>
 		</div>
-		<div id="custom-help" class="overlay">
-			<div class="overlay-content">
-				<button class="close-btn" onclick="closeOverlay('custom-help')">&#x2715;</button>
-				<h2>Custom Rules</h2>
-				<ul>
-					<li>Add custom redirects here</li>
-					<li>Example:<br>1.1.1.1 one.one.one.one<br>93.184.215.14 example.com</li>
-					<li>WARNING: Custom rules are loaded on both run and reset!</li>
-				</ul>
-			</div>
-		</div>
-		<div id="sources-help" class="overlay">
-			<div class="overlay-content">
-				<button class="close-btn" onclick="closeOverlay('sources-help')">&#x2715;</button>
-				<h2>Sources</h2>
-				<ul>
-					<li>Blacklist sources</li>
-					<li>Format:<br>127.0.0.1 some.ads.site<br>0.0.0.0 some.ads.site</li>
-					<li>Example:<br>https://adaway.org/hosts.txt<br>https://raw.githubusercontent.com/r-a-y/mobile-hosts/master/AdguardDNS.txt<br>
-					<li><br>Custom rulesets</li>
-					<li>Format:<br>186.2.163.20 nyaa.si</li>
-					<li>Example:<br>https://raw.githubusercontent.com/bebasid/bebasid/refs/heads/master/releases/hosts<br>
-				</ul>
-			</div>
-		</div>
-		<div id="blacklist-help" class="overlay">
-			<div class="overlay-content">
-				<button class="close-btn" onclick="closeOverlay('blacklist-help')">&#x2715;</button>
-				<h2>Blacklist</h2>
-				<ul>
-					<li>Everything you add here will be blacklisted</li>
-					<li>Example:<br>host.to.block</li>
-				</ul>
-			</div>
-		</div>
-		<div id="whitelist-help" class="overlay">
-			<div class="overlay-content">
-				<button class="close-btn" onclick="closeOverlay('whitelist-help')">&#x2715;</button>
-				<h2>Whitelist</h2>
-				<ul>
-					<li>Everything you add here won't be blacklisted</li>
-					<li>Example:<br>host.not.to.block</li>
-				</ul>
-			</div>
-		</div>
-		<div id="prompt" class="prompt"></div>
-		<div class="footer">
-			<div id="module">bindhosts</div>
-			<div id="webui">WebUI by KOWX712</div>
-		</div>
-	</body>
+	</div>
+	<div id="prompt" class="prompt"></div>
+	<div class="footer">
+		<div id="module">bindhosts</div>
+		<div id="webui">WebUI by KOWX712</div>
+	</div>
+</body>
+
 </html>

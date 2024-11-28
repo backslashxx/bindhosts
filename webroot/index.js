@@ -7,6 +7,9 @@ const filePaths = {
     whitelist: `${basePath}/whitelist.txt`,
 };
 
+let developerOption = false;
+let clickCount = 0;
+
 // Function to read a file and display its content in the UI
 async function loadFile(fileType) {
     try {
@@ -155,6 +158,101 @@ async function executeActionScript() {
     }
 }
 
+// Open mode menu with developer option logic
+document.getElementById("status-box").addEventListener("click", async () => {
+    if (developerOption) {
+        await updateModeSelection();
+        openOverlay(document.getElementById("mode-menu"));
+        return;
+    }
+    const fileExists = await execCommand("[ -f /data/adb/bindhosts/mode_override.sh ] && echo 'exists' || echo 'not-exists'");
+    if (fileExists.trim() === "exists") {
+        developerOption = true;
+        await updateModeSelection();
+        openOverlay(document.getElementById("mode-menu"));
+        return;
+    }
+    clickCount++;
+    if (clickCount >= 5) {
+        try {
+            await execCommand("> /data/adb/bindhosts/mode_override.sh");
+            developerOption = true;
+            showPrompt("Developer option enabled", true);
+            openOverlay(document.getElementById("mode-menu"));
+        } catch (error) {
+            console.error("Error enabling developer option:", error);
+            showPrompt("Error enabling developer option", false);
+        }
+    }
+    setTimeout(() => {
+        clickCount = 0;
+    }, 2000);
+});
+
+
+// Save mode option
+async function saveModeSelection(mode) {
+    try {
+        if (mode === "reset") {
+            await execCommand("rm -f /data/adb/bindhosts/mode_override.sh");
+        } else {
+            await execCommand(`echo "mode=${mode}" > /data/adb/bindhosts/mode_override.sh`);
+        }
+        showPrompt("Reboot to take effect", true);
+        await updateModeSelection();
+        closeOverlay("mode-menu");
+    } catch (error) {
+        console.error("Error saving mode selection:", error);
+    }
+}
+
+// Update radio button state based on current mode
+async function updateModeSelection() {
+    try {
+        const fileExists = await execCommand("[ -f /data/adb/bindhosts/mode_override.sh ] && echo 'exists' || echo 'not-exists'");
+        if (fileExists.trim() === "not-exists") {
+            document.querySelectorAll("#mode-options input").forEach((input) => {
+                input.checked = false;
+            });
+            return;
+        }
+        const content = await execCommand("cat /data/adb/bindhosts/mode_override.sh");
+        const currentMode = content.trim().match(/mode=(\d+)/)?.[1] || null;
+        document.querySelectorAll("#mode-options input").forEach((input) => {
+            input.checked = input.value === currentMode;
+        });
+    } catch (error) {
+        console.error("Error updating mode selection:", error);
+    }
+}
+
+// function to open and close mode option
+function openOverlay(overlay) {
+    overlay.classList.add("active");
+    document.body.style.overflow = "hidden";
+}
+document.getElementById("mode-menu").addEventListener("click", (e) => {
+    if (e.target === e.currentTarget) {
+        closeOverlay("mode-menu");
+    }
+});
+async function closeOverlay(id) {
+    const overlay = document.getElementById(id);
+    overlay.classList.remove("active");
+    document.body.style.overflow = "";
+    if (id === "mode-menu") {
+        try {
+            const content = await execCommand("cat /data/adb/bindhosts/mode_override.sh || echo ''");
+            if (content.trim() === "") {
+                await execCommand("rm -f /data/adb/bindhosts/mode_override.sh");
+                console.log("Removed empty mode_override.sh file");
+            }
+        } catch (error) {
+            console.error("Error checking or removing empty file:", error);
+        }
+    }
+}
+
 // Function to show the prompt with a success or error message
 function showPrompt(message, isSuccess = true) {
     const prompt = document.getElementById('prompt');
@@ -173,7 +271,7 @@ function showPrompt(message, isSuccess = true) {
     }, 500);
 }
 
-// Attach the function to the action button
+// Attach event listener for action button
 document.getElementById("actionButton").addEventListener("click", executeActionScript);
 
 // Attach event listeners to the add buttons
@@ -196,6 +294,17 @@ function attachAddButtonListeners() {
     document.getElementById("blacklist-add").addEventListener("click", () => handleAdd("blacklist"));
     document.getElementById("whitelist-add").addEventListener("click", () => handleAdd("whitelist"));
 }
+
+// Attach event listeners for mode options
+document.getElementById("mode-options").addEventListener("change", (event) => {
+    const selectedMode = event.target.value;
+    saveModeSelection(selectedMode);
+});
+
+// Attach event listener for reset button
+document.getElementById("reset-mode").addEventListener("click", () => {
+    saveModeSelection("reset");
+});
 
 // Initial load
 window.onload = () => {

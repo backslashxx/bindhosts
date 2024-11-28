@@ -153,6 +153,50 @@ li:last-child {
     right: 10px;
 }
 
+#mode-menu .overlay-content {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: flex-start;
+    margin-bottom: 1px;
+}
+
+#mode-menu form {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+label input[type="radio"] {
+    margin-right: 15px;
+    transform: scale(1.3);
+}
+
+.learn-more {
+    color: inherit;
+    text-decoration: none;
+}
+
+#reset-mode {
+    color: #3B3B3B;
+    border: none;
+    background: none;
+    font-size: 16px;
+}
+
+label {
+    display: inline-flex;
+    align-items: center;
+}
+
+.reference-reset {
+    color: #3B3B3B;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 10px;
+}
+
 .overlay {
     position: fixed;
     top: 0;
@@ -208,6 +252,7 @@ li:last-child {
     transform: translateY(100%);
     transition: transform 0.5s ease;
     white-space: nowrap;
+    z-index: 1300;
 }
 
 .prompt.visible {
@@ -285,6 +330,11 @@ li:last-child {
     .box {
         background-color: #343434;
         border: none;
+    }
+    
+    #reset-mode,
+    .reference-reset {
+    color: #C2C2C2;
     }
     
     .category-container input {
