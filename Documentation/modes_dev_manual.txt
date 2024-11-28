@@ -1,0 +1,64 @@
+mode=0
+     default mode
+	Apatch
+	   probably? Adaway compatible
+	   hiding: none at all
+	Magisk, magic mount
+	   Adaway compatible
+	   hiding: shamiko / denylist
+	KernelSU, OverlayFS + path_umount
+	   no adaway compatibiliy
+	   hiding: umount modules, for non-gki please backport path_umount 
+
+mode=1
+     ksu_susfs bind mode, mount --bind
+        KernelSU only
+        Requires susfs-patched kernel and userspace tool
+     Adaway compatible
+     hiding, best in its class as susfs handles the unmount
+     
+mode=2
+    plain bindhosts, mount --bind
+       actually works on all managers but not really preferrable as it leaks that nasty global mount
+    Adaway compatible
+    hiding: none at all
+    
+mode=3
+    apatch_hfr, hosts file redirect
+       APatch only and requires hosts_file_redirect kpm
+       https://github.com/AndroidPatch/kpm/blob/main/src/hosts_file_redirect/
+       doesn't seem to work on all setups, hit-and-miss
+       no adaway compatibility
+     hiding, real good as theres no mount at all
+
+mode=4
+     zn_hostsredirect, zygisk netd injection
+     Should work on all managers, requires 
+       https://github.com/aviraxp/ZN-hostsredirect
+       https://github.com/Dr-TSNG/ZygiskNext
+     no adaway compatibility
+     hiding, real good as theres no mount at all
+     
+mode=5
+    ksu_susfs_open_redirect, in-kernel file redirects
+       KernelSU only
+       Requires susfs-patched kernel and userspace tool
+       No way to do heuristics? (citation needed) and author discourages its usage
+       opt-in only due to lack of heuristic if krenel has it
+         echo "mode=5" > /data/adb/bindhosts/mode_override.sh
+       Requires susfs 1.5.1 or later
+     Adaway compatible
+     hiding, real good as theres no mount at all
+
+mode=6
+   ksu_source_mod
+      KernelSU only
+      requires source modification
+        https://github.com/tiann/KernelSU/commit/2b2b0733d7c57324b742c017c302fc2c411fe0eb
+      WARNING: conflicts with susfs, you dont need this if you can implement susfs
+      opt-in only due to lack of heuristic if krenel has it
+        echo "mode=6" > /data/adb/bindhosts/mode_override.sh
+      Adaway compatible
+      hiding, best in its class as long as path_umount is available
+
+# EOF
