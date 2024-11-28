@@ -17,6 +17,14 @@ echo "[+] bindhosts v$versionCode"
 echo "[%] action.sh"
 echo "[%] standalone hosts-based-adblocking implementation"
 
+[ -f $MODDIR/disable ] && {
+	echo "[*] not running since module has been disabled"
+	string="description=status: disabled ❌ | $(date)"
+        sed -i "s/^description=.*/$string/g" $MODDIR/module.prop
+	sleep 1
+	exit 0
+}
+
 # just in case user deletes them
 # persistence
 if [ ! -d /data/adb/bindhosts ] ; then
