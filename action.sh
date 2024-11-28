@@ -2,6 +2,7 @@
 PATH=$PATH:/data/adb/ap/bin:/data/adb/magisk:/data/adb/ksu/bin
 MODDIR="/data/adb/modules/bindhosts"
 PERSISTENT_DIR="/data/adb/bindhosts"
+source $MODDIR/mode.sh
 
 # grab own info (version)
 versionCode=$(grep versionCode $MODDIR/module.prop | sed 's/versionCode=//g' )
@@ -31,10 +32,24 @@ done
 
 # impl def for changing variables
 target_hostsfile="$MODDIR/system/etc/hosts"
+helper_mode=""
 
-if command -v ksud >/dev/null 2>&1 || command -v apd >/dev/null 2>&1 ; then
+case $operating_mode in
+	0) true ;;
+	1) 
 	target_hostsfile="/system/etc/hosts"
-fi
+	;;
+	2) true ;;
+	3) 
+	target_hostsfile="/data/adb/hosts"
+	helper_mode="| hosts_file_redirect 💉"
+	;;
+	4) 
+	target_hostsfile="/data/adb/hostsredirect/hosts"
+	helper_mode="| ZN-hostsredirect 💉"
+	;;
+	*) true ;; # catch invalid modes
+esac
 
 if [ -w $target_hostsfile ] ; then
 	# probe for downloaders
@@ -110,7 +125,7 @@ run() {
 	illusion
 	sleep 1
 	echo "[+] blocked: $(grep -c "0.0.0.0" $target_hostsfile ) | custom: $( grep -vEc "0.0.0.0| localhost|#" $target_hostsfile )"
-	string="description=status: active ✅ | blocked: $(grep -c "0.0.0.0" $target_hostsfile ) 🚫 | custom: $( grep -vEc "0.0.0.0| localhost|#" $target_hostsfile ) 🤖 "
+	string="description=status: active ✅ | blocked: $(grep -c "0.0.0.0" $target_hostsfile ) 🚫 | custom: $( grep -vEc "0.0.0.0| localhost|#" $target_hostsfile ) 🤖 $helper_mode"
 	sed -i "s/^description=.*/$string/g" $MODDIR/module.prop
 	# ready for reset again
 	(cd $PERSISTENT_DIR ; (cat blacklist.txt custom.txt sources.txt whitelist.txt ; date +%F) | md5sum | cut -f1 -d " " > $PERSISTENT_DIR/bindhosts_state )
