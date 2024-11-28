@@ -48,8 +48,12 @@ case $operating_mode in
 	target_hostsfile="/data/adb/hostsredirect/hosts"
 	helper_mode="| ZN-hostsredirect 💉"
 	;;
-	5) true ;;
-	6) true ;;
+	5)
+	target_hostsfile="/system/etc/hosts"
+	;;
+	6)
+	target_hostsfile="/system/etc/hosts"
+	;;
 	*) true ;; # catch invalid modes
 esac
 
