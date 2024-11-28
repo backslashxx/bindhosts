@@ -30,12 +30,21 @@ for i in $files ; do
 	fi
 done
 
+adaway_warn() {
+	pm path org.adaway > /dev/null 2>&1 && echo "[-] 🚨 Current operation mode may not work with AdAway 📛"
+}
+
 # impl def for changing variables
 target_hostsfile="$MODDIR/system/etc/hosts"
 helper_mode=""
 
 case $operating_mode in
-	0) true ;;
+	0)
+		# this is how it was on 163s
+		if command -v ksud >/dev/null 2>&1 || command -v apd >/dev/null 2>&1 ; then
+			adaway_warn
+		fi
+	;;
 	1) 
 	target_hostsfile="/system/etc/hosts"
 	;;
@@ -43,10 +52,12 @@ case $operating_mode in
 	3) 
 	target_hostsfile="/data/adb/hosts"
 	helper_mode="| hosts_file_redirect 💉"
+	adaway_warn
 	;;
 	4) 
 	target_hostsfile="/data/adb/hostsredirect/hosts"
 	helper_mode="| ZN-hostsredirect 💉"
+	adaway_warn
 	;;
 	5)
 	target_hostsfile="/system/etc/hosts"
