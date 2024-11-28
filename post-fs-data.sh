@@ -44,10 +44,11 @@ if [ $APATCH = true ]; then
 fi
 
 # ZN-hostsredirect operating_mode
-# this method works for all but requires zygisk-next and separate module installed
-# sadly we can only assume that its on a working state
-# unconditionally flag an operating_mode for it regardless of state
-if [ -d /data/adb/modules/hostsredirect ] && [ ! -f /data/adb/modules/hostsredirect/disable ] ; then
+# this method works for all but requires zn-hostsredirect and zygisk-next installed
+# we can only assume that its on a working state
+# here we unconditionally flag an operating_mode for it
+if [ -d /data/adb/modules/hostsredirect ] && [ ! -f /data/adb/modules/hostsredirect/disable ] && 
+	[ -d /data/adb/modules/zygisksu ] && [ ! -f /data/adb/modules/zygisksu/disable ]; then
 	mode=4
 	skip_mount=1
 fi
