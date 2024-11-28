@@ -4,7 +4,7 @@
 ---
 
 ## mode=0
-- **default mode**
+### default mode
  - **APatch** - OverlayFS / magic mount?
    - magic mount is Adaway compatible ?
    - Hiding: none at all  
@@ -18,7 +18,7 @@
 ---
 
 ## mode=1
-- **ksu_susfs_bind mode**
+### ksu_susfs_bind mode
 - KernelSU only  
 - Requires susfs-patched kernel and userspace tool  
 - Adaway compatible  
@@ -27,7 +27,7 @@
 ---
 
 ## mode=2
-- **plain bindhosts**
+### plain bindhosts
 - mount --bind
 - Actually works on all managers, but not really preferable as it leaks the global mount  
 - only useful as a last resort, only available as opt-in
@@ -37,7 +37,7 @@
 ---
 
 ## mode=3
-- **apatch_hfr, hosts_file_redirect**
+### apatch_hfr, hosts_file_redirect
 - in-kernel redirection of /system/etc/hosts for uid 0
 - APatch only, requires hosts_file_redirect KPM  
   - [hosts_file_redirect](https://github.com/AndroidPatch/kpm/blob/main/src/hosts_file_redirect/)  
@@ -49,7 +49,7 @@
 ---
 
 ## mode=4
-- **zn_hostsredirect**
+### zn_hostsredirect
 - zygisk netd injection
 - should work on all managers  
 - Requires:  
@@ -61,7 +61,7 @@
 ---
 
 ## mode=5
-- **ksu_susfs_open_redirect**
+### ksu_susfs_open_redirect
 - in-kernel file redirects for uid <2000
 - KernelSU only 
 - **OPT-IN** only 
@@ -74,7 +74,7 @@
 ---
 
 ## mode=6: 
-- **ksu_source_mod**
+### ksu_source_mod
 - KernelSU only  
 - **OPT-IN** only 
 - Requires source modification: [reference](https://github.com/tiann/KernelSU/commit/2b2b0733d7c57324b742c017c302fc2c411fe0eb)  
