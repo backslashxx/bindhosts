@@ -4,6 +4,11 @@ Systemless hosts for Apatch, KernelSU and Magisk
 ---
 
 # Changelog
+### 1.7.1
+- developer mode implementation
+- mode override on webui  
+- mode5 fixup
+
 ### 1.7.0
 - implement operating modes
 - unify codebases (scriptbases? on such case)
