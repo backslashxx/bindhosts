@@ -49,6 +49,7 @@ case $operating_mode in
 	helper_mode="| ZN-hostsredirect 💉"
 	;;
 	5) true ;;
+	6) true ;;
 	*) true ;; # catch invalid modes
 esac
 
