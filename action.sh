@@ -67,9 +67,7 @@ case $operating_mode in
 	helper_mode="| ZN-hostsredirect 💉"
 	adaway_warn
 	;;
-	5)
-	target_hostsfile="/system/etc/hosts"
-	;;
+	5) true ;;
 	6)
 	target_hostsfile="/system/etc/hosts"
 	;;
