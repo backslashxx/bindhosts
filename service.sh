@@ -46,6 +46,11 @@ zn_hostsredirect() {
 	echo "bindhosts: service.sh - mode zn_hostsredirect" >> /dev/kmsg
 }
 
+ksu_susfs_open_redirect() { 
+	${SUSFS_BIN} add_open_redirect /system/etc/hosts "$MODDIR/system/etc/hosts"
+	echo "bindhosts: service.sh - mode ksu_susfs_open_redirect" >> /dev/kmsg
+}
+
 ##
 # check opmodes and then do something
 case $operating_mode in
@@ -54,6 +59,7 @@ case $operating_mode in
 	2) bindhosts ;;
 	3) apatch_hfr ;;
 	4) zn_hostsredirect ;;
+	5) ksu_susfs_open_redirect ;;
 	*) normal_mount ;; # catch invalid modes
 esac
 

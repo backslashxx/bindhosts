@@ -44,7 +44,7 @@ if [ $APATCH = true ]; then
 fi
 
 # ZN-hostsredirect operating_mode
-# this method works for all
+# this method works for all but requires zygisk-next and separate module installed
 # sadly we can only assume that its on a working state
 # unconditionally flag an operating_mode for it regardless of state
 if [ -d /data/adb/modules/hostsredirect ] && [ ! -f /data/adb/modules/hostsredirect/disable ] ; then
@@ -53,8 +53,7 @@ if [ -d /data/adb/modules/hostsredirect ] && [ ! -f /data/adb/modules/hostsredir
 fi
 
 # override operating mode here
-# mode=x
-# skip_mount=x
+[ -f /data/adb/bindhosts/mode_override.sh ] && source /data/adb/bindhosts/mode_override.sh
 
 # write operating mode to mode.sh 
 # service.sh will read it
