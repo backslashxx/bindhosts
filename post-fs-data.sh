@@ -56,7 +56,12 @@ if [ -d /data/adb/modules/hostsredirect ] && [ ! -f /data/adb/modules/hostsredir
 fi
 
 # override operating mode here
-[ -f /data/adb/bindhosts/mode_override.sh ] && source /data/adb/bindhosts/mode_override.sh
+[ -f /data/adb/bindhosts/mode_override.sh ] && {
+	echo "bindhosts: post-fs-data.sh - mode_override found!" >> /dev/kmsg
+	skip_mount=1 
+	source /data/adb/bindhosts/mode_override.sh
+	[ $mode = 0 ] && skip_mount=0
+	}
 
 # write operating mode to mode.sh 
 # service.sh will read it
