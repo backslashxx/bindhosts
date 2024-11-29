@@ -309,6 +309,21 @@ function showPrompt(message, isSuccess = true) {
     }, 500);
 }
 
+// Scroll event
+let lastScrollY = window.scrollY;
+const scrollThreshold = 25;
+const header = document.querySelector('.header');
+window.addEventListener('scroll', () => {
+    if (window.scrollY > lastScrollY && window.scrollY > scrollThreshold) {
+        header.style.transform = 'translateY(-50px)';
+        actionButton.style.transform = 'translateY(90px)';
+    } else if (window.scrollY < lastScrollY) {
+        header.style.transform = 'translateY(0)';
+        actionButton.style.transform = 'translateY(0)';
+    }
+    lastScrollY = window.scrollY;
+});
+
 // Attach event listener for action button
 document.getElementById("actionButton").addEventListener("click", executeActionScript);
 
