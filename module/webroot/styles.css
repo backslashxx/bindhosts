@@ -22,6 +22,25 @@ body {
     font-weight: bold;
 }
 
+#version-text {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+#current-mode-text {
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #007bff;
+    border-radius: 6px;
+    padding: 0 5px;
+}
+
+#mode-text {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+
 .action-button {
     position: fixed;
     bottom: 20px;

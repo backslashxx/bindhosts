@@ -31,10 +31,48 @@ async function loadFile(fileType) {
             listElement.appendChild(listItem);
             listItem.querySelector(".delete-btn").addEventListener("click", () => removeLine(fileType, line));
         });
+        await getCurrentMode();
         await updateStatusFromModuleProp();
+        await loadVersionFromModuleProp();
     } catch (error) {
         console.error(`Failed to load ${fileType} file: ${error}`);
     }
+}
+
+// Function to load the version from module.prop and load the version in the WebUI
+async function getCurrentMode() {
+    try {
+        const command = "cat /data/adb/modules/bindhosts/mode.sh | grep '^operating_mode=' | cut -d'=' -f2";
+        const mode = await execCommand(command);
+        updateMode(mode.trim());
+    } catch (error) {
+        console.error("Failed to read description from mode.sh:", error);
+        updateMode("Error reading description from mode.sh");
+    }
+}
+
+// Function to load the version text dynamically in the WebUI
+function updateMode(modeText) {
+    const modeElement = document.getElementById('mode-text');
+    modeElement.textContent = modeText;
+}
+
+// Function to load the version from module.prop and load the version in the WebUI
+async function loadVersionFromModuleProp() {
+    try {
+        const command = "cat /data/adb/modules/bindhosts/module.prop | grep '^version=' | cut -d'=' -f2";
+        const version = await execCommand(command);
+        updateVersion(version.trim());
+    } catch (error) {
+        console.error("Failed to read version from module.prop:", error);
+        updateVersion("Error reading version from module.prop");
+    }
+}
+
+// Function to load the version text dynamically in the WebUI
+function updateVersion(versionText) {
+    const versionElement = document.getElementById('version-text');
+    versionElement.textContent = versionText;
 }
 
 // Function to get the status from module.prop and update the status in the WebUI
