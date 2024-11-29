@@ -24,7 +24,7 @@ Fully standalone, self-updating.
 - detection-checking [how-to](https://github.com/backslashxx/bindhosts/issues/4)
 
 ## Links
-Download [here](https://raw.githubusercontent.com/backslashxx/bindhosts/master/module.zip)
+Download [here](https://github.com/backslashxx/bindhosts/releases)
 
 ## Help and Support
 Report [here](https://github.com/backslashxx/bindhosts/issues) if you encounter any issues.
