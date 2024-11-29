@@ -1,5 +1,6 @@
 # bindhosts operating modes
-- these are currently defined operating modes that are either probed at auto or available as opt-in
+- These are currently defined operating modes that are either probed at auto or available as opt-in
+- You can change operating mode by accessing to [developer option](https://github.com/backslashxx/bindhosts/issues/10#issue-2703531116).
 
 ---
 
