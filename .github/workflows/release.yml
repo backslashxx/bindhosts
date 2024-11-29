@@ -1,0 +1,66 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 2
+
+    - name: Set variables
+      id: setup
+      run: |
+        COMMIT_ID=$(git rev-parse --short HEAD)
+        CURRENT_VERSION_CODE=$(jq -r .versionCode update.json)
+        PREVIOUS_VERSION_CODE=$(jq -r .versionCode <(git show HEAD~1:update.json))
+        VERSION=$(jq -r .version update.json)
+
+        echo "COMMIT_ID=$COMMIT_ID"
+        echo "CURRENT_VERSION_CODE=$CURRENT_VERSION_CODE"
+        echo "PREVIOUS_VERSION_CODE=$PREVIOUS_VERSION_CODE"
+        echo "VERSION=$VERSION"
+
+        echo "COMMIT_ID=$COMMIT_ID" >> $GITHUB_ENV
+        echo "CURRENT_VERSION_CODE=$CURRENT_VERSION_CODE" >> $GITHUB_ENV
+        echo "PREVIOUS_VERSION_CODE=$PREVIOUS_VERSION_CODE" >> $GITHUB_ENV
+        echo "VERSION=$VERSION" >> $GITHUB_ENV
+        
+        if [ "$CURRENT_VERSION_CODE" -gt "$PREVIOUS_VERSION_CODE" ]; then
+          echo "version_changed=true" >> $GITHUB_ENV
+          echo "ZIP_NAME=bindhosts_$CURRENT_VERSION_CODE" >> $GITHUB_ENV
+        else
+          echo "version_changed=false" >> $GITHUB_ENV
+          echo "ZIP_NAME=bindhosts_$CURRENT_VERSION_CODE-$COMMIT_ID" >> $GITHUB_ENV
+        fi
+
+    - name: Compressing files
+      run: |
+        echo "Compressing files..."
+        zip -r "${{ env.ZIP_NAME }}" module/*
+        echo "Created zip file: ${{ env.ZIP_NAME }}"
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.ZIP_NAME }}
+        path: module/
+
+    - name: Create release
+      if: env.version_changed == 'true'
+      uses: softprops/action-gh-release@v2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        files: ${{ env.ZIP_NAME }}.zip
+        tag_name: "${{ env.VERSION }}"
+        name: "Release ${{ env.VERSION }}"
+        body_path: CHANGELOG.md
+        draft: false
+        prerelease: false
