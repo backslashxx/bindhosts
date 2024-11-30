@@ -44,7 +44,9 @@ jobs:
     - name: Compressing files
       run: |
         echo "Compressing files..."
-        zip -r "${{ env.ZIP_NAME }}" module/*
+        cd module/
+        zip -r "${{ env.ZIP_NAME }}" *
+        mv *.zip ../
         echo "Created zip file: ${{ env.ZIP_NAME }}"
 
     - name: Upload artifact
