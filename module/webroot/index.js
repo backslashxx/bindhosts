@@ -296,9 +296,34 @@ function showPrompt(message, isSuccess = true) {
     const prompt = document.getElementById('prompt');
     prompt.textContent = message;
     prompt.classList.toggle('error', !isSuccess);
+
     if (window.promptTimeout) {
         clearTimeout(window.promptTimeout);
     }
+
+    if (message.includes("Reboot to take effect")) {
+        prompt.style.cursor = "pointer";
+
+        prompt.onclick = () => {
+            let countdown = 3;
+            prompt.textContent = `Rebooting in ${countdown}...`;
+            const countdownInterval = setInterval(() => {
+                countdown--;
+                if (countdown > 0) {
+                    prompt.textContent = `Rebooting in ${countdown}...`;
+                } else {
+                    clearInterval(countdownInterval);
+                    execCommand("svc power reboot").catch(error => {
+                        console.error("Failed to execute reboot command:", error);
+                    });
+                }
+            }, 1000);
+        };
+    } else {
+        prompt.onclick = null;
+        prompt.style.cursor = "default";
+    }
+
     setTimeout(() => {
         prompt.classList.add('visible');
         prompt.classList.remove('hidden');
