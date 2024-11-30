@@ -76,7 +76,7 @@
 
 ---
 
-## mode=6: 
+## mode=6
 ### ksu_source_mod
 - KernelSU only  
 - **OPT-IN** only 
@@ -84,5 +84,16 @@
 - **WARNING**: Conflicts with SuSFS. You don’t need this if you can implement SuSFS.  
 - Adaway compatible
 - Hiding: okay-ish, hidden, but at this point, you're already modding ksu source eh, why not go susfs?
+
+---
+
+## mode=7
+### generic_overlay_rw
+- generic overlayfs rw mount
+- should work on all managers  
+- **OPT-IN** only due to high susceptability to detections
+  - leaks an overlayfs mount, leaks globally modified hosts file
+- Adaway compatible
+- Hiding: essentially no hiding, needs assistance
 
 ---
