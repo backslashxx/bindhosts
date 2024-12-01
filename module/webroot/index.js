@@ -236,7 +236,7 @@ async function saveModeSelection(mode) {
         } else {
             await execCommand(`echo "mode=${mode}" > /data/adb/bindhosts/mode_override.sh`);
         }
-        showPrompt("Reboot to take effect", true);
+        showPrompt("Reboot to take effect, tap to reboot", true);
         await updateModeSelection();
         closeOverlay("mode-menu");
     } catch (error) {
@@ -302,8 +302,7 @@ function showPrompt(message, isSuccess = true) {
     }
 
     if (message.includes("Reboot to take effect")) {
-        prompt.style.cursor = "pointer";
-
+        prompt.classList.add('pointer');
         prompt.onclick = () => {
             let countdown = 3;
             prompt.textContent = `Rebooting in ${countdown}...`;
@@ -320,8 +319,8 @@ function showPrompt(message, isSuccess = true) {
             }, 1000);
         };
     } else {
+        prompt.classList.remove('pointer');
         prompt.onclick = null;
-        prompt.style.cursor = "default";
     }
 
     setTimeout(() => {

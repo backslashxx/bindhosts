@@ -285,6 +285,10 @@ label {
     z-index: 1300;
 }
 
+.prompt.pointer {
+    background-color: #27822B;
+}
+
 .prompt.visible {
     animation: YbounceIn 0.4s forwards;
 }
