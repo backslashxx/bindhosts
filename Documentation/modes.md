@@ -30,8 +30,10 @@
 ## mode=2
 ### plain bindhosts
 - mount --bind
-- Actually works on all managers, but not really preferable as it leaks the global mount  
-- only useful as a last resort, only available as opt-in
+- Highest compatibility
+- Actually works on all managers, but not really preferable
+- leaks a bind mount, leaks a globally modified hosts file  
+- only useful as a last resort
 - Adaway compatible
 - Hiding: none at all
 
