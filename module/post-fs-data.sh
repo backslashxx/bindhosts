@@ -27,13 +27,12 @@ if [ ${KSU} = true ] && [ -f ${SUSFS_BIN} ] ; then
 fi
 
 # plain bindhosts operating mode, no hides at all
-# hightly detectable
-# disabled as this is practically useless for now
-# still can be used in override
-# if [ $APATCH = true ]; then
-# 	mode=2
-# 	skip_mount=1
-# fi
+# we enable this on apatch if its NOT on magisk mount
+# as this allows better compatibility
+if [ $APATCH = true ] && [ ! -f /data/adb/.bind_mount_enable ]; then
+	mode=2
+	skip_mount=1
+fi
 
 # hosts_file_redirect operating_mode
 # this method is APatch only
