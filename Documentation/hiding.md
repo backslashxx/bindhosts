@@ -1,9 +1,9 @@
 # Hiding Guide
 
 ## APatch
- Hiding in APatch is a bit problematic due to the following
-  1. having overlayfs mount but it does NOT have built-in unmount mechanism
-  2. bind-mount mode (magisk mount) is not mature yet
+ Hiding in APatch is a bit challenging due to the following reasons:
+  1. it uses OverlayFS but lacks a built-in unmount mechanism
+  2. bind-mount mode (magisk mount) is not fully developed
 
  Recommendations: 
    - use hosts_file_redirect kpm
@@ -12,18 +12,18 @@
    - if hosts_file_redirect fails, install [ZN-hostsredirect](https://github.com/aviraxp/ZN-hostsredirect/releases)
 
 ## KernelSU
- Hiding in KernelSU should work as is as long as
-  1. you have path_umount
+ Hiding in KernelSU should just work, provided that:
+  1. you have path_umount (GKI, backported)
   2. no conflicing modules (e.g. Magical Overlayfs)
 
  Recommendations:
-  - if non-gki and kernel does not have path_umount, ask kernel dev to [backport](https://github.com/tiann/KernelSU/pull/1464) it
+  - if kernel is non-gki and kernel lacks path_umount, ask kernel dev to [backport this feature](https://github.com/tiann/KernelSU/pull/1464)
   - uninstall conflicting modules? 
   - alternatively, just install [ZN-hostsredirect](https://github.com/aviraxp/ZN-hostsredirect/releases)
 
 ## Magisk
  Hiding in Magisk (and clones) should just work as is.
- - add apps you need to hide root from onto denylist. 
+ - Add the apps you want to hide root from to the denylist.
  - optionally you can also use [Shamiko](https://github.com/LSPosed/LSPosed.github.io/releases/)
 
 # FAQ
