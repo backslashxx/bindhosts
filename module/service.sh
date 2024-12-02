@@ -1,5 +1,6 @@
 #!/usr/bin/env sh
 MODDIR="/data/adb/modules/bindhosts"
+PERSISTENT_DIR="/data/adb/bindhosts"
 source $MODDIR/utils.sh
 source $MODDIR/mode.sh
 SUSFS_BIN=/data/adb/ksu/bin/ksu_susfs
@@ -73,6 +74,17 @@ esac
 
 ##################
 
+# cronjobs
+# this is optional and opt-in
+# I don't plan to extend this myself
+# just check if crontabs exists
+# if it does then we enable crond
+[ -d $PERSISTENT_DIR/crontabs ] && {
+	echo "bindhosts: service.sh - enabling crond" >> /dev/kmsg
+	busybox crond -bc $PERSISTENT_DIR/crontabs -L /dev/null
+	}
+
+##################
 until [ "$(getprop sys.boot_completed)" == "1" ]; do
     sleep 1
 done
