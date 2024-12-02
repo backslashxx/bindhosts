@@ -4,6 +4,16 @@ Systemless hosts for Apatch, KernelSU and Magisk
 ---
 
 # Changelog
+### 1.7.3
+- module: fixup module.prop
+- module: optional cronjobs
+- documentation: sources.md
+- documentation: hiding.md
+- webui: pressing reboot lets you reboot
+- scripts/post-fs-data: re-enable mode2 conditionally
+- scripts/service: fixup status printout condition
+- tree: delete module.zip
+
 ### 1.7.2
 - tree: introduce workflows 
 - scripts/action: add dos2unix on parsing routine
