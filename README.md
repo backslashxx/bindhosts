@@ -15,12 +15,12 @@ Fully standalone, self-updating.
 - [KernelSU](https://github.com/tiann/KernelSU)
 - [Magisk](https://github.com/topjohnwu/Magisk) + [KsuWebUI](https://github.com/5ec1cff/KsuWebUIStandalone) (optional)
 
+## Hiding
+- Read [Hiding Guide](https://github.com/backslashxx/bindhosts/blob/master/Documentation/hiding.md)
+
 ## Operating Modes
 - Read [bindhosts operation modes](https://github.com/backslashxx/bindhosts/blob/master/Documentation/modes.md).
 - Developer Mode [how-to](https://github.com/backslashxx/bindhosts/issues/10)
-
-## Hiding
-- Read [Hiding Guide](https://github.com/backslashxx/bindhosts/blob/master/Documentation/hiding.md)
 
 ## Links
  - Download [here](https://github.com/backslashxx/bindhosts/releases)
