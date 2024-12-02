@@ -21,7 +21,6 @@ Fully standalone, self-updating.
 
 ## Hiding
 - Read [Hiding Guide](https://github.com/backslashxx/bindhosts/blob/master/Documentation/hiding.md)
-- detection-checking [how-to](https://github.com/backslashxx/bindhosts/issues/4)
 
 ## Links
 Download [here](https://github.com/backslashxx/bindhosts/releases)

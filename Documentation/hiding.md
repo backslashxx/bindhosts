@@ -29,3 +29,5 @@
 # FAQ
  - Why is this needed?
    - some root detections now includes and check for modified hosts file.
+ - How do I check for detections?
+   - Read [how to check for detections](https://github.com/backslashxx/bindhosts/issues/4)
