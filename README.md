@@ -23,7 +23,8 @@ Fully standalone, self-updating.
 - Read [Hiding Guide](https://github.com/backslashxx/bindhosts/blob/master/Documentation/hiding.md)
 
 ## Links
-Download [here](https://github.com/backslashxx/bindhosts/releases)
+ - Download [here](https://github.com/backslashxx/bindhosts/releases)
+ - Looking for more sources? [here](https://github.com/backslashxx/bindhosts/blob/master/Documentation/sources.md)
 
 ## Help and Support
 Report [here](https://github.com/backslashxx/bindhosts/issues) if you encounter any issues.
