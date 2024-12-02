@@ -20,7 +20,7 @@ Fully standalone, self-updating.
 - Developer Mode [how-to](https://github.com/backslashxx/bindhosts/issues/10)
 
 ## Hiding
-- read [modes.md](https://github.com/backslashxx/bindhosts/blob/master/Documentation/modes.md) for now, will add later
+- Read [Hiding Guide](https://github.com/backslashxx/bindhosts/blob/master/Documentation/hiding.md)
 - detection-checking [how-to](https://github.com/backslashxx/bindhosts/issues/4)
 
 ## Links
