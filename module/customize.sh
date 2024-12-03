@@ -1,6 +1,7 @@
 #!/usr/bin/env sh
 SUSFS_BIN=/data/adb/ksu/bin/ksu_susfs
 source $MODPATH/utils.sh
+PERSISTENT_DIR=/data/adb/bindhosts
 
 # grab own info (version)
 versionCode=$(grep versionCode $MODPATH/module.prop | sed 's/versionCode=//g' )
@@ -9,8 +10,7 @@ echo "[+] bindhosts v$versionCode "
 echo "[%] customize.sh "
 
 # persistence
-if [ ! -d /data/adb/bindhosts ] ; then
-	PERSISTENT_DIR=/data/adb/bindhosts
+if [ ! -d $PERSISTENT_DIR ] ; then
 	mkdir -p $PERSISTENT_DIR
 fi
 
