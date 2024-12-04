@@ -19,7 +19,7 @@ mode=1
      
 mode=2
     plain bindhosts, mount --bind
-       actually works on all managers but not really preferrable as it leaks that nasty global mount
+       actually works on all managers but not really preferrable as it leaks a global mount
     Adaway compatible
     hiding: none at all
     
@@ -60,5 +60,25 @@ mode=6
         echo "mode=6" > /data/adb/bindhosts/mode_override.sh
       Adaway compatible
       hiding, best in its class as long as path_umount is available
+
+mode=7
+   generic_overlay
+      generic overlayfs rw mount
+      requires overlayfs
+      ALL Managers
+      opt-in only due to high susceptability to detections
+        echo "mode=7" > /data/adb/bindhosts/mode_override.sh
+      Adaway compatible
+      hiding: essentially no hiding, needs assistance
+
+mode=8
+   ksu_susfs_overlay
+      susfs-assisted generic overlayfs
+      KernelSU only
+      Requires susfs-patched kernel and userspace tool
+      opt-in only due to ksu_susfs_bind mode being a better choice
+        echo "mode=8" > /data/adb/bindhosts/mode_override.sh
+      Adaway compatible
+      hiding: good but ksu_susfs_bind is easier
 
 # EOF
