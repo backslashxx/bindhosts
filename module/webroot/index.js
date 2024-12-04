@@ -103,6 +103,14 @@ async function handleAdd(fileType) {
         return;
     }
     try {
+        const fileContent = await execCommand(`cat ${filePaths[fileType]}`);
+        const lines = fileContent.split('\n').map(line => line.trim()).filter(line => line !== "");
+        if (lines.includes(inputValue)) {
+            console.log(`"${inputValue}" is already in ${fileType}. Skipping add operation.`);
+            showPrompt(`"${inputValue}" is already in ${fileType}.`, false);
+            inputElement.value = "";
+            return;
+        }
         await execCommand(`echo "${inputValue}" >> ${filePaths[fileType]}`);
         console.log(`Added "${inputValue}" to ${fileType} successfully.`);
         inputElement.value = "";
