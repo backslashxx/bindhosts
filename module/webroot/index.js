@@ -334,11 +334,12 @@ function showPrompt(message, isSuccess = true) {
     setTimeout(() => {
         prompt.classList.add('visible');
         prompt.classList.remove('hidden');
+        const timeoutDuration = message.includes('running') ? 10000 : 3000;
         window.promptTimeout = setTimeout(() => {
             prompt.classList.remove('visible');
             prompt.classList.add('hidden');
-        }, 5000);
-    }, 500);
+        }, timeoutDuration);
+    }, 100);
 }
 
 // Scroll event
