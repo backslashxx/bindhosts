@@ -9,9 +9,15 @@ SUSFS_BIN=/data/adb/ksu/bin/ksu_susfs
 target_hostsfile="/system/etc/hosts"
 helper_mode=""
 
-# functions
+# reusable functions
 bindhosts() { 
 	mount --bind "$MODDIR/system/etc/hosts" /system/etc/hosts
+}
+
+overlay_devicename() {
+	devicename=overlay
+	[ ${KSU} = true ] && devicename=KSU
+	[ $APATCH = true ] && devicename=APatch
 }
 
 # operating modes
@@ -59,6 +65,14 @@ ksu_source_mod() {
 	echo "bindhosts: service.sh - mode ksu_source_mod" >> /dev/kmsg
 }
 
+generic_overlay() {
+	target_hostsfile="/system/etc/hosts"
+	[ ! -d $MODDIR/workdir ] && mkdir $MODDIR/workdir
+	overlay_devicename
+	mount -t overlay -o lowerdir=/system/etc,upperdir=$MODDIR/system/etc,workdir=$MODDIR/workdir $devicename /system/etc
+	echo "bindhosts: service.sh - mode generic_overlay" >> /dev/kmsg
+}
+
 ##
 # check opmodes and then do something
 case $operating_mode in
@@ -69,6 +83,7 @@ case $operating_mode in
 	4) zn_hostsredirect ;;
 	5) ksu_susfs_open_redirect ;;
 	6) ksu_source_mod ;;
+	7) generic_overlay ;;
 	*) normal_mount ;; # catch invalid modes
 esac
 
