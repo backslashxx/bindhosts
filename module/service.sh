@@ -14,10 +14,13 @@ bindhosts() {
 	mount --bind "$MODDIR/system/etc/hosts" /system/etc/hosts
 }
 
-overlay_devicename() {
+overlay_routine() {
 	devicename=overlay
 	[ ${KSU} = true ] && devicename=KSU
 	[ $APATCH = true ] && devicename=APatch
+	target_hostsfile="/system/etc/hosts"
+	[ ! -d $MODDIR/workdir ] && mkdir $MODDIR/workdir
+	mount -t overlay -o lowerdir=/system/etc,upperdir=$MODDIR/system/etc,workdir=$MODDIR/workdir $devicename /system/etc
 }
 
 # operating modes
@@ -66,10 +69,7 @@ ksu_source_mod() {
 }
 
 generic_overlay() {
-	target_hostsfile="/system/etc/hosts"
-	[ ! -d $MODDIR/workdir ] && mkdir $MODDIR/workdir
-	overlay_devicename
-	mount -t overlay -o lowerdir=/system/etc,upperdir=$MODDIR/system/etc,workdir=$MODDIR/workdir $devicename /system/etc
+	overlay_routine
 	echo "bindhosts: service.sh - mode generic_overlay" >> /dev/kmsg
 }
 
