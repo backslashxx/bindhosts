@@ -7,13 +7,17 @@ Fully standalone, self-updating.
 ## Features
 - Action button control
 - WebUI control
-- Adaway coexistence (on certain modes)
-- Supports injection and redirect modes (ZN-hostsredirect, host_file_redirect, open_redirect)
+- Adaway coexistence 
+- Supports injection and redirect modes (ZN-hostsredirect, hosts_file_redirect, open_redirect)
 
 ## Supported Root Managers
-- [APatch](https://github.com/bmax121/APatch)
+- [APatch](https://github.com/bmax121/APatch) 
 - [KernelSU](https://github.com/tiann/KernelSU)
-- [Magisk](https://github.com/topjohnwu/Magisk) + [KsuWebUI](https://github.com/5ec1cff/KsuWebUIStandalone) (optional)
+- [Magisk](https://github.com/topjohnwu/Magisk)  <sup>(no WebUI 👀)</sup>
+
+### Also Supported on
+- [KsuWebUI](https://github.com/5ec1cff/KsuWebUIStandalone)
+- [MMRL](https://github.com/DerGoogler/MMRL)   <sup>👍</sup>
 
 ## Hiding
 - Read [Hiding Guide](https://github.com/backslashxx/bindhosts/blob/master/Documentation/hiding.md)
