@@ -74,6 +74,9 @@ case $operating_mode in
 	7)
 	target_hostsfile="/system/etc/hosts"
 	;;
+	8)
+	target_hostsfile="/system/etc/hosts"
+	;;
 	*) true ;; # catch invalid modes
 esac
 

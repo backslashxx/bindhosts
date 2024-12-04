@@ -73,6 +73,14 @@ generic_overlay() {
 	echo "bindhosts: service.sh - mode generic_overlay" >> /dev/kmsg
 }
 
+ksu_susfs_overlay() {
+	overlay_routine
+	${SUSFS_BIN} add_sus_mount /system/etc
+	${SUSFS_BIN} add_try_umount /system/etc 1
+	${SUSFS_BIN} add_try_umount /system/etc > /dev/null 2>&1 #legacy susfs
+	echo "bindhosts: service.sh - mode ksu_susfs_overlay" >> /dev/kmsg
+}
+
 ##
 # check opmodes and then do something
 case $operating_mode in
@@ -84,6 +92,7 @@ case $operating_mode in
 	5) ksu_susfs_open_redirect ;;
 	6) ksu_source_mod ;;
 	7) generic_overlay ;;
+	8) ksu_susfs_overlay ;;
 	*) normal_mount ;; # catch invalid modes
 esac
 
