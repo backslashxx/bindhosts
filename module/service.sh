@@ -10,7 +10,7 @@ target_hostsfile="/system/etc/hosts"
 helper_mode=""
 
 # reusable functions
-bindhosts() { 
+mount_bind() { 
 	mount --bind "$MODDIR/system/etc/hosts" /system/etc/hosts
 }
 
@@ -30,11 +30,16 @@ normal_mount() {
 
 ksu_susfs_bind() { 
 	${SUSFS_BIN} add_sus_kstat '/system/etc/hosts'
-	bindhosts
+	mount_bind
 	${SUSFS_BIN} update_sus_kstat '/system/etc/hosts'
 	${SUSFS_BIN} add_try_umount $target_hostsfile 1
 	${SUSFS_BIN} add_try_umount $target_hostsfile > /dev/null 2>&1 #legacy susfs
 	echo "bindhosts: service.sh - mode ksu_susfs_bind" >> /dev/kmsg
+}
+
+bindhosts() { 
+	mount_bind
+	echo "bindhosts: service.sh - mode plain bindhosts" >> /dev/kmsg 
 }
 
 apatch_hfr() {
@@ -64,7 +69,7 @@ ksu_susfs_open_redirect() {
 }
 
 ksu_source_mod() { 
-	bindhosts
+	mount_bind
 	echo "bindhosts: service.sh - mode ksu_source_mod" >> /dev/kmsg
 }
 
