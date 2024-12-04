@@ -136,9 +136,11 @@ adblock() {
 	for i in $(grep -v "#" $PERSISTENT_DIR/blacklist.txt ); do echo "0.0.0.0 $i" >> $folder/temphosts; done
 	# whitelist.txt
 	echo "[+] processing whitelist"
-	# how do i do this better?
-	for i in $(grep -v "#" $PERSISTENT_DIR/whitelist.txt); do echo "0.0.0.0 $i" ; done > $folder/tempwhitelist
-	# optimization thanks to Earnestly from #bash on libera, TIL something 
+	# make sure tempwhitelist isnt empty
+	# or it will grep out nothingness from everything
+	# which actually greps out everything.
+	echo "256.256.256.256 bindhosts" > $folder/tempwhitelist
+	for i in $(grep -v "#" $PERSISTENT_DIR/whitelist.txt); do echo "0.0.0.0 $i" ; done >> $folder/tempwhitelist
 	# sed strip out everything with #, double space to single space, replace all 127.0.0.1 to 0.0.0.0
 	# then sort uniq, then grep out whitelist.txt from it
 	sed '/#/d; s/  / /g; /^$/d; s/127.0.0.1/0.0.0.0/' $folder/temphosts | sort -u | grep -Fxvf $folder/tempwhitelist | busybox dos2unix >> $target_hostsfile
