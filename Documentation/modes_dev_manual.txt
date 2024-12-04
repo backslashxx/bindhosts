@@ -1,8 +1,10 @@
 mode=0
      default mode
 	Apatch
-	   probably? Adaway compatible
-	   hiding: none at all
+	   This Manager can now operate in either OverlayFS or bind-mount (magic mount)
+	   hiding:
+	      overlayfs mode is nope 
+	      magic mount (bind_mount_enable) mode is hideable with zygisk assistant
 	Magisk, magic mount
 	   Adaway compatible
 	   hiding: shamiko / denylist
@@ -21,6 +23,7 @@ mode=2
     plain bindhosts, mount --bind
        actually works on all managers but not really preferrable as it leaks a global mount
     Adaway compatible
+    This is selected when APatch is on OverlayFS mdoe as that offers better compatibility
     hiding: none at all
     
 mode=3

@@ -6,9 +6,10 @@
 
 ## mode=0
 ### default mode
- - **APatch** - OverlayFS / magic mount?
+ - **APatch** - OverlayFS / magic mount
    - magic mount is Adaway compatible ?
-   - Hiding: none at all  
+   - Hiding: for OverlayFS mode, none.
+   - Hiding: for magic mount [zygisk-assistant](https://github.com/snake-4/Zygisk-Assistant)
  - **Magisk** - magic mount  
    - Adaway compatible  
    - Hiding: [Shamiko](https://github.com/LSPosed/LSPosed.github.io/releases) / Denylist  
@@ -20,6 +21,7 @@
 
 ## mode=1
 ### ksu_susfs_bind mode
+- susfs assisted mount --bind
 - KernelSU only  
 - Requires susfs-patched kernel and userspace tool  
 - Adaway compatible  
@@ -30,12 +32,12 @@
 ## mode=2
 ### plain bindhosts
 - mount --bind
-- Highest compatibility
+- **Highest compatibility**
 - Actually works on all managers, but not really preferable
 - leaks a bind mount, leaks a globally modified hosts file  
-- only useful as a last resort
+- selected when APatch is on OverlayFS (default mode) as it offers better compatibility.
 - Adaway compatible
-- Hiding: none at all
+- Hiding: essentially no hiding, needs assistance
 
 ---
 
@@ -65,14 +67,14 @@
 
 ## mode=5
 ### ksu_susfs_open_redirect
-- in-kernel file redirects for uid <2000
+- in-kernel file redirects for uid below 2000
 - KernelSU only 
 - **OPT-IN** only 
 - Requires susfs-patched kernel and userspace tool  
-- No way to do heuristics (citation needed), and the author discourages its usage  
+- use is discouraged by author as it will likely waste more cpu cycles
 - Requires SuSFS 1.5.1 or later  
 - Adaway compatible
-- Hiding: good method but use is discouraged by SuSFS-dev
+- Hiding: good method but will likely waste more cpu cycles
 
 ---
 
@@ -83,7 +85,7 @@
 - Requires source modification: [reference](https://github.com/tiann/KernelSU/commit/2b2b0733d7c57324b742c017c302fc2c411fe0eb)  
 - **WARNING**: Conflicts with SuSFS. You don’t need this if you can implement SuSFS.  
 - Adaway compatible
-- Hiding: okay-ish, hidden, but at this point, you're already modding ksu source eh, why not go susfs?
+- Hiding: good method but you can probably just implement susfs.
 
 ---
 
@@ -91,8 +93,8 @@
 ### generic_overlay
 - generic overlayfs rw mount
 - should work on all managers  
-- **OPT-IN** only due to high susceptability to detections
-  - leaks an overlayfs mount, leaks globally modified hosts file
+- **OPT-IN** only due to **awfully high** susceptability to detections
+- leaks an overlayfs mount (with /data/adb upperdir), leaks globally modified hosts file
 - Adaway compatible
 - Hiding: essentially no hiding, needs assistance
 
@@ -105,6 +107,6 @@
 - Requires susfs-patched kernel and userspace tool
 - **OPT-IN** only due to ksu_susfs_bind mode being a better choice
 - Adaway compatible
-- Hiding: pretty good but ksu_susfs_bind is easier
+- Hiding: good method but ksu_susfs_bind is easier
 
 ---
