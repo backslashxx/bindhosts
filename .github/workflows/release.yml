@@ -35,7 +35,7 @@ jobs:
         
         if [ "$CURRENT_VERSION_CODE" -gt "$PREVIOUS_VERSION_CODE" ]; then
           echo "version_changed=true" >> $GITHUB_ENV
-          echo "ZIP_NAME=bindhosts_$CURRENT_VERSION_CODE" >> $GITHUB_ENV
+          echo "ZIP_NAME=bindhosts" >> $GITHUB_ENV
         else
           echo "version_changed=false" >> $GITHUB_ENV
           echo "ZIP_NAME=bindhosts_$CURRENT_VERSION_CODE-$COMMIT_ID" >> $GITHUB_ENV
