@@ -6,7 +6,7 @@ source $MODDIR/mode.sh
 SUSFS_BIN=/data/adb/ksu/bin/ksu_susfs
 
 
-target_hostsfile="/system/etc/hosts"
+target_hostsfile="$MODDIR/system/etc/hosts"
 helper_mode=""
 
 # reusable functions
