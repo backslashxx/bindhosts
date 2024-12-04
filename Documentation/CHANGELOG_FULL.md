@@ -4,6 +4,12 @@ Systemless hosts for Apatch, KernelSU and Magisk
 ---
 
 # Changelog
+### 1.7.5
+- documentation updates
+- drop kstat spoofing on mode 1
+- fixups for mode 2
+- introduce mode 7 and 8 (generic overlay + ksu-assited overlay)
+
 ### 1.7.4
 - Emergency release for APatch bind_mount_enable
 - scripts/customize: drop old version migration
