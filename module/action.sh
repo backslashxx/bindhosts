@@ -167,8 +167,13 @@ run() {
 	adblock
 	illusion
 	sleep 1
-	echo "[+] blocked: $(grep -c "0.0.0.0" $target_hostsfile ) | custom: $( grep -vEc "0.0.0.0| localhost|#" $target_hostsfile )"
-	string="description=status: active ✅ | blocked: $(grep -c "0.0.0.0" $target_hostsfile ) 🚫 | custom: $( grep -vEc "0.0.0.0| localhost|#" $target_hostsfile ) 🤖 $helper_mode"
+	# store these as variables
+	# this way we dont do the grepping twice
+	custom=$( grep -vEc "0.0.0.0| localhost|#" $target_hostsfile)
+	blocked=$(grep -c "0.0.0.0" $target_hostsfile )
+	# now use them
+	echo "[+] blocked: $blocked | custom: $custom "
+	string="description=status: active ✅ | blocked: $blocked 🚫 | custom: $custom 🤖 $helper_mode"
 	sed -i "s/^description=.*/$string/g" $MODDIR/module.prop
 	# ready for reset again
 	(cd $PERSISTENT_DIR ; (cat blacklist.txt custom.txt sources.txt whitelist.txt ; date +%F) | md5sum | cut -f1 -d " " > $PERSISTENT_DIR/bindhosts_state )
