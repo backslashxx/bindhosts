@@ -4,6 +4,9 @@ Systemless hosts for Apatch, KernelSU and Magisk
 ---
 
 # Changelog
+### 1.7.6
+- fix empty whitelist bug
+
 ### 1.7.5
 - documentation updates
 - drop kstat spoofing on mode 1
