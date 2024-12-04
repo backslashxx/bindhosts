@@ -280,12 +280,12 @@ label {
     padding: 5px 15px;
     z-index: 1000;
     transform: translateY(100%);
-    transition: transform 0.5s ease;
+    transition: transform 0.5s ease, background-color 0.2s ease;
     white-space: nowrap;
     z-index: 1300;
 }
 
-.prompt.pointer {
+.prompt.pointer:active {
     background-color: #27822B;
 }
 
