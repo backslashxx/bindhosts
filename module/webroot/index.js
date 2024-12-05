@@ -7,8 +7,11 @@ const filePaths = {
     whitelist: `${basePath}/whitelist.txt`,
 };
 
-let developerOption = false;
 let clickCount = 0;
+let timeout;
+let clickTimeout;
+let developerOption = false;
+let disableTimeout;
 
 // Function to read a file and display its content in the UI
 async function loadFile(fileType) {
@@ -204,37 +207,50 @@ async function executeActionScript() {
     }
 }
 
-// Open mode menu with developer option logic
-document.getElementById("status-box").addEventListener("click", async () => {
-    if (developerOption) {
-        await updateModeSelection();
-        openOverlay(document.getElementById("mode-menu"));
-        return;
-    }
-    const fileExists = await execCommand("[ -f /data/adb/bindhosts/mode_override.sh ] && echo 'exists' || echo 'not-exists'");
+// Funtion to determine state of developer option
+async function checkDevOption() {
+    const filePath = "/data/adb/bindhosts/mode_override.sh";
+    const fileExists = await execCommand(`[ -f ${filePath} ] && echo 'exists' || echo 'not-exists'`);
+
     if (fileExists.trim() === "exists") {
         developerOption = true;
-        await updateModeSelection();
+    }
+}
+
+// Determine mode button behavior of mode button depends on developer option
+document.getElementById("mode-btn").addEventListener("click", async () => {
+    await checkDevOption();
+    if (developerOption) {
         openOverlay(document.getElementById("mode-menu"));
-        return;
+    } else {
+        window.open("https://github.com/backslashxx/bindhosts/blob/master/Documentation/modes.md#bindhosts-operating-modes", "_blank");
     }
-    clickCount++;
-    if (clickCount >= 5) {
-        try {
-            await execCommand("> /data/adb/bindhosts/mode_override.sh");
-            developerOption = true;
-            showPrompt("Developer option enabled", true);
-            openOverlay(document.getElementById("mode-menu"));
-        } catch (error) {
-            console.error("Error enabling developer option:", error);
-            showPrompt("Error enabling developer option", false);
-        }
-    }
-    setTimeout(() => {
-        clickCount = 0;
-    }, 2000);
 });
 
+// Event listener to enable developer option
+document.getElementById("status-box").addEventListener("click", async () => {
+    clickCount++;
+    clearTimeout(clickTimeout);
+
+    clickTimeout = setTimeout(() => {
+        clickCount = 0;
+    }, 2000);
+    if (clickCount === 5) {
+        clickCount = 0;
+        await checkDevOption();
+        if (!developerOption) {
+            try {
+                developerOption = true;
+                showPrompt("Developer option enabled", true);
+            } catch (error) {
+                console.error("Error enabling developer option:", error);
+                showPrompt("Error enabling developer option", false);
+            }
+        } else {
+            showPrompt("Developer option already enabled", true);
+        }
+    }
+});
 
 // Save mode option
 async function saveModeSelection(mode) {
