@@ -31,6 +31,10 @@
   - Pro: https://raw.githubusercontent.com/hagezi/dns-blocklists/main/hosts/pro.txt
   - Theres more, check them out!
 
+### [1Hosts](https://github.com/badmojr/1Hosts)
+  - mini: https://raw.githubusercontent.com/badmojr/1Hosts/master/mini/hosts.txt
+  - Lite: https://raw.githubusercontent.com/badmojr/1Hosts/master/Lite/hosts.txt
+  - Pro: https://raw.githubusercontent.com/badmojr/1Hosts/master/Pro/hosts.txt
 
 ## Custom rulesets
 
