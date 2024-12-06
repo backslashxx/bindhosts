@@ -40,6 +40,19 @@
   - For easy pass on: https://d3ward.github.io/toolz/adblock
   - https://raw.githubusercontent.com/d3ward/toolz/master/src/d3host.txt
 
+### [andryou](https://gitlab.com/andryou/block)
+  - Chibi: https://gitlab.com/andryou/block/raw/master/chibi
+  - Kouhai: https://gitlab.com/andryou/block/raw/master/kouhai
+
+### [antipopads](https://github.com/AdroitAdorKhan/antipopads-re)
+  - https://raw.githubusercontent.com/AdroitAdorKhan/antipopads-re/master/formats/hosts.txt
+
+### [anudeep](https://github.com/anudeepND/blacklist)
+  - https://raw.githubusercontent.com/anudeepND/blacklist/master/adservers.txt
+
+### [hBlock](https://hblock.molinero.dev/)
+  - https://hblock.molinero.dev/hosts
+
 ## Custom rulesets
 
 ### [bebasid](https://github.com/bebasid/bebasid)
