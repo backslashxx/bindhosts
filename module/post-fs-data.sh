@@ -16,9 +16,9 @@ mode=0
 skip_mount=0
 
 # ksu+susfs operating_mode
-# susfs exists so we can hide the bind mount
-# if its kernelsu with susfs binary available
-# and kmsg has 'susfs_init'
+# susfs exists so we can hide the bind mount if binary is available 
+# and kmsg has 'susfs_init'. though this has an issue if KSU_SUSFS_ENABLE_LOG=n
+# we just hope in here that they were built with =y
 if [ ${KSU} = true ] && [ -f ${SUSFS_BIN} ] ; then
 	dmesg | grep -q "susfs_init" && {
 		mode=1
@@ -45,8 +45,10 @@ if [ $APATCH = true ]; then
 fi
 
 # ZN-hostsredirect operating_mode
-# this method works for all but requires zn-hostsredirect and zygisk-next installed
-# we can only assume that its on a working state
+# method works for all, requires zn-hostsredirect + zygisk-next
+# while `znctl dump-zn` gives us an idea if znhr is running, 
+# znhr starts at late service when we have to decide what to do NOW.
+# we can only assume that it is on a working state
 # here we unconditionally flag an operating_mode for it
 if [ -d /data/adb/modules/hostsredirect ] && [ ! -f /data/adb/modules/hostsredirect/disable ] && 
 	[ -d /data/adb/modules/zygisksu ] && [ ! -f /data/adb/modules/zygisksu/disable ]; then

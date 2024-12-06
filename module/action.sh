@@ -82,8 +82,10 @@ esac
 
 if [ -w $target_hostsfile ] ; then
 	# probe for downloaders
-     	# low pref, no ssl, b-b-b-b-but that libera/freenode(rip) meme
-     	# https doesn't hide the fact that i'm using https so that's why i don't use encryption because everyone is trying to crack encryption so i just don't use encryption because no one is looking at unencrypted data because everyone wants encrypted data to crack
+     	# low pref, no ssl, here we chant the https meme.
+     	# https doesn't hide the fact that i'm using https so that's why i don't use encryption 
+     	# because everyone is trying to crack encryption so i just don't use encryption because 
+     	# no one is looking at unencrypted data because everyone wants encrypted data to crack
         busybox | grep -q wget && alias download='busybox wget -T 10 --no-check-certificate -qO -'
         # higher pref, most of the times has ssl on android
         which curl > /dev/null 2>&1 && alias download='curl --connect-timeout 10 -s'
