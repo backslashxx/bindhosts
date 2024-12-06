@@ -7,6 +7,9 @@ const filePaths = {
     whitelist: `${basePath}/whitelist.txt`,
 };
 
+const inputs = document.querySelectorAll('input');
+const focusClass = 'input-focused';
+
 let clickCount = 0;
 let timeout;
 let clickTimeout;
@@ -358,13 +361,34 @@ function showPrompt(message, isSuccess = true) {
     }, 100);
 }
 
+// Function to handle input focus
+function handleFocus(event) {
+    setTimeout(() => {
+        document.body.classList.add(focusClass);
+        event.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
+}
+
+// Function to handle input blur
+function handleBlur() {
+  setTimeout(() => {
+    document.body.classList.remove(focusClass);
+  }, 100);
+}
+
+// Add event listeners to each input
+inputs.forEach(input => {
+  input.addEventListener('focus', handleFocus);
+  input.addEventListener('blur', handleBlur);
+});
+
 // Scroll event
 let lastScrollY = window.scrollY;
 const scrollThreshold = 25;
 const header = document.querySelector('.header');
 window.addEventListener('scroll', () => {
     if (window.scrollY > lastScrollY && window.scrollY > scrollThreshold) {
-        header.style.transform = 'translateY(-50px)';
+        header.style.transform = 'translateY(-80px)';
         actionButton.style.transform = 'translateY(90px)';
     } else if (window.scrollY < lastScrollY) {
         header.style.transform = 'translateY(0)';
@@ -410,10 +434,24 @@ document.getElementById("reset-mode").addEventListener("click", () => {
 
 // Initial load
 window.onload = () => {
+    adjustHeaderForMMRL();
     ["custom", "sources", "blacklist", "whitelist"].forEach(loadFile);
     attachAddButtonListeners();
     attachHelpButtonListeners();
 };
+
+// Function to check if running in MMRL
+function adjustHeaderForMMRL() {
+    const headerElement = document.querySelector('.header');
+
+    if (typeof ksu !== 'undefined' && ksu.mmrl) {
+        console.log("Running in MMRL");
+        headerElement.style.top = 'var(--window-inset-top)';
+    } else {
+        console.log("Running not in MMRL");
+        headerElement.style.top = '0';
+    }
+}
 
 // Execute shell commands
 async function execCommand(command) {
