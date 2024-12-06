@@ -4,6 +4,16 @@ Systemless hosts for Apatch, KernelSU and Magisk
 ---
 
 # Changelog
+### 1.7.7
+- webui: MMRL support
+- documentation/sources: add more lists
+- documentation: APatch bind_mount + zygisk-assistant
+- webui: enhance developer option behavior
+- scripts/action: optimize hosts accounting
+- webui: optimize prompt timing
+- webui: prevent doubled up entries
+- webui: fix tablet view
+
 ### 1.7.6
 - fix empty whitelist bug
 
