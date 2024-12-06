@@ -13,8 +13,3 @@
 #
 https://adaway.org/hosts.txt
 https://raw.githubusercontent.com/r-a-y/mobile-hosts/master/AdguardDNS.txt
-# https://someonewhocares.org/hosts/zero/hosts
-# https://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=0&mimetype=plaintext
-# https://raw.githubusercontent.com/StevenBlack/hosts/refs/heads/master/hosts
-# warning! huge list
-# https://raw.githubusercontent.com/jerryn70/GoodbyeAds/master/Hosts/GoodbyeAds.txt
