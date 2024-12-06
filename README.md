@@ -20,7 +20,6 @@ Fully standalone, self-updating.
 
 ## Operating Modes
 - Read [bindhosts operation modes](https://github.com/backslashxx/bindhosts/blob/master/Documentation/modes.md).
-- Developer Mode [how-to](https://github.com/backslashxx/bindhosts/issues/10)
 
 ## Links
  - Download [here](https://github.com/backslashxx/bindhosts/releases)
