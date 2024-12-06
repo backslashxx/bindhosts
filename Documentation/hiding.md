@@ -25,7 +25,7 @@
 ## Magisk
  Hiding in Magisk (and clones) should just work as is.
  - Add the apps you want to hide root from to the denylist.
- - optionally you can also use [Shamiko](https://github.com/LSPosed/LSPosed.github.io/releases/)
+ - optionally you can also use [Shamiko](https://github.com/LSPosed/LSPosed.github.io/releases/) or [Zygisk Assistant](https://github.com/snake-4/Zygisk-Assistant)
 
 # FAQ
  - Why is this needed?

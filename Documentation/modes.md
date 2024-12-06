@@ -12,7 +12,7 @@
    - Hiding: for magic mount [zygisk-assistant](https://github.com/snake-4/Zygisk-Assistant)
  - **Magisk** - magic mount  
    - Adaway compatible  
-   - Hiding: [Shamiko](https://github.com/LSPosed/LSPosed.github.io/releases) / Denylist  
+   - Hiding: Denylist / [Shamiko](https://github.com/LSPosed/LSPosed.github.io/releases) / [Zygisk Assistant](https://github.com/snake-4/Zygisk-Assistant)  
  - **KernelSU** OverlayFS + path_umount
    - No Adaway compatibility  
    - Hiding: umount modules (for non-GKI, please backport path_umount)
