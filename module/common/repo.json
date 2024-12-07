@@ -1,9 +1,15 @@
 {
     "readme": "https://raw.githubusercontent.com/backslashxx/bindhosts/refs/heads/master/README.md",
+    "screenshots": [
+    "https://raw.githubusercontent.com/backslashxx/bindhosts/refs/heads/master/Documentation/screenshots/mmrl_manager.png",
+    "https://raw.githubusercontent.com/backslashxx/bindhosts/refs/heads/master/Documentation/screenshots/mmrl_webui.png",
+    "https://raw.githubusercontent.com/backslashxx/bindhosts/refs/heads/master/Documentation/screenshots/manager_action.png"
+  ],
     "categories": [
         "Adblocking and Hosts Files",
+        "APatch",
         "KernelSU",
-        "APatch"
+        "Magisk"
     ],
     "support": "https://github.com/backslashxx/bindhosts/issues",
     "license": "WTFPL"
