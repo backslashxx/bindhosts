@@ -50,7 +50,7 @@ async function loadFile(fileType) {
 // Function to load the version from module.prop and load the version in the WebUI
 async function getCurrentMode() {
     try {
-        const command = "cat /data/adb/modules/bindhosts/mode.sh | grep '^operating_mode=' | cut -d'=' -f2";
+        const command = "grep '^operating_mode=' /data/adb/modules/bindhosts/mode.sh | cut -d'=' -f2";
         const mode = await execCommand(command);
         updateMode(mode.trim());
     } catch (error) {
@@ -68,7 +68,7 @@ function updateMode(modeText) {
 // Function to load the version from module.prop and load the version in the WebUI
 async function loadVersionFromModuleProp() {
     try {
-        const command = "cat /data/adb/modules/bindhosts/module.prop | grep '^version=' | cut -d'=' -f2";
+        const command = "grep '^version=' /data/adb/modules/bindhosts/module.prop | cut -d'=' -f2";
         const version = await execCommand(command);
         updateVersion(version.trim());
     } catch (error) {
@@ -86,7 +86,7 @@ function updateVersion(versionText) {
 // Function to get the status from module.prop and update the status in the WebUI
 async function updateStatusFromModuleProp() {
     try {
-        const command = "cat /data/adb/modules/bindhosts/module.prop | grep '^description=' | cut -d'=' -f2";
+        const command = "grep '^description=' /data/adb/modules/bindhosts/module.prop | cut -d'=' -f2";
         const description = await execCommand(command);
         updateStatus(description.trim());
     } catch (error) {
