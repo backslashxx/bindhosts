@@ -1,0 +1,10 @@
+{
+    "readme": "https://raw.githubusercontent.com/backslashxx/bindhosts/refs/heads/master/README.md",
+    "categories": [
+        "Adblocking and Hosts Files",
+        "KernelSU",
+        "APatch"
+    ],
+    "support": "https://github.com/backslashxx/bindhosts/issues",
+    "license": "WTFPL"
+}
