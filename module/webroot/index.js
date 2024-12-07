@@ -7,6 +7,8 @@ const filePaths = {
     whitelist: `${basePath}/whitelist.txt`,
 };
 
+const headerBlock = document.querySelector('.header-block');
+const header = document.querySelector('.header');
 const inputs = document.querySelectorAll('input');
 const focusClass = 'input-focused';
 
@@ -385,12 +387,13 @@ inputs.forEach(input => {
 // Scroll event
 let lastScrollY = window.scrollY;
 const scrollThreshold = 25;
-const header = document.querySelector('.header');
 window.addEventListener('scroll', () => {
     if (window.scrollY > lastScrollY && window.scrollY > scrollThreshold) {
+        headerBlock.style.transform = 'translateY(-80px)';
         header.style.transform = 'translateY(-80px)';
         actionButton.style.transform = 'translateY(90px)';
     } else if (window.scrollY < lastScrollY) {
+        headerBlock.style.transform = 'translateY(0)';
         header.style.transform = 'translateY(0)';
         actionButton.style.transform = 'translateY(0)';
     }
@@ -442,14 +445,10 @@ window.onload = () => {
 
 // Function to check if running in MMRL
 function adjustHeaderForMMRL() {
-    const headerElement = document.querySelector('.header');
-
     if (typeof ksu !== 'undefined' && ksu.mmrl) {
         console.log("Running in MMRL");
-        headerElement.style.top = 'var(--window-inset-top)';
-    } else {
-        console.log("Running not in MMRL");
-        headerElement.style.top = '0';
+        header.style.top = 'var(--window-inset-top)';
+        headerBlock.style.display = 'block';
     }
 }
 
