@@ -5,8 +5,8 @@ Systemless hosts for Apatch, KernelSU and Magisk
 Fully standalone, self-updating.
 
 ## Features
-- Action button control
 - WebUI control
+- Action button control
 - Adaway coexistence 
 - Supports injection and redirect modes (ZN-hostsredirect, hosts_file_redirect, open_redirect)
 
