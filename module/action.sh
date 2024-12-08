@@ -113,6 +113,15 @@ enable_cron() {
 	fi
 }
 
+toggle_updatejson() {
+	grep -q "^updateJson" $MODDIR/module.prop && { 
+		sed -i 's/updateJson/xpdateJson/g' $MODDIR/module.prop 
+		echo "[x] module updates disabled!" 
+		} || { sed -i 's/xpdateJson/updateJson/g' $MODDIR/module.prop 
+		echo "[+] module updates enabled!" 
+		}
+}
+
 adblock() {
 	# sources	
 	echo "[+] processing sources"
@@ -201,6 +210,7 @@ case "$1" in
 	--force-update) run; exit ;;
 	--force-reset) reset; exit ;;
 	--enable-cron) enable_cron; exit ;;
+	--toggle-updatejson) toggle_updatejson; exit ;;
 esac
 
 # toggle
