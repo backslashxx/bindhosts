@@ -1,6 +1,6 @@
 {
-  "version": "v1.7.7",
-  "versionCode": 177,
+  "version": "v1.7.8",
+  "versionCode": 178,
   "zipUrl": "https://github.com/backslashxx/bindhosts/releases/latest/download/bindhosts.zip",
   "changelog": "https://raw.githubusercontent.com/backslashxx/bindhosts/master/CHANGELOG.md"
-}
+} 

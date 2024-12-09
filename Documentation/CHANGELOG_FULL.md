@@ -4,6 +4,19 @@ Systemless hosts for Apatch, KernelSU and Magisk
 ---
 
 # Changelog
+### 1.7.8
+- webui: add update toggle enable/disable
+- scripts/post-fs-data: update apatch mode2 condition
+- scripts/action: crc32 instead of md5sum
+- scripts/action: single-instance lock
+- scripts/service: restore mode1 kstat spoof
+- documentation: current events, magic mount for apatch, ksu?
+- webui/js: optimized grepping
+- webui: enhance UI on MMRL
+- relations: mmrl: upload screenshots for that metadata
+- relations: mmrl metadata added
+- documentation: magisk-nowebui-effff
+
 ### 1.7.7
 - webui: MMRL support
 - documentation/sources: add more lists
