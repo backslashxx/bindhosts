@@ -123,7 +123,7 @@ toggle_updatejson() {
 }
 
 adblock() {
-	# sources	
+	# source processing start!
 	echo "[+] processing sources"
 	grep -v "#" $PERSISTENT_DIR/sources.txt | grep http > /dev/null || {
 			echo "[x] no sources found 😭" 
@@ -213,7 +213,20 @@ case "$1" in
 	--toggle-updatejson) toggle_updatejson; exit ;;
 esac
 
-# toggle
+# single instance lock
+# as the script sometimes takes some time processing
+# we implement a simple lockfile logic around here to
+# prevent multiple instances.
+# warn and dont run if lockfile exists
+[ -f $folder/bindhosts_lockfile ] && {
+	echo "[*] already running!"
+	sleep 1
+	exit 0
+	}
+# if lockfile isnt there, we create one
+[ ! -f $folder/bindhosts_lockfile ] && touch $folder/bindhosts_lockfile
+
+# toggle start!
 if [ -f $PERSISTENT_DIR/bindhosts_state ]; then
 	# handle rule changes, add date change detect, I guess a change of 1 day to update is sane.
 	newhash=$(cd $PERSISTENT_DIR ; (cat blacklist.txt custom.txt sources.txt whitelist.txt ; date +%F) | md5sum | cut -f1 -d " ")
@@ -233,5 +246,8 @@ else
 	# normal flow
 	run
 fi
+
+# cleanup lockfile
+[ -f $folder/bindhosts_lockfile ] && rm $folder/bindhosts_lockfile > /dev/null 2>&1
 
 # EOF
