@@ -80,16 +80,8 @@ case $operating_mode in
 	*) true ;; # catch invalid modes
 esac
 
-if [ -w $target_hostsfile ] ; then
-	# probe for downloaders
-     	# low pref, no ssl, here we chant the https meme.
-     	# https doesn't hide the fact that i'm using https so that's why i don't use encryption 
-     	# because everyone is trying to crack encryption so i just don't use encryption because 
-     	# no one is looking at unencrypted data because everyone wants encrypted data to crack
-        busybox | grep -q wget && alias download='busybox wget -T 10 --no-check-certificate -qO -'
-        # higher pref, most of the times has ssl on android
-        which curl > /dev/null 2>&1 && alias download='curl --connect-timeout 10 -s'
-else
+# check hosts file if writable, if not, warn and exit
+if [ ! -w $target_hostsfile ] ; then
 	# no fucking way
 	echo "[x] unwritable hosts file 😭 needs correction 💢"
 	sleep 1
@@ -122,6 +114,21 @@ toggle_updatejson() {
 		}
 }
 
+# probe for downloaders
+# wget = low pref, no ssl.
+# curl, has ssl on android, we use it if found
+# here we chant the https meme.
+# https doesn't hide the fact that i'm using https so that's why i don't use encryption 
+# because everyone is trying to crack encryption so i just don't use encryption because 
+# no one is looking at unencrypted data because everyone wants encrypted data to crack
+download() {
+	if command -v curl > /dev/null 2>&1; then
+		curl --connect-timeout 10 -s "$1"
+        else
+		busybox wget -T 10 --no-check-certificate -qO - "$1"
+        fi
+}        
+
 adblock() {
 	# source processing start!
 	echo "[+] processing sources"
@@ -132,6 +139,7 @@ adblock() {
 			exit 0
 			}
 	illusion
+        # download routine start!
 	for url in $(grep -v "#" $PERSISTENT_DIR/sources.txt | grep http) ; do 
 		echo "[+] grabbing.."
 		echo "[>] $url"
