@@ -90,11 +90,7 @@ function updateVersion(versionText) {
 async function checkUpdateStatus() {
     try {
         const result = await execCommand("grep -q '^updateJson' /data/adb/modules/bindhosts/module.prop");
-        if (result.includes('updateJson')) {
-            toggleVersion.checked = false;
-        } else {
-            toggleVersion.checked = true;
-        }
+        toggleVersion.checked = !result;
     } catch (error) {
         console.error('Error checking update status:', error);
     }
