@@ -1,6 +1,6 @@
-#!/usr/bin/env sh
+#!/bin/sh
 SUSFS_BIN=/data/adb/ksu/bin/ksu_susfs
-source $MODPATH/utils.sh
+. $MODPATH/utils.sh
 PERSISTENT_DIR=/data/adb/bindhosts
 
 # grab own info (version)

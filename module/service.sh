@@ -1,8 +1,8 @@
-#!/usr/bin/env sh
+#!/bin/sh
 MODDIR="/data/adb/modules/bindhosts"
 PERSISTENT_DIR="/data/adb/bindhosts"
-source $MODDIR/utils.sh
-source $MODDIR/mode.sh
+. $MODDIR/utils.sh
+. $MODDIR/mode.sh
 SUSFS_BIN=/data/adb/ksu/bin/ksu_susfs
 
 

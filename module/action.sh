@@ -1,8 +1,8 @@
-#!/usr/bin/env sh
+#!/bin/sh
 PATH=$PATH:/data/adb/ap/bin:/data/adb/magisk:/data/adb/ksu/bin
 MODDIR="/data/adb/modules/bindhosts"
 PERSISTENT_DIR="/data/adb/bindhosts"
-source $MODDIR/mode.sh
+. $MODDIR/mode.sh
 
 # grab own info (version)
 versionCode=$(grep versionCode $MODDIR/module.prop | sed 's/versionCode=//g' )
@@ -98,7 +98,7 @@ fi
 
 ##### functions
 illusion () {
-	x=$((RANDOM%4 + 6)); while [ $x -gt 1 ] ; do echo '[.]' ; sleep 0.1 ; x=$((x-1)) ; done &
+	x=$(($$%4 + 4)); while [ $x -gt 1 ] ; do echo '[.]' ; sleep 0.1 ; x=$((x-1)) ; done &
 }
 
 enable_cron() {
@@ -231,7 +231,7 @@ if [ -f $PERSISTENT_DIR/bindhosts_state ]; then
 	# handle rule changes, add date change detect, I guess a change of 1 day to update is sane.
 	newhash=$(cd $PERSISTENT_DIR ; (cat blacklist.txt custom.txt sources.txt whitelist.txt ; date +%F) | md5sum | cut -f1 -d " ")
 	oldhash=$(cat $PERSISTENT_DIR/bindhosts_state)
-	if [ $newhash == $oldhash ]; then
+	if [ $newhash = $oldhash ]; then
 		# well if theres no rule change, user just wants to disable adblocking
 		reset
 	else
