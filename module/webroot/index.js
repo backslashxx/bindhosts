@@ -11,6 +11,8 @@ const headerBlock = document.querySelector('.header-block');
 const header = document.querySelector('.header');
 const inputs = document.querySelectorAll('input');
 const focusClass = 'input-focused';
+const toggleContainer = document.querySelector('.toggle-container');
+const toggleVersion = document.getElementById('toggle-version');
 
 let clickCount = 0;
 let timeout;
@@ -42,6 +44,7 @@ async function loadFile(fileType) {
         await getCurrentMode();
         await updateStatusFromModuleProp();
         await loadVersionFromModuleProp();
+        checkUpdateStatus();
     } catch (error) {
         console.error(`Failed to load ${fileType} file: ${error}`);
     }
@@ -81,6 +84,20 @@ async function loadVersionFromModuleProp() {
 function updateVersion(versionText) {
     const versionElement = document.getElementById('version-text');
     versionElement.textContent = versionText;
+}
+
+// Function to check module update status
+async function checkUpdateStatus() {
+    try {
+        const result = await execCommand("grep -q '^updateJson' /data/adb/modules/bindhosts/module.prop");
+        if (result.includes('updateJson')) {
+            toggleVersion.checked = false;
+        } else {
+            toggleVersion.checked = true;
+        }
+    } catch (error) {
+        console.error('Error checking update status:', error);
+    }
 }
 
 // Function to get the status from module.prop and update the status in the WebUI
@@ -233,26 +250,27 @@ document.getElementById("mode-btn").addEventListener("click", async () => {
 });
 
 // Event listener to enable developer option
-document.getElementById("status-box").addEventListener("click", async () => {
-    clickCount++;
-    clearTimeout(clickTimeout);
-
-    clickTimeout = setTimeout(() => {
-        clickCount = 0;
-    }, 2000);
-    if (clickCount === 5) {
-        clickCount = 0;
-        await checkDevOption();
-        if (!developerOption) {
-            try {
-                developerOption = true;
-                showPrompt("Developer option enabled", true);
-            } catch (error) {
-                console.error("Error enabling developer option:", error);
-                showPrompt("Error enabling developer option", false);
+document.getElementById("status-box").addEventListener("click", async (event) => {
+    if (!event.target.closest('.toggle-container')) {
+        clickCount++;
+        clearTimeout(clickTimeout);
+        clickTimeout = setTimeout(() => {
+            clickCount = 0;
+        }, 2000);
+        if (clickCount === 5) {
+            clickCount = 0;
+            await checkDevOption();
+            if (!developerOption) {
+                try {
+                    developerOption = true;
+                    showPrompt("Developer option enabled", true);
+                } catch (error) {
+                    console.error("Error enabling developer option:", error);
+                    showPrompt("Error enabling developer option", false);
+                }
+            } else {
+                showPrompt("Developer option already enabled", true);
             }
-        } else {
-            showPrompt("Developer option already enabled", true);
         }
     }
 });
@@ -295,6 +313,7 @@ async function updateModeSelection() {
 
 // function to open and close mode option
 function openOverlay(overlay) {
+    updateModeSelection();
     overlay.classList.add("active");
     document.body.style.overflow = "hidden";
 }
@@ -433,6 +452,25 @@ document.getElementById("mode-options").addEventListener("change", (event) => {
 // Attach event listener for reset button
 document.getElementById("reset-mode").addEventListener("click", () => {
     saveModeSelection("reset");
+});
+
+// Event listener for the toggle switch
+toggleContainer.addEventListener('click', async function() {
+    try {
+        toggleVersion.checked = !toggleVersion.checked;
+        const result = await execCommand("su -c 'sh /data/adb/modules/bindhosts/action.sh --toggle-updatejson'");
+        const lines = result.split("\n");
+        lines.forEach(line => {
+            if (line.includes("[+]")) {
+                showPrompt(line, true);
+            } else if (line.includes("[x]")) {
+                showPrompt(line, false);
+            }
+        });        
+        checkUpdateStatus();
+    } catch (error) {
+        console.error("Failed to execute action.sh", error);
+    }
 });
 
 // Initial load

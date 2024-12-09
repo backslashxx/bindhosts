@@ -24,7 +24,17 @@
 			</button>
 		</div>
 		<div class="box" id="status-box">
-			<h2>Status</h2>
+			<div class="status">
+				<h2 id="status-header">Status</h2>
+				<div class="toggle-container">
+					<i id="update-icon" class="fa fa-download"></i>
+					<span id="update-text">Update</span>
+					<label class="toggle-switch">
+						<input type="checkbox" id="toggle-version" disabled>
+						<span class="slider round"></span>
+					</label>
+				</div>
+			</div>
 			<p id="status-text">Initializing...</p>
 		</div>
 		<div class="box">
