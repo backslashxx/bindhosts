@@ -2,18 +2,25 @@
 - These are currently defined operating modes that are either probed at auto or available as opt-in
 - You can change operating mode by accessing to [developer option](https://github.com/backslashxx/bindhosts/issues/10#issue-2703531116).
 
+#### Glossary of terms
+ - magic mount - mounting method primarily used by magisk
+ - susfs - shorthand for [susfs4ksu](https://gitlab.com/simonpunk/susfs4ksu), advanced root-hiding framework provided as a kernel patchset
+
 ---
 
 ## mode=0
 ### default mode
- - **APatch** - OverlayFS / magic mount
-   - magic mount is Adaway compatible ?
+ - **APatch** 
+   - OverlayFS / magic mount
+   - magic mount is Adaway compatible, OverlayFS is NOT
    - Hiding: for OverlayFS mode, none.
    - Hiding: for magic mount [zygisk-assistant](https://github.com/snake-4/Zygisk-Assistant)
- - **Magisk** - magic mount  
+ - **Magisk** 
+   - magic mount  
    - Adaway compatible  
    - Hiding: Denylist / [Shamiko](https://github.com/LSPosed/LSPosed.github.io/releases) / [Zygisk Assistant](https://github.com/snake-4/Zygisk-Assistant)  
- - **KernelSU** OverlayFS + path_umount
+ - **KernelSU** 
+   - OverlayFS + path_umount, (magic mount? soon?)
    - No Adaway compatibility  
    - Hiding: umount modules (for non-GKI, please backport path_umount)
 
@@ -56,6 +63,7 @@
 ## mode=4
 ### zn_hostsredirect
 - zygisk netd injection
+- usage is **encouraged** by the author (aviraxp) - ```"Injection is much better than mount in this usecase"```
 - should work on all managers  
 - Requires:  
   - [ZN-hostsredirect](https://github.com/aviraxp/ZN-hostsredirect)  
@@ -71,7 +79,7 @@
 - KernelSU only 
 - **OPT-IN** only 
 - Requires susfs-patched kernel and userspace tool  
-- use is discouraged by author as it will likely waste more cpu cycles
+- usage is **discouraged** by author (simonpunk) - ```"openredirect will take more CPU cycle as well.."```
 - Requires SuSFS 1.5.1 or later  
 - Adaway compatible
 - Hiding: good method but will likely waste more cpu cycles
@@ -110,3 +118,4 @@
 - Hiding: good method but ksu_susfs_bind is easier
 
 ---
+
