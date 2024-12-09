@@ -29,9 +29,16 @@ fi
 # plain bindhosts operating mode, no hides at all
 # we enable this on apatch if its NOT on magisk mount
 # as this allows better compatibility
-if [ $APATCH = true ] && [ ! -f /data/adb/.bind_mount_enable ]; then
-	mode=2
-	skip_mount=1
+# on current apatch ci, magic mount is now opt-out
+# if apatch and doesnt have override; then check for envvar
+# if no envar or false, mode 2.
+# this logic we catch old versions that doesnt have the envvar
+# so every apatch on overlayfs will fall onto this.
+if [ $APATCH = true ] && [ ! -f /data/adb/.bind_mount_enable ]; then 
+	if [ -z $APATCH_BIND_MOUNT ] || [ $APATCH_BIND_MOUNT = false ]; then
+		mode=2
+		skip_mount=1
+	fi
 fi
 
 # hosts_file_redirect operating_mode
