@@ -27,9 +27,7 @@ echo "[%] standalone hosts-based-adblocking implementation"
 
 # just in case user deletes them
 # persistence
-if [ ! -d /data/adb/bindhosts ] ; then
-	mkdir -p $PERSISTENT_DIR
-fi
+[ ! -d /data/adb/bindhosts ] && mkdir -p $PERSISTENT_DIR
 files="custom.txt blacklist.txt sources.txt whitelist.txt"
 for i in $files ; do
 	if [ ! -f $PERSISTENT_DIR/$i ]; then
