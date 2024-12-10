@@ -46,37 +46,19 @@ adaway_warn() {
 target_hostsfile="$MODDIR/system/etc/hosts"
 helper_mode=""
 
+# we can just remove the other unmodified modes
+# and have them fall to * but im gonna leave it 
+# here for clarity
 case $operating_mode in
-	0)
-		# this is how it was on 163s
-		if command -v ksud >/dev/null 2>&1 || command -v apd >/dev/null 2>&1 ; then
-			adaway_warn
-		fi
-	;;
-	1) 
-	target_hostsfile="/system/etc/hosts"
-	;;
+	0) if command -v ksud >/dev/null 2>&1 || command -v apd >/dev/null 2>&1 ; then adaway_warn ; fi ;;
+	1) true ;;
 	2) true ;;
-	3) 
-	target_hostsfile="/data/adb/hosts"
-	helper_mode="| hosts_file_redirect 💉"
-	adaway_warn
-	;;
-	4) 
-	target_hostsfile="/data/adb/hostsredirect/hosts"
-	helper_mode="| ZN-hostsredirect 💉"
-	adaway_warn
-	;;
+	3) target_hostsfile="/data/adb/hosts" ; helper_mode="| hosts_file_redirect 💉" ; adaway_warn ;;
+	4) target_hostsfile="/data/adb/hostsredirect/hosts" ; helper_mode="| ZN-hostsredirect 💉" ; adaway_warn ;;
 	5) true ;;
-	6)
-	target_hostsfile="/system/etc/hosts"
-	;;
-	7)
-	target_hostsfile="/system/etc/hosts"
-	;;
-	8)
-	target_hostsfile="/system/etc/hosts"
-	;;
+	6) true ;;
+	7) target_hostsfile="/system/etc/hosts" ;;
+	8) target_hostsfile="/system/etc/hosts" ;;
 	*) true ;; # catch invalid modes
 esac
 
