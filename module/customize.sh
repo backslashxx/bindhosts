@@ -22,7 +22,13 @@ for i in $modulenames; do
 		echo "[-] disabling $i"
 		touch /data/adb/modules/$i/disable
 	fi
-done	
+done
+
+# copy our old hosts file
+if [ -f /data/adb/modules/bindhosts/system/etc/hosts ] ; then
+	echo "[+] migrating hosts file "
+	cat /data/adb/modules/bindhosts/system/etc/hosts > $MODPATH/system/etc/hosts
+fi
 
 # normal flow for persistence
 # move over our files, remove after
