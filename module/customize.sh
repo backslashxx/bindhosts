@@ -14,29 +14,15 @@ echo "[%] customize.sh "
 [ ! -d $PERSISTENT_DIR ] && mkdir -p $PERSISTENT_DIR
 
 # check for other systemless hosts modules and disable them
-
-if [ -d /data/adb/modules/hosts ] ; then
-	echo "[?] are you even sure you need this on magisk?!"
-	touch /data/adb/modules/hosts/disable
-fi
-
-if [ -d /data/adb/modules/systemless-hosts-KernelSU-module ] ; then
-	echo "[-] disabling systemless-hosts-KernelSU-module"
-	touch /data/adb/modules/systemless-hosts-KernelSU-module/disable
-fi
-
-# copy old hosts file
-# they differ so not worth doing a loop
-
-if [ -f /data/adb/modules/hosts/system/etc/hosts ] ; then
-	echo "[+] migrating hosts file "
-	cat /data/adb/modules/hosts/system/etc/hosts > $MODPATH/system/etc/hosts
-fi
-
-if [ -f /data/adb/modules/systemless-hosts-KernelSU-module/system/etc/hosts ] ; then
-	echo "[+] migrating hosts file "
-	cat /data/adb/modules/systemless-hosts-KernelSU-module/system/etc/hosts > $MODPATH/system/etc/hosts
-fi
+# sorry I had to do this.
+modulenames="hosts systemless-hosts-KernelSU-module systemless-hosts Malwack Re-Malwack cubic-adblock"
+for i in $modulenames; do
+	if [ -d /data/adb/modules/$i ] ; then
+		echo "[!] confliciting module found!"
+		echo "[-] disabling $i"
+		touch /data/adb/modules/$i/disable
+	fi
+done	
 
 # normal flow for persistence
 # move over our files, remove after
