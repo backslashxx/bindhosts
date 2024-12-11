@@ -45,22 +45,24 @@ bindhosts() {
 
 apatch_hfr() {
 	target_hostsfile="/data/adb/hosts"
-	helper_mode="| hosts_file_redirect 💉"
 	[ ! -f $target_hostsfile ] && {
 		cat /system/etc/hosts > $target_hostsfile
+		printf "127.0.0.1 localhost\n::1 localhost\n" >> $target_hostsfile
 		susfs_clone_perm $target_hostsfile /system/etc/hosts
 		}
+	helper_mode="| hosts_file_redirect 💉"
 	echo "bindhosts: service.sh - mode apatch_hfr" >> /dev/kmsg
 }
 
 zn_hostsredirect() {
 	target_hostsfile="/data/adb/hostsredirect/hosts"
-	helper_mode="| ZN-hostsredirect 💉"
 	[ ! -f $target_hostsfile ] && {
 		mkdir -p /data/adb/hostsredirect
 		cat /system/etc/hosts > $target_hostsfile
+		printf "127.0.0.1 localhost\n::1 localhost\n" >> $target_hostsfile
 		susfs_clone_perm $target_hostsfile /system/etc/hosts
 		}
+	helper_mode="| ZN-hostsredirect 💉"
 	echo "bindhosts: service.sh - mode zn_hostsredirect" >> /dev/kmsg
 }
 
