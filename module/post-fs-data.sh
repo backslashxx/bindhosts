@@ -4,8 +4,12 @@ MODDIR="/data/adb/modules/bindhosts"
 . $MODDIR/utils.sh
 SUSFS_BIN=/data/adb/ksu/bin/ksu_susfs
 
-# always prepare hosts file
-[ ! -f $MODDIR/system/etc/hosts ] && cat /system/etc/hosts > $MODDIR/system/etc/hosts
+# always try to prepare hosts file
+if [ ! -f $MODDIR/system/etc/hosts ]; then
+	mkdir -p $MODDIR/system/etc
+	cat /system/etc/hosts > $MODDIR/system/etc/hosts
+	printf "127.0.0.1 localhost\n::1 localhost\n" >> $MODPATH/system/etc/hosts
+fi
 susfs_clone_perm "$MODDIR/system/etc/hosts" /system/etc/hosts
 
 # detect operating operating_modes
