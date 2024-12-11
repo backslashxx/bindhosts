@@ -39,16 +39,16 @@ esac
 # detect magisk environment here
 if [ ! -z "$MAGISKTMP" ] && [ $magisk_webui_redirect = 1 ] ; then
 	# courtesy of kow
-	if pm list packages | grep -q "com.dergoogler.mmrl"; then
+	pm path com.dergoogler.mmrl > /dev/null 2>&1 && {
 		echo "- Launching WebUI in MMRL WebUI..."
 		am start -n "com.dergoogler.mmrl/.ui.activity.webui.WebUIActivity" -e MOD_ID "bindhosts"
 		exit 0
-	fi
-	if pm list packages | grep -q "io.github.a13e300.ksuwebui"; then
+	}
+	pm path io.github.a13e300.ksuwebui > /dev/null 2>&1 && {
 		echo "- Launching WebUI in KSUWebUIStandalone..."
 		am start -n "io.github.a13e300.ksuwebui/.WebUIActivity" -e id "bindhosts"
 		exit 0
-	fi
+	}
 	sh $MODDIR/bindhosts.sh
 	exit 0
 else
