@@ -7,7 +7,8 @@ PERSISTENT_DIR="/data/adb/bindhosts"
 magisk_webui_redirect=1
 
 # action.sh
-# this is now a shim for bindhosts.sh
+# a wrapper for bindhosts.sh
+
 force_update() {
 	sh $MODDIR/bindhosts.sh --force-update
 }
@@ -17,7 +18,7 @@ force_reset() {
 }
 
 enable_cron() {
-	sh $MODDIR/bindhosts.sh --enable_cron
+	sh $MODDIR/bindhosts.sh --enable-cron
 }
 
 toggle_updatejson() {

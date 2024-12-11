@@ -4,6 +4,9 @@ MODDIR="/data/adb/modules/bindhosts"
 PERSISTENT_DIR="/data/adb/bindhosts"
 . $MODDIR/mode.sh
 
+# bindhosts.sh
+# bindhosts' processing backend
+
 # grab own info (version)
 versionCode=$(grep versionCode $MODDIR/module.prop | sed 's/versionCode=//g' )
 
