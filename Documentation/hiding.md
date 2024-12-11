@@ -19,7 +19,7 @@
 
  Recommendations:
   - if kernel is non-gki and kernel lacks path_umount, ask kernel dev to [backport this feature](https://github.com/tiann/KernelSU/pull/1464)
-  - uninstall conflicting modules? 
+  - if you want to keep using Magical OverlayFS, [use this fork](https://github.com/backslashxx/magic_overlayfs), this fork respects skip_mount
   - alternatively, just install [ZN-hostsredirect](https://github.com/aviraxp/ZN-hostsredirect/releases)
 
 ## Magisk
