@@ -15,7 +15,7 @@ folder=$MODDIR
 
 
 echo "[+] bindhosts v$versionCode"
-echo "[%] action.sh"
+echo "[%] bindhosts.sh"
 echo "[%] standalone hosts-based-adblocking implementation"
 
 [ -f $MODDIR/disable ] && {
@@ -82,7 +82,7 @@ enable_cron() {
 		echo "[+] running crond"
 		busybox crond -bc $PERSISTENT_DIR/crontabs -L /dev/null
 		echo "[+] adding crontab entry"
-		echo "0 4 * * * sh /data/adb/modules/bindhosts/action.sh --force-update > /dev/null 2>&1 &" | busybox crontab -c $PERSISTENT_DIR/crontabs -
+		echo "0 4 * * * sh /data/adb/modules/bindhosts/bindhosts.sh --force-update > /dev/null 2>&1 &" | busybox crontab -c $PERSISTENT_DIR/crontabs -
 	else
 		echo "[x] seems that it is already active, if you have issues fix it yourself"	
 	fi
