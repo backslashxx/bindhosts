@@ -9,6 +9,7 @@ versionCode=$(grep versionCode $MODDIR/module.prop | sed 's/versionCode=//g' )
 
 # test out writables, prefer tmpfs
 folder=$MODDIR
+[ -w /dev ] && folder=/dev
 [ -w /sbin ] && folder=/sbin
 [ -w /debug_ramdisk ] && folder=/debug_ramdisk
 
