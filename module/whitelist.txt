@@ -5,6 +5,3 @@
 # line1.host.to.block
 # line2.host.to.block
 # line3.host.to.block
-#
-# adding this here so you wont be blocking updates accidentally
-raw.githubusercontent.com
