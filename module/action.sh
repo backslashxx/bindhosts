@@ -64,6 +64,8 @@ esac
 if [ ! -w $target_hostsfile ] ; then
 	# no fucking way
 	echo "[x] unwritable hosts file 😭 needs correction 💢"
+	string="description=status: unwritable hosts file 😭 needs correction 💢"
+        sed -i "s/^description=.*/$string/g" $MODDIR/module.prop
 	sleep 1
 	exit 0
 fi
