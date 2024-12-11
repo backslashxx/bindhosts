@@ -5,10 +5,10 @@ Systemless hosts for Apatch, KernelSU and Magisk
 Fully standalone, self-updating.
 
 ## Features
-- WebUI control
-- Action button control
+- WebUI and action button control
 - Adaway coexistence 
-- Supports injection and redirect modes (ZN-hostsredirect, hosts_file_redirect, open_redirect)
+- Systemless hosts via manager mount, bind mount, and OverlayFS
+- Redirect methods: ZN-hostsredirect, hosts_file_redirect, open_redirect
 
 ## Supported Root Managers
 - [APatch](https://github.com/bmax121/APatch) 
