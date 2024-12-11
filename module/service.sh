@@ -122,8 +122,9 @@ done
 # set description conditionally
 if [ -w $target_hostsfile ] ; then
 	echo "bindhosts: service.sh - active" >> /dev/kmsg
-	# default string
-	string="description=status: active ✅"
+	# writable hosts file aye? 
+	# tell the user we are ready
+	string="description=status: ready 🚀"
 	# readout if action.sh did something
 	grep -q "# bindhosts v" $target_hostsfile && string="description=status: active ✅ | blocked: $(grep -c "0.0.0.0" $target_hostsfile ) 🚫 | custom: $( grep -vEc "0.0.0.0| localhost|#" $target_hostsfile ) 🤖 $helper_mode"
 	# read out if Adaway did something 
