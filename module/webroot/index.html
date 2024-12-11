@@ -23,18 +23,26 @@
 				<i class="fa fa-play"></i>
 			</button>
 		</div>
-		<div class="box" id="status-box">
-			<div class="status">
-				<h2 id="status-header">Status</h2>
-				<div class="toggle-container">
-					<i id="update-icon" class="fa fa-download"></i>
-					<span id="update-text">Update</span>
-					<label class="toggle-switch">
-						<input type="checkbox" id="toggle-version" disabled>
-						<span class="slider round"></span>
-					</label>
-				</div>
+		<div class="box" id="control-panel">
+			<div class="toggle-container">
+				<i id="update-icon" class="fa fa-download"></i>
+				<span id="update-text">Update</span>
+				<label class="toggle-switch">
+					<input type="checkbox" id="toggle-version" disabled>
+					<span class="slider round"></span>
+				</label>
 			</div>
+			<div class="action-redirect-container">
+			    <i id="action-icon" class="fa fa-play"></i>
+				<span id="action-redirect-text">Action Redirect</span>
+				<label class="toggle-switch">
+					<input type="checkbox" id="action-redirect" disabled>
+					<span class="slider round"></span>
+				</label>
+			</div>
+		</div>
+		<div class="box" id="status-box">
+			<h2 id="status-header">Status</h2>
 			<p id="status-text">Initializing...</p>
 		</div>
 		<div class="box">

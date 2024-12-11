@@ -13,6 +13,8 @@ const inputs = document.querySelectorAll('input');
 const focusClass = 'input-focused';
 const toggleContainer = document.querySelector('.toggle-container');
 const toggleVersion = document.getElementById('toggle-version');
+const actionRedirectContainer = document.querySelector('.action-redirect-container');
+const actionRedirectStatus = document.getElementById('action-redirect');
 
 let clickCount = 0;
 let timeout;
@@ -22,6 +24,7 @@ let disableTimeout;
 
 // Function to read a file and display its content in the UI
 async function loadFile(fileType) {
+    checkMagisk();
     try {
         const content = await execCommand(`cat ${filePaths[fileType]}`);
         const lines = content
@@ -45,8 +48,24 @@ async function loadFile(fileType) {
         await updateStatusFromModuleProp();
         await loadVersionFromModuleProp();
         checkUpdateStatus();
+        checkRedirectStatus();
     } catch (error) {
         console.error(`Failed to load ${fileType} file: ${error}`);
+    }
+}
+
+// Function to check if running in Magisk
+async function checkMagisk() {
+    try {
+        const magiskEnv = await execCommand(`command -v magisk >/dev/null 2>&1 && echo "OK"`);
+        if (magiskEnv.trim() === "OK") {
+            console.log("Running under magisk environment, displaying element.");
+            actionRedirectContainer.style.display = "flex";
+        } else {
+            console.log("Not magisk, leaving action redirect element hidden.");
+        }
+    } catch (error) {
+        console.error("Error while checking magisk", error);
     }
 }
 
@@ -93,6 +112,16 @@ async function checkUpdateStatus() {
         toggleVersion.checked = !result;
     } catch (error) {
         console.error('Error checking update status:', error);
+    }
+}
+
+// Function to check action redirect WebUI status
+async function checkRedirectStatus() {
+    try {
+        const result = await execCommand("su -c '[ ! -f /data/adb/bindhosts/webui_setting.sh ] || grep -q '^magisk_webui_redirect=1' /data/adb/bindhosts/webui_setting.sh' ");
+        actionRedirectStatus.checked = !result;
+    } catch (error) {
+        console.error('Error checking action redirect status:', error);
     }
 }
 
@@ -198,12 +227,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-// Run action.sh
+// Run bindhosts.sh
 async function executeActionScript() {
     try {
         showPrompt("Script running...");
         setTimeout(async () => {
-            const command = "su -c 'sh /data/adb/modules/bindhosts/action.sh'";
+            const command = "su -c 'sh /data/adb/modules/bindhosts/bindhosts.sh'";
             const output = await execCommand(command);
             const lines = output.split("\n");
             lines.forEach(line => {
@@ -246,27 +275,25 @@ document.getElementById("mode-btn").addEventListener("click", async () => {
 });
 
 // Event listener to enable developer option
-document.getElementById("status-box").addEventListener("click", async (event) => {
-    if (!event.target.closest('.toggle-container')) {
-        clickCount++;
-        clearTimeout(clickTimeout);
-        clickTimeout = setTimeout(() => {
-            clickCount = 0;
-        }, 2000);
-        if (clickCount === 5) {
-            clickCount = 0;
-            await checkDevOption();
-            if (!developerOption) {
-                try {
-                    developerOption = true;
-                    showPrompt("Developer option enabled", true);
-                } catch (error) {
-                    console.error("Error enabling developer option:", error);
-                    showPrompt("Error enabling developer option", false);
-                }
-            } else {
-                showPrompt("Developer option already enabled", true);
+document.getElementById("status-box").addEventListener("click", async (event) => {  
+    clickCount++;
+    clearTimeout(clickTimeout);
+    clickTimeout = setTimeout(() => {
+        clickCount = 0;
+    }, 2000);
+    if (clickCount === 5) {
+        clickCount = 0;
+        await checkDevOption();
+        if (!developerOption) {
+            try {
+                developerOption = true;
+                showPrompt("Developer option enabled", true);
+            } catch (error) {
+                console.error("Error enabling developer option:", error);
+                showPrompt("Error enabling developer option", false);
             }
+        } else {
+            showPrompt("Developer option already enabled", true);
         }
     }
 });
@@ -388,15 +415,15 @@ function handleFocus(event) {
 
 // Function to handle input blur
 function handleBlur() {
-  setTimeout(() => {
-    document.body.classList.remove(focusClass);
-  }, 100);
+    setTimeout(() => {
+        document.body.classList.remove(focusClass);
+    }, 100);
 }
 
 // Add event listeners to each input
 inputs.forEach(input => {
-  input.addEventListener('focus', handleFocus);
-  input.addEventListener('blur', handleBlur);
+    input.addEventListener('focus', handleFocus);
+    input.addEventListener('blur', handleBlur);
 });
 
 // Scroll event
@@ -450,11 +477,11 @@ document.getElementById("reset-mode").addEventListener("click", () => {
     saveModeSelection("reset");
 });
 
-// Event listener for the toggle switch
-toggleContainer.addEventListener('click', async function() {
+// Event listener for the update toggle switch
+toggleContainer.addEventListener('click', async function () {
     try {
         toggleVersion.checked = !toggleVersion.checked;
-        const result = await execCommand("su -c 'sh /data/adb/modules/bindhosts/action.sh --toggle-updatejson'");
+        const result = await execCommand("su -c 'sh /data/adb/modules/bindhosts/bindhosts.sh --toggle-updatejson'");
         const lines = result.split("\n");
         lines.forEach(line => {
             if (line.includes("[+]")) {
@@ -462,10 +489,22 @@ toggleContainer.addEventListener('click', async function() {
             } else if (line.includes("[x]")) {
                 showPrompt(line, false);
             }
-        });        
+        });
         checkUpdateStatus();
     } catch (error) {
-        console.error("Failed to execute action.sh", error);
+        console.error("Failed to execute bindhosts.sh", error);
+    }
+});
+
+// Event listener for the action redirect switch
+actionRedirectContainer.addEventListener('click', async function () {
+    try {
+        actionRedirectStatus.checked = !actionRedirectStatus.checked;
+        await execCommand(`su -c 'echo "magisk_webui_redirect=${actionRedirectStatus.checked ? 1 : 0}" > /data/adb/bindhosts/webui_setting.sh'`);
+        showPrompt(`${actionRedirectStatus.checked ? 'Enabled' : 'Disabled'} Magisk action redirect WebUI`, actionRedirectStatus.checked);
+        checkRedirectStatus();
+    } catch (error) {
+        console.error("Failed to execute change status", error);
     }
 });
 

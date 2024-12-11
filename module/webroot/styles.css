@@ -79,7 +79,7 @@ body.input-focused {
 
 .content {
     margin-top: 25px;
-    padding: 10px;
+    padding-bottom: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -87,11 +87,13 @@ body.input-focused {
 }
 
 .box {
-    width: 85vw;
+    position: relative;
+    width: 92vw;
     max-width: 800px;
     background-color: #fff;
     border: none;
     border-radius: 15px;
+    box-sizing: border-box;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
     padding: 15px;
 }
@@ -103,25 +105,61 @@ body.input-focused {
     margin-bottom: 10px;
 }
 
-.status {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
-}
-
 #status-text {
     font-size: 14px;
 }
 
-.toggle-container {
-    display: inline-flex;
+#control-panel {
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+    padding-top: 5px;
+    border: none;
+    box-shadow: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.action-redirect-container {
+    display: none;
     align-items: center;
-    margin-left: auto;
-    background-color: #EFEFEF;
-    padding: 0 10px;
+    margin-top: 5px;
+    margin-right: auto;
+    background-color: #fff;
+    padding: 2px 10px;
     border-radius: 10px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
     height: 38px;
+    white-space: nowrap;
+    text-align: left;
+    flex-shrink: 0;
+}
+
+.toggle-container {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+    margin-right: 7px;
+    background-color: #fff;
+    padding: 2px 10px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    height: 38px;
+    white-space: nowrap;
+    text-align: left;
+    flex-shrink: 0;
+}
+
+#action-redirect-text {
+    font-size: 16px;
+    font-weight: bold;
+    padding-right: 7px;
+    padding-left: 6px;
+}
+
+#action-icon {
+    font-size: 17px;
 }
 
 #update-text {
@@ -171,15 +209,15 @@ body.input-focused {
     transition: .4s;
 }
 
-input:checked + .slider {
+input:checked+.slider {
     background-color: #007bff;
 }
 
-input:focus + .slider {
+input:focus+.slider {
     box-shadow: 0 0 1px #007bff;
 }
 
-input:checked + .slider:before {
+input:checked+.slider:before {
     transform: translateX(15px);
 }
 
@@ -270,15 +308,6 @@ li span {
 
 li:last-child {
     border-bottom: none;
-}
-
-.box {
-    position: relative;
-    background-color: #fff;
-    border: 1px solid #E0E0E0;
-    border-radius: 15px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 15px;
 }
 
 .help-btn {
@@ -475,9 +504,10 @@ label {
         color: #eee
     }
 
+    .action-redirect-container,
+    .toggle-container,
     .box {
         background-color: #343434;
-        border: none;
     }
 
     #reset-mode,
@@ -490,8 +520,12 @@ label {
         background-color: #232323;
         border: 1px solid #6E6E6E;
     }
-    
-    .toggle-container {
-        background-color: #676767;
+
+    #control-panel {
+        background-color: none;
+    }
+
+    .slider {
+        background-color: #6E6E6E;
     }
 }
