@@ -12,6 +12,8 @@ echo "[%] customize.sh "
 
 # persistence
 [ ! -d $PERSISTENT_DIR ] && mkdir -p $PERSISTENT_DIR
+# make our hosts file dir
+mkdir -p $MODPATH/system/etc
 
 # check for other systemless hosts modules and disable them
 # sorry I had to do this.
@@ -40,8 +42,15 @@ for i in $files ; do
 	rm $MODPATH/$i
 done
 
-# standard stuff
-grep -q "#" $MODPATH/system/etc/hosts || cat /system/etc/hosts > $MODPATH/system/etc/hosts
+# if hosts file empty or just comments
+# just copy real hosts file over
+grep -qv "#" $MODPATH/system/etc/hosts > /dev/null 2>&1 || {
+	echo "[+] creating hosts file"
+	cat /system/etc/hosts > $MODPATH/system/etc/hosts
+	printf "127.0.0.1 localhost\n::1 localhost\n" >> $MODPATH/system/etc/hosts
+	}
+
+# set permissions always
 susfs_clone_perm "$MODPATH/system/etc/hosts" /system/etc/hosts
 
 # EOF
