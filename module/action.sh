@@ -9,6 +9,7 @@ magisk_webui_redirect=1
 # action.sh
 # a wrapper for bindhosts.sh
 
+# abstraction layer
 force_update() {
 	sh $MODDIR/bindhosts.sh --force-update
 }
@@ -33,11 +34,19 @@ case "$1" in
 	--toggle-updatejson) toggle_updatejson; exit ;;
 esac
 
+# functions
+bindhosts_sh() {
+	sh $MODDIR/bindhosts.sh
+	[ -z "$MAGISKTMP" ] && sleep 2
+	exit 0
+}
+
 # read webui setting here
 # echo "magisk_webui_redirect=0" > /data/adb/bindhosts/webui_setting.sh
 [ -f $PERSISTENT_DIR/webui_setting.sh ] && . $PERSISTENT_DIR/webui_setting.sh
 
 # detect magisk environment here
+# use MAGISKTMP env var for now, edit this to "command -v magisk >/dev/null 2>&1" once needed
 if [ ! -z "$MAGISKTMP" ] && [ $magisk_webui_redirect = 1 ] ; then
 	# courtesy of kow
 	pm path com.dergoogler.mmrl > /dev/null 2>&1 && {
@@ -50,10 +59,8 @@ if [ ! -z "$MAGISKTMP" ] && [ $magisk_webui_redirect = 1 ] ; then
 		am start -n "io.github.a13e300.ksuwebui/.WebUIActivity" -e id "bindhosts"
 		exit 0
 	}
-	sh $MODDIR/bindhosts.sh
-	exit 0
+	bindhosts_sh
 else
-	sh $MODDIR/bindhosts.sh
-	exit 0
+	bindhosts_sh
 fi
 
