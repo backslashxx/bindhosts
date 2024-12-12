@@ -156,7 +156,7 @@ reset() {
 	printf "127.0.0.1 localhost\n::1 localhost\n" > $target_hostsfile
 	# always restore user's custom rules
 	grep -v "#" $PERSISTENT_DIR/custom.txt >> $target_hostsfile
-        string="description=status: reset 🪛 | $(date)"
+        string="description=status: reset 🤐 | $(date)"
         sed -i "s/^description=.*/$string/g" $MODDIR/module.prop
         illusion
         sleep 1
