@@ -1,5 +1,5 @@
 #!/bin/sh
-PATH=$PATH:/data/adb/ap/bin:/data/adb/magisk:/data/adb/ksu/bin
+PATH=/data/adb/ap/bin:/data/adb/ksu/bin:/data/adb/magisk:$PATH
 SUSFS_BIN=/data/adb/ksu/bin/ksu_susfs
 . $MODPATH/utils.sh
 PERSISTENT_DIR=/data/adb/bindhosts
