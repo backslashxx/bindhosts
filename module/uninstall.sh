@@ -5,3 +5,4 @@ rm -rf /data/adb/bindhosts
 # znhr
 [ -f /data/adb/hostsredirect/hosts ] && printf "127.0.0.1 localhost\n::1 localhost\n" > /data/adb/hostsredirect/hosts
 
+# EOF

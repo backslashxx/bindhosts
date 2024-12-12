@@ -86,4 +86,4 @@ echo "operating_mode=$mode" > $MODDIR/mode.sh
 # debugging
 echo "bindhosts: post-fs-data.sh - probing done" >> /dev/kmsg
 
-#EOF
+# EOF
