@@ -4,6 +4,15 @@ Systemless hosts for Apatch, KernelSU and Magisk
 ---
 
 # Changelog
+### 1.7.9
+- module: action webui redirect
+- module: emoji updates
+- scripts/action: wrapperrize
+- scripts: toybox/busybox-related fixes
+- scripts: lots and lots of small optimizations
+- scripts: a few hardening changes
+- scripts/customize: better conflict avoidance
+
 ### 1.7.8
 - webui: add update toggle enable/disable
 - scripts/post-fs-data: update apatch mode2 condition
