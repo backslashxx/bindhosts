@@ -26,6 +26,21 @@ for i in $modulenames; do
 	fi
 done
 
+# warn about highly breaking modules
+# just warn and tell user to uninstall it
+# we would still proceed to install
+# lets make the user wait for say 5 seconds
+bad_module="busybox-brutal"
+for i in $bad_module; do
+	if [ -d /data/adb/modules/$i ] ; then
+		echo "[!] 🚨 confliciting module found!"
+		echo "[!] ⚠️ $i "
+		echo "[!] 📢 uninstall for a flawless operation"
+		echo "[!] ‼️ you have been warned"
+		sleep 5
+	fi
+done
+
 # copy our old hosts file
 if [ -f /data/adb/modules/bindhosts/system/etc/hosts ] ; then
 	echo "[+] migrating hosts file "
