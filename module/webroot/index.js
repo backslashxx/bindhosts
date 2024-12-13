@@ -9,6 +9,7 @@ const filePaths = {
 
 const headerBlock = document.querySelector('.header-block');
 const header = document.querySelector('.header');
+const actionButton = document.querySelector('.action-button');
 const inputs = document.querySelectorAll('input');
 const focusClass = 'input-focused';
 const toggleContainer = document.querySelector('.toggle-container');
@@ -433,7 +434,11 @@ window.addEventListener('scroll', () => {
     if (window.scrollY > lastScrollY && window.scrollY > scrollThreshold) {
         headerBlock.style.transform = 'translateY(-80px)';
         header.style.transform = 'translateY(-80px)';
-        actionButton.style.transform = 'translateY(90px)';
+        if (typeof ksu !== 'undefined' && ksu.mmrl) {
+            actionButton.style.transform = 'translateY(calc(var(--window-inset-bottom) + 90px))';
+        } else {
+            actionButton.style.transform = 'translateY(90px)';
+        }
     } else if (window.scrollY < lastScrollY) {
         headerBlock.style.transform = 'translateY(0)';
         header.style.transform = 'translateY(0)';
@@ -521,6 +526,7 @@ function adjustHeaderForMMRL() {
     if (typeof ksu !== 'undefined' && ksu.mmrl) {
         console.log("Running in MMRL");
         header.style.top = 'var(--window-inset-top)';
+        actionButton.style.bottom = 'calc(var(--window-inset-bottom) + 25px)';
         headerBlock.style.display = 'block';
     }
 }

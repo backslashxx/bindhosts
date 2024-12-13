@@ -88,12 +88,11 @@ body.input-focused {
 
 .box {
     position: relative;
-    width: 92vw;
+    width: 85vw;
     max-width: 800px;
     background-color: #fff;
     border: none;
     border-radius: 15px;
-    box-sizing: border-box;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
     padding: 15px;
 }
@@ -109,13 +108,15 @@ body.input-focused {
     font-size: 14px;
 }
 
-#control-panel {
+.controlPanel {
+    position: relative;
+    width: calc(85vw + 30px);
+    max-width: 830px;
     background-color: transparent;
     padding: 0;
     margin: 0;
     padding-top: 5px;
     border: none;
-    box-shadow: none;
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
@@ -231,6 +232,8 @@ input:checked+.slider:before {
 
 .category-container {
     display: flex;
+    position: relative;
+    width: 100%;
     align-items: center;
     gap: 5px;
     margin-bottom: 10px;
@@ -240,7 +243,7 @@ input:checked+.slider:before {
     border-radius: 8px;
     border: 1px solid #ccc;
     box-sizing: border-box;
-    flex: 1;
+    width: calc(100% - 35px);
     height: 35px;
     padding-left: 10px;
 }
@@ -521,7 +524,7 @@ label {
         border: 1px solid #6E6E6E;
     }
 
-    #control-panel {
+    .controlPanel {
         background-color: none;
     }
 
