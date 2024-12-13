@@ -127,9 +127,16 @@ adblock() {
 		echo "[+] grabbing.."
 		echo "[>] $url"
 		download "$url" >> $folder/temphosts || echo "[x] failed downloading $url"
-		 # add a newline incase they dont
-		echo "" >> $folder/temphosts
 	done
+	# if temphosts is empty
+	# its either user did something
+	# or inaccessible urls / no internet
+	[ ! -s $folder/temphosts ] && {
+		echo "[!] downloaded hosts found to be empty"
+		echo "[!] using old hosts file!"
+		# strip first two lines since thats just localhost
+		tail -n +3 $target_hostsfile > $folder/temphosts
+		}
 	# localhost
 	printf "127.0.0.1 localhost\n::1 localhost\n" > $target_hostsfile
 	# always restore user's custom rules
