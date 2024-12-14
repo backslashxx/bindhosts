@@ -7,8 +7,6 @@ PERSISTENT_DIR="/data/adb/bindhosts"
 # bindhosts.sh
 # bindhosts' processing backend
 
-nproc=$(busybox nproc --all)
-
 # grab own info (version)
 versionCode=$(grep versionCode $MODDIR/module.prop | sed 's/versionCode=//g' )
 
@@ -117,10 +115,10 @@ download() {
 
 sort_cmd() {
 	if [ -f /data/data/com.termux/files/usr/bin/sort ]; then
-		/data/data/com.termux/files/usr/bin/sort --parallel=$nproc -u $1
-    else
+		/data/data/com.termux/files/usr/bin/sort -u $1
+        else
 		sort -u $1
-    fi
+        fi
 }
 
 adblock() {
