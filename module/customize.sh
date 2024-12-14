@@ -30,10 +30,10 @@ done
 # just warn and tell user to uninstall it
 # we would still proceed to install
 # lets make the user wait for say 5 seconds
-bad_module="busybox-brutal"
+bad_module="busybox-brutal HideMyRoot"
 for i in $bad_module; do
 	if [ -d /data/adb/modules/$i ] ; then
-		echo "[!] 🚨 confliciting module found!"
+		echo "[!] 🚨 possible confliciting module found!"
 		echo "[!] ⚠️ $i "
 		echo "[!] 📢 uninstall for a flawless operation"
 		echo "[!] ‼️ you have been warned"
