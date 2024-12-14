@@ -126,14 +126,14 @@ sort_cmd() {
 adblock() {
 	# source processing start!
 	echo "[+] processing sources"
-	grep -v "#" $PERSISTENT_DIR/sources.txt | grep http > /dev/null || {
+	sed '/#/d' $PERSISTENT_DIR/sources.txt | grep http > /dev/null || {
 			echo "[x] no sources found 😭" 
 			echo "[x] sources.txt needs correction 💢"
 			return
 			}
 	illusion
         # download routine start!
-	for url in $(grep -v "#" $PERSISTENT_DIR/sources.txt | grep http) ; do 
+	for url in $(sed '/#/d' $PERSISTENT_DIR/sources.txt | grep http) ; do 
 		echo "[+] grabbing.."
 		echo "[>] $url"
 		download "$url" >> $folder/temphosts || echo "[x] failed downloading $url"
@@ -150,16 +150,16 @@ adblock() {
 	# localhost
 	printf "127.0.0.1 localhost\n::1 localhost\n" > $target_hostsfile
 	# always restore user's custom rules
-	grep -v "#" $PERSISTENT_DIR/custom.txt >> $target_hostsfile
+	sed '/#/d' $PERSISTENT_DIR/custom.txt >> $target_hostsfile
 	# blacklist.txt
-	for i in $(grep -v "#" $PERSISTENT_DIR/blacklist.txt ); do echo "0.0.0.0 $i" >> $folder/temphosts; done
+	for i in $(sed '/#/d' $PERSISTENT_DIR/blacklist.txt ); do echo "0.0.0.0 $i" >> $folder/temphosts; done
 	# whitelist.txt
 	echo "[+] processing whitelist"
 	# make sure tempwhitelist isnt empty
 	# or it will grep out nothingness from everything
 	# which actually greps out everything.
 	echo "256.256.256.256 bindhosts" > $folder/tempwhitelist
-	for i in $(grep -v "#" $PERSISTENT_DIR/whitelist.txt); do echo "0.0.0.0 $i" ; done >> $folder/tempwhitelist
+	for i in $(sed '/#/d' $PERSISTENT_DIR/whitelist.txt); do echo "0.0.0.0 $i" ; done >> $folder/tempwhitelist
 	# sed strip out everything with #, double space to single space, replace all 127.0.0.1 to 0.0.0.0
 	# then sort uniq, then grep out whitelist.txt from it
 	sed -i '/#/d; s/  / /g; /^$/d; s/127.0.0.1/0.0.0.0/' $folder/temphosts
@@ -173,7 +173,7 @@ reset() {
 	# localhost
 	printf "127.0.0.1 localhost\n::1 localhost\n" > $target_hostsfile
 	# always restore user's custom rules
-	grep -v "#" $PERSISTENT_DIR/custom.txt >> $target_hostsfile
+	sed '/#/d' $PERSISTENT_DIR/custom.txt >> $target_hostsfile
         string="description=status: reset 🤐 | $(date)"
         sed -i "s/^description=.*/$string/g" $MODDIR/module.prop
         illusion
