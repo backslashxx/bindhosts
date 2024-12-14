@@ -1,5 +1,5 @@
 #!/bin/sh
-PATH=/data/adb/ap/bin:/data/adb/ksu/bin:/data/adb/magisk:$PATH:/data/data/com.termux/files/usr/bin
+PATH=/data/adb/ap/bin:/data/adb/ksu/bin:/data/adb/magisk:/data/data/com.termux/files/usr/bin:$PATH
 MODDIR="/data/adb/modules/bindhosts"
 PERSISTENT_DIR="/data/adb/bindhosts"
 . $MODDIR/mode.sh
@@ -113,14 +113,6 @@ download() {
         fi
 }        
 
-sort_cmd() {
-	if [ -f /data/data/com.termux/files/usr/bin/sort ]; then
-		/data/data/com.termux/files/usr/bin/sort -u $1
-        else
-		sort -u $1
-        fi
-}
-
 adblock() {
 	# source processing start!
 	echo "[+] processing sources"
@@ -161,7 +153,7 @@ adblock() {
 	# sed strip out everything with #, double space to single space, replace all 127.0.0.1 to 0.0.0.0
 	# then sort uniq, then grep out whitelist.txt from it
 	sed -i '/#/d; s/  / /g; /^$/d; s/\r$//; s/127.0.0.1/0.0.0.0/' $folder/temphosts
-	sort_cmd "$folder/temphosts" | grep -Fxvf $folder/tempwhitelist >> $target_hostsfile
+	sort -u "$folder/temphosts" | grep -Fxvf $folder/tempwhitelist >> $target_hostsfile
 	# mark it, will be read by service.sh to deduce
 	echo "# bindhosts v$versionCode" >> $target_hostsfile
 }
