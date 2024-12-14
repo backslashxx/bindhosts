@@ -9,31 +9,6 @@ magisk_webui_redirect=1
 # action.sh
 # a wrapper for bindhosts.sh
 
-# abstraction layer
-force_update() {
-	sh $MODDIR/bindhosts.sh --force-update
-}
-
-force_reset() {
-	sh $MODDIR/bindhosts.sh --force-reset
-}
-
-enable_cron() {
-	sh $MODDIR/bindhosts.sh --enable-cron
-}
-
-toggle_updatejson() {
-	sh $MODDIR/bindhosts.sh --toggle-updatejson
-}
-
-# add arguments
-case "$1" in 
-	--force-update) run; exit ;;
-	--force-reset) reset; exit ;;
-	--enable-cron) enable_cron; exit ;;
-	--toggle-updatejson) toggle_updatejson; exit ;;
-esac
-
 # functions
 bindhosts_sh() {
 	sh $MODDIR/bindhosts.sh
