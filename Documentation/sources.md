@@ -53,6 +53,10 @@
 ### [hBlock](https://hblock.molinero.dev/)
   - https://hblock.molinero.dev/hosts
 
+### [Rem01Gaming](https://rem01gaming.dev/)
+  - main (GH Pages): https://d.rem01gaming.dev/hosts/adblock.txt
+  - backup: https://raw.githubusercontent.com/Rem01Gaming/dev-files/refs/heads/main/hosts/adblock.txt
+
 ## Custom rulesets
 
 ### [bebasid](https://github.com/bebasid/bebasid)
