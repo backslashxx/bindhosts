@@ -185,7 +185,7 @@ run() {
 	string="description=status: active ✅ | blocked: $blocked 🚫 | custom: $custom 🤖 $helper_mode"
 	sed -i "s/^description=.*/$string/g" $MODDIR/module.prop
 	# ready for reset again
-	(cd $PERSISTENT_DIR ; (cat blacklist.txt custom.txt sources.txt whitelist.txt ; date +%F) | busybox crc32 > $PERSISTENT_DIR/bindhosts_state )
+	(cat $PERSISTENT_DIR/*.txt; date +%F) | busybox crc32 > $PERSISTENT_DIR/bindhosts_state
 	# cleanup
 	rm -f $folder/temphosts $folder/tempwhitelist
 	sleep 1
@@ -226,7 +226,7 @@ esac
 # toggle start!
 if [ -f $PERSISTENT_DIR/bindhosts_state ]; then
 	# handle rule changes, add date change detect, I guess a change of 1 day to update is sane.
-	newhash=$(cd $PERSISTENT_DIR ; (cat blacklist.txt custom.txt sources.txt whitelist.txt ; date +%F) | busybox crc32 )
+	newhash=$( (cat $PERSISTENT_DIR/*.txt; date +%F) | busybox crc32 )
 	oldhash=$(cat $PERSISTENT_DIR/bindhosts_state)
 	if [ $newhash = $oldhash ]; then
 		# well if theres no rule change, user just wants to disable adblocking
