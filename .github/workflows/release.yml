@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - master
+    paths:
+      - '.github/workflows/release.yml'
+      - 'module/**'
+      - 'update.json'
   workflow_dispatch:
 
 jobs:
