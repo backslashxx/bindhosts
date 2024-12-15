@@ -15,6 +15,19 @@ echo "[%] customize.sh "
 # make our hosts file dir
 mkdir -p $MODPATH/system/etc
 
+# set permissions to bindhosts.sh
+susfs_clone_perm "$MODPATH/bindhosts.sh" /bin/sh
+
+# symlink bindhosts to manager path
+# for ez termux usage
+manager_paths="/data/adb/ap/bin /data/adb/ksu/bin"
+for i in $manager_paths; do
+	if [ -d $i ] && [ ! -f $i/bindhosts ]; then
+		echo "[+] creating symlink in $i"
+		ln -sf /data/adb/modules/bindhosts/bindhosts.sh $i/bindhosts
+	fi
+done
+
 # check for other systemless hosts modules and disable them
 # sorry I had to do this.
 modulenames="hosts systemless-hosts-KernelSU-module systemless-hosts Malwack Re-Malwack cubic-adblock"
