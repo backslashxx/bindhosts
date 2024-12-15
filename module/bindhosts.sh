@@ -85,6 +85,16 @@ enable_cron() {
 	echo "0 4 * * * sh /data/adb/modules/bindhosts/bindhosts.sh --force-update > $folder/bindhosts_cron.log 2>&1 &" | busybox crontab -c $PERSISTENT_DIR/crontabs -
 }
 
+disable_cron() {
+	if grep -q "bindhosts.sh" $PERSISTENT_DIR/crontabs/root > /dev/null 2>&1; then
+		echo "[ ] removing crontab entry"
+		echo "[ ] $(head -n1 $PERSISTENT_DIR/crontabs/root) " 
+		rm -rf $PERSISTENT_DIR/crontabs
+	else
+		echo "[x] no crontab entry found!"
+	fi
+}
+
 toggle_updatejson() {
 	grep -q "^updateJson" $MODDIR/module.prop && { 
 		sed -i 's/updateJson/xpdateJson/g' $MODDIR/module.prop 
@@ -205,6 +215,7 @@ case "$1" in
 	--force-update) run; exit ;;
 	--force-reset) reset; exit ;;
 	--enable-cron) enable_cron; exit ;;
+	--disable-cron) disable_cron; exit ;;
 	--toggle-updatejson) toggle_updatejson; exit ;;
 esac
 
