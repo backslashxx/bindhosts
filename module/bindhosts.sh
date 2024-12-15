@@ -33,10 +33,8 @@ echo "[%] standalone hosts-based-adblocking implementation"
 [ ! -d /data/adb/bindhosts ] && mkdir -p $PERSISTENT_DIR
 files="custom.txt blacklist.txt sources.txt whitelist.txt"
 for i in $files ; do
-	if [ ! -f $PERSISTENT_DIR/$i ]; then
-		# dont do anything weird, probably intentional
-		echo "#" > $PERSISTENT_DIR/$i
-	fi
+	# if file doesnt exist, write dummy
+	[ ! -f $PERSISTENT_DIR/$i ] && echo "#" > $PERSISTENT_DIR/$i
 done
 
 adaway_warn() {
