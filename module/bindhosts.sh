@@ -75,6 +75,16 @@ illusion () {
 	x=$(($$%4 + 4)); while [ $x -gt 1 ] ; do echo '[.]' ; sleep 0.1 ; x=$((x-1)) ; done &
 }
 
+show_help () {
+	echo "usage:"
+	printf " --force-update \tforce an update\n" 
+	printf " --force-reset \t\tforce a reset\n" 
+	printf " --enable-cron \t\tenables scheduled updates (4AM daily)\n"
+	printf " --disable-cron \tdisables scheduled updates\n"
+	printf " --help \t\tdisplays this message\n"
+}
+
+
 enable_cron() {
 	[ ! -d $PERSISTENT_DIR/crontabs ] && {
 		mkdir $PERSISTENT_DIR/crontabs
@@ -217,6 +227,7 @@ case "$1" in
 	--enable-cron) enable_cron; exit ;;
 	--disable-cron) disable_cron; exit ;;
 	--toggle-updatejson) toggle_updatejson; exit ;;
+	--help) show_help; exit ;;
 esac
 
 # single instance lock
