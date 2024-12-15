@@ -76,15 +76,13 @@ illusion () {
 }
 
 enable_cron() {
-	if [ ! -d $PERSISTENT_DIR/crontabs ]; then
+	[ ! -d $PERSISTENT_DIR/crontabs ] && {
 		mkdir $PERSISTENT_DIR/crontabs
 		echo "[+] running crond"
 		busybox crond -bc $PERSISTENT_DIR/crontabs -L /dev/null
-		echo "[+] adding crontab entry"
-		echo "0 4 * * * sh /data/adb/modules/bindhosts/bindhosts.sh --force-update > /dev/null 2>&1 &" | busybox crontab -c $PERSISTENT_DIR/crontabs -
-	else
-		echo "[x] seems that it is already active, if you have issues fix it yourself"	
-	fi
+	}
+	echo "[+] adding crontab entry"
+	echo "0 4 * * * sh /data/adb/modules/bindhosts/bindhosts.sh --force-update > $folder/bindhosts_cron.log 2>&1 &" | busybox crontab -c $PERSISTENT_DIR/crontabs -
 }
 
 toggle_updatejson() {
