@@ -11,10 +11,16 @@ magisk_webui_redirect=1
 
 # functions
 bindhosts_sh() {
+	# grab start time
+	start_time=$(date +%s)
+	# call bindhosts.sh
 	sh $MODDIR/bindhosts.sh
+	# print exec time
+	echo "[+] execution time: $(( $(date +%s) - start_time ))s"
 	# no need to sleep on Magisk and MMRL 
 	# environment stops exec and lets user read
 	[ -z "$MAGISKTMP" ] && [ -z "$MMRL" ] && sleep 2
+	# exit clean
 	exit 0
 }
 
