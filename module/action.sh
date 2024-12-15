@@ -29,7 +29,6 @@ bindhosts_sh() {
 [ -f $PERSISTENT_DIR/webui_setting.sh ] && . $PERSISTENT_DIR/webui_setting.sh
 
 # detect magisk environment here
-# use MAGISKTMP env var for now, edit this to "command -v magisk >/dev/null 2>&1" once needed
 if [ ! -z "$MAGISKTMP" ] && [ $magisk_webui_redirect = 1 ] ; then
 	# courtesy of kow
 	pm path com.dergoogler.mmrl > /dev/null 2>&1 && {
@@ -42,9 +41,7 @@ if [ ! -z "$MAGISKTMP" ] && [ $magisk_webui_redirect = 1 ] ; then
 		am start -n "io.github.a13e300.ksuwebui/.WebUIActivity" -e id "bindhosts"
 		exit 0
 	}
-	bindhosts_sh
-else
-	bindhosts_sh
 fi
+bindhosts_sh
 
 # EOF
