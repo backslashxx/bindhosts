@@ -12,7 +12,9 @@ magisk_webui_redirect=1
 # functions
 bindhosts_sh() {
 	sh $MODDIR/bindhosts.sh
-	[ -z "$MAGISKTMP" ] && sleep 2
+	# no need to sleep on Magisk and MMRL 
+	# environment stops exec and lets user read
+	[ -z "$MAGISKTMP" ] && [ -z "$MMRL" ] && sleep 2
 	exit 0
 }
 
