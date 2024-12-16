@@ -6,7 +6,6 @@ PERSISTENT_DIR="/data/adb/bindhosts"
 . $MODDIR/mode.sh
 SUSFS_BIN=/data/adb/ksu/bin/ksu_susfs
 
-
 target_hostsfile="$MODDIR/system/etc/hosts"
 helper_mode=""
 
@@ -114,6 +113,15 @@ esac
 [ -d $PERSISTENT_DIR/crontabs ] && {
 	echo "bindhosts: service.sh - enabling crond" >> /dev/kmsg
 	busybox crond -bc $PERSISTENT_DIR/crontabs -L /dev/null
+	}
+
+# symlink for magisk
+# this way it can be used on termux
+# nicely enough termux adds /debug_ramdisk and /sbin 
+# on $PATH, heres how we abuse it
+command -v magisk > /dev/null 2>&1 && {
+	find_rwdir
+	ln -sf $MODDIR/bindhosts.sh $rwdir/bindhosts
 	}
 
 ##################
