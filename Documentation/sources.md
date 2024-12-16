@@ -60,6 +60,6 @@
 ## Custom rulesets
 
 ### [bebasid](https://github.com/bebasid/bebasid)
-   - combats DNS poisoning by TrustPositif in Indonesia.
+   - combats censorship by TrustPositif in Indonesia.
    - unblocks illegal websites that contains "negative content" like pornography, including reddit and nhentai
    - https://raw.githubusercontent.com/bebasid/bebasid/refs/heads/master/releases/hosts
