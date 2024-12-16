@@ -143,7 +143,7 @@ async function checkCronStatus() {
 // Function to get the status from module.prop and update the status in the WebUI
 async function updateStatusFromModuleProp() {
     try {
-        const command = "grep '^description=' /data/adb/modules/bindhosts/module.prop | cut -d'=' -f2";
+        const command = "grep '^description=' /data/adb/modules/bindhosts/module.prop | cut -d'=' -f2 | sed 's/status: //'";
         const description = await execCommand(command);
         updateStatus(description.trim());
     } catch (error) {
