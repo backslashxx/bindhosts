@@ -78,7 +78,7 @@ body.input-focused {
 }
 
 .content {
-    margin-top: 25px;
+    margin-top: 40px;
     padding-bottom: 10px;
     display: flex;
     flex-direction: column;
@@ -108,51 +108,35 @@ body.input-focused {
     font-size: 14px;
 }
 
-.action-redirect-container {
-    display: none;
-    align-items: center;
-    margin-bottom: 5px;
-    background-color: #fff;
-    padding: 2px 10px;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-    height: 38px;
-    white-space: nowrap;
-    text-align: left;
-}
-
-.toggle-container {
+.toggle-list {
     display: flex;
     align-items: center;
     margin-bottom: 5px;
-    background-color: #fff;
+    background-color: transparent;
     padding: 2px 10px;
-    border-radius: 10px;
-    border: 1px solid #ccc;
     height: 38px;
     white-space: nowrap;
     text-align: left;
+    border-bottom: 1px solid #ccc;
 }
 
-#action-redirect-text {
-    font-size: 16px;
-    font-weight: bold;
-    padding-left: 13px;
+.toggle-list:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
 }
 
-#action-icon {
-    font-size: 20px;
+#action-redirect-container {
+    display: none;
 }
 
-#update-text {
+.toggle-text {
     font-size: 16px;
     font-weight: bold;
     padding-left: 10px;
 }
 
-#update-icon {
-    padding-top: 5px;
-    font-size: 20px;
+.control-icon {
+    fill: #000000;
 }
 
 .toggle-switch {
@@ -477,6 +461,7 @@ label {
         background-color: #121212;
     }
 
+    .toggle-list,
     li {
         border-bottom: 1px solid #6E6E6E;
     }
@@ -502,17 +487,11 @@ label {
         border: 1px solid #6E6E6E;
     }
 
-    .action-redirect-container,
-    .toggle-container {
-        background-color: #343434;
-        border: 1px solid #6E6E6E;
-    }
-
-    .controlPanel {
-        background-color: none;
-    }
-
     .slider {
         background-color: #6E6E6E;
+    }
+    
+    .control-icon {
+        fill: #FFFFFF;
     }
 }

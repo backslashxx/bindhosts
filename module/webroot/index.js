@@ -12,10 +12,12 @@ const header = document.querySelector('.header');
 const actionButton = document.querySelector('.action-button');
 const inputs = document.querySelectorAll('input');
 const focusClass = 'input-focused';
-const toggleContainer = document.querySelector('.toggle-container');
+const toggleContainer = document.getElementById('update-toggle-container');
 const toggleVersion = document.getElementById('toggle-version');
-const actionRedirectContainer = document.querySelector('.action-redirect-container');
+const actionRedirectContainer = document.getElementById('action-redirect-container');
 const actionRedirectStatus = document.getElementById('action-redirect');
+const cronContainer = document.getElementById('cron-toggle-container');
+const cronToggle = document.getElementById('toggle-cron');
 
 let clickCount = 0;
 let timeout;
@@ -50,6 +52,7 @@ async function loadFile(fileType) {
         await loadVersionFromModuleProp();
         checkUpdateStatus();
         checkRedirectStatus();
+        checkCronStatus();
     } catch (error) {
         console.error(`Failed to load ${fileType} file: ${error}`);
     }
@@ -123,6 +126,17 @@ async function checkRedirectStatus() {
         actionRedirectStatus.checked = !result;
     } catch (error) {
         console.error('Error checking action redirect status:', error);
+    }
+}
+
+// Function to check cron status
+async function checkCronStatus() {
+    try {
+        const result = await execCommand(`grep -q "bindhosts.sh" ${basePath}/crontabs/root`);
+        cronToggle.checked = !result;
+    } catch (error) {
+        console.error('Error checking cron status:', error);
+        cronToggle.checked = 0;
     }
 }
 
@@ -497,7 +511,7 @@ toggleContainer.addEventListener('click', async function () {
         });
         checkUpdateStatus();
     } catch (error) {
-        console.error("Failed to execute bindhosts.sh", error);
+        console.error("Failed to toggle update", error);
     }
 });
 
@@ -506,10 +520,35 @@ actionRedirectContainer.addEventListener('click', async function () {
     try {
         actionRedirectStatus.checked = !actionRedirectStatus.checked;
         await execCommand(`su -c 'echo "magisk_webui_redirect=${actionRedirectStatus.checked ? 1 : 0}" > /data/adb/bindhosts/webui_setting.sh'`);
-        showPrompt(`${actionRedirectStatus.checked ? 'Enabled' : 'Disabled'} Magisk action redirect WebUI`, actionRedirectStatus.checked);
+        showPrompt(`${actionRedirectStatus.checked ? '[+] Enabled' : '[x] Disabled'} Magisk action redirect WebUI`, actionRedirectStatus.checked);
         checkRedirectStatus();
     } catch (error) {
         console.error("Failed to execute change status", error);
+    }
+});
+
+// Event listener for the cron toggle switch
+cronContainer.addEventListener('click', async function () {
+    try {
+        cronToggle.checked = !cronToggle.checked;
+        let command;
+        if (cronToggle.checked) {
+            command = "su -c 'sh /data/adb/modules/bindhosts/bindhosts.sh --enable-cron'";
+        } else {
+            command = "su -c 'sh /data/adb/modules/bindhosts/bindhosts.sh --disable-cron'";
+        }
+        const result = await execCommand(command);
+        const lines = result.split("\n");
+        lines.forEach(line => {
+            if (line.includes("[+]")) {
+                showPrompt(line, true);
+            } else if (line.includes("[x]")) {
+                showPrompt(line, false);
+            }
+        });
+        checkCronStatus();
+    } catch (error) {
+        console.error("Failed to toggle cron", error);
     }
 });
 
