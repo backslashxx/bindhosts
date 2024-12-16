@@ -80,14 +80,18 @@ show_help () {
 	printf " --disable-cron \tdisables scheduled updates\n"
 	printf " --help \t\tdisplays this message\n"
 }
-
-
-enable_cron() {
+run_crond() {
 	[ ! -d $PERSISTENT_DIR/crontabs ] && {
 		mkdir $PERSISTENT_DIR/crontabs
 		echo "[+] running crond"
 		busybox crond -bc $PERSISTENT_DIR/crontabs -L /dev/null
 	}
+}
+
+enable_cron() {
+	# run crond
+	run_crond
+	# add entry
 	echo "0 4 * * * sh /data/adb/modules/bindhosts/bindhosts.sh --force-update > $rwdir/bindhosts_cron.log 2>&1 &" | busybox crontab -c $PERSISTENT_DIR/crontabs -
 	echo "[>] $(head -n1 $PERSISTENT_DIR/crontabs/root) " 
 	echo "[+] crontab entry added!"
