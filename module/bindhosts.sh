@@ -274,9 +274,26 @@ action () {
 	[ -f $rwdir/bindhosts_lockfile ] && rm $rwdir/bindhosts_lockfile > /dev/null 2>&1
 }
 
+tcpdump () {
+	if command -v tcpdump > /dev/null 2>&1; then
+		# reset hosts
+		reset
+		echo "[+] restore hosts as needed"
+		echo "[+] make sure private dns is disabled!"
+		echo "[+] spawning tcpdump"
+		echo "[!] press ctrl+c to exit"
+		su -c "tcpdump -ltni any dst port 53"
+	else
+		echo "[!] tcpdump not found"
+		echo "[x] bailing out"
+		exit 0
+	fi
+}
+
 show_help () {
 	echo "usage:"
 	printf " --action \t\tsimulate action.sh\n"
+	printf " --tcpdump \t\tsniff dns requests via tcpdump (experimental)\n"
 	printf " --force-update \tforce an update\n" 
 	printf " --force-reset \t\tforce a reset\n" 
 	printf " --custom-cron \t\tcustom schedule, syntax: \"0 2 * * *\" \n"
@@ -289,6 +306,7 @@ show_help () {
 # add arguments
 case "$1" in 
 	--action) action; exit ;;
+	--tcpdump) tcpdump; exit ;;
 	--force-update) run; exit ;;
 	--force-reset) reset; exit ;;
 	--custom-cron) custom_cron "$@"; exit ;;
