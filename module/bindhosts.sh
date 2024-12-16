@@ -187,7 +187,6 @@ reset() {
 run() {
 	adblock
 	illusion
-	sleep 1
 	# store these as variables
 	# this way we dont do the grepping twice
 	custom=$( grep -vEc "0.0.0.0| localhost|#" $target_hostsfile)
@@ -200,7 +199,6 @@ run() {
 	(cat $PERSISTENT_DIR/*.txt; date +%F) | busybox crc32 > $PERSISTENT_DIR/bindhosts_state
 	# cleanup
 	rm -f $rwdir/temphosts $rwdir/tempwhitelist
-	sleep 1
 }
 
 # adaway is installed and hosts are modified by adaway, dont overthrow
