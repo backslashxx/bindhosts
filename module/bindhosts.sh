@@ -179,12 +179,9 @@ reset() {
 	sed '/#/d' $PERSISTENT_DIR/custom.txt >> $target_hostsfile
         string="description=status: reset 🤐 | $(date)"
         sed -i "s/^description=.*/$string/g" $MODDIR/module.prop
-        illusion
-        sleep 1
         echo "[+] hosts file reset!"
         # reset state
         rm $PERSISTENT_DIR/bindhosts_state > /dev/null 2>&1
-        sleep 1
 }
 
 run() {
