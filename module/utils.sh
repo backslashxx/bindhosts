@@ -1,5 +1,4 @@
 #!/bin/sh
-PATH=$PATH:/data/adb/ap/bin:/data/adb/magisk:/data/adb/ksu/bin
 ## taken from susfs
 ## susfs_clone_perm <file/or/dir/perm/to/be/changed> <file/or/dir/to/clone/from>
 susfs_clone_perm() {
@@ -13,6 +12,13 @@ susfs_clone_perm() {
 	chmod $1 ${TO}
 	chown $2:$3 ${TO}
 	busybox chcon --reference=${FROM} ${TO}
+}
+
+# simple af writable dir lookup
+find_rwdir() {
+	rwdir=$MODDIR
+	[ -w /sbin ] && rwdir=/sbin
+	[ -w /debug_ramdisk ] && rwdir=/debug_ramdisk
 }
 
 # EOF
