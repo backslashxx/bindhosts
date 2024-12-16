@@ -2,6 +2,7 @@
 PATH=/data/adb/ap/bin:/data/adb/ksu/bin:/data/adb/magisk:/data/data/com.termux/files/usr/bin:$PATH
 MODDIR="/data/adb/modules/bindhosts"
 PERSISTENT_DIR="/data/adb/bindhosts"
+. $MODDIR/utils.sh
 . $MODDIR/mode.sh
 
 # bindhosts.sh
@@ -10,16 +11,12 @@ PERSISTENT_DIR="/data/adb/bindhosts"
 # grab own info (version)
 versionCode=$(grep versionCode $MODDIR/module.prop | sed 's/versionCode=//g' )
 
-# test out writables, prefer tmpfs
-folder=$MODDIR
-[ -w /dev ] && folder=/dev
-[ -w /sbin ] && folder=/sbin
-[ -w /debug_ramdisk ] && folder=/debug_ramdisk
-
-
 echo "[+] bindhosts v$versionCode"
 echo "[%] bindhosts.sh"
 echo "[%] standalone hosts-based-adblocking implementation"
+
+find_rwdir
+echo "[ ] rwdir: $rwdir"
 
 [ -f $MODDIR/disable ] && {
 	echo "[*] not running since module has been disabled"
@@ -92,7 +89,7 @@ enable_cron() {
 		busybox crond -bc $PERSISTENT_DIR/crontabs -L /dev/null
 	}
 	echo "[+] adding crontab entry"
-	echo "0 4 * * * sh /data/adb/modules/bindhosts/bindhosts.sh --force-update > $folder/bindhosts_cron.log 2>&1 &" | busybox crontab -c $PERSISTENT_DIR/crontabs -
+	echo "0 4 * * * sh /data/adb/modules/bindhosts/bindhosts.sh --force-update > $rwdir/bindhosts_cron.log 2>&1 &" | busybox crontab -c $PERSISTENT_DIR/crontabs -
 }
 
 disable_cron() {
@@ -142,34 +139,34 @@ adblock() {
 	for url in $(sed '/#/d' $PERSISTENT_DIR/sources.txt | grep http) ; do 
 		echo "[+] grabbing.."
 		echo "[>] $url"
-		download "$url" >> $folder/temphosts || echo "[x] failed downloading $url"
+		download "$url" >> $rwdir/temphosts || echo "[x] failed downloading $url"
 	done
 	# if temphosts is empty
 	# its either user did something
 	# or inaccessible urls / no internet
-	[ ! -s $folder/temphosts ] && {
+	[ ! -s $rwdir/temphosts ] && {
 		echo "[!] downloaded hosts found to be empty"
 		echo "[!] using old hosts file!"
 		# strip first two lines since thats just localhost
-		tail -n +3 $target_hostsfile > $folder/temphosts
+		tail -n +3 $target_hostsfile > $rwdir/temphosts
 		}
 	# localhost
 	printf "127.0.0.1 localhost\n::1 localhost\n" > $target_hostsfile
 	# always restore user's custom rules
 	sed '/#/d' $PERSISTENT_DIR/custom.txt >> $target_hostsfile
 	# blacklist.txt
-	for i in $(sed '/#/d' $PERSISTENT_DIR/blacklist.txt ); do echo "0.0.0.0 $i" >> $folder/temphosts; done
+	for i in $(sed '/#/d' $PERSISTENT_DIR/blacklist.txt ); do echo "0.0.0.0 $i" >> $rwdir/temphosts; done
 	# whitelist.txt
 	echo "[+] processing whitelist"
 	# make sure tempwhitelist isnt empty
 	# or it will grep out nothingness from everything
 	# which actually greps out everything.
-	echo "256.256.256.256 bindhosts" > $folder/tempwhitelist
-	for i in $(sed '/#/d' $PERSISTENT_DIR/whitelist.txt); do echo "0.0.0.0 $i" ; done >> $folder/tempwhitelist
+	echo "256.256.256.256 bindhosts" > $rwdir/tempwhitelist
+	for i in $(sed '/#/d' $PERSISTENT_DIR/whitelist.txt); do echo "0.0.0.0 $i" ; done >> $rwdir/tempwhitelist
 	# sed strip out everything with #, double space to single space, replace all 127.0.0.1 to 0.0.0.0
 	# then sort uniq, then grep out whitelist.txt from it
-	sed -i '/#/d; s/  */ /g; /^$/d; s/\r$//; s/127.0.0.1/0.0.0.0/' $folder/temphosts
-	sort -u "$folder/temphosts" | grep -Fxvf $folder/tempwhitelist >> $target_hostsfile
+	sed -i '/#/d; s/  */ /g; /^$/d; s/\r$//; s/127.0.0.1/0.0.0.0/' $rwdir/temphosts
+	sort -u "$rwdir/temphosts" | grep -Fxvf $rwdir/tempwhitelist >> $target_hostsfile
 	# mark it, will be read by service.sh to deduce
 	echo "# bindhosts v$versionCode" >> $target_hostsfile
 }
@@ -205,7 +202,7 @@ run() {
 	# ready for reset again
 	(cat $PERSISTENT_DIR/*.txt; date +%F) | busybox crc32 > $PERSISTENT_DIR/bindhosts_state
 	# cleanup
-	rm -f $folder/temphosts $folder/tempwhitelist
+	rm -f $rwdir/temphosts $rwdir/tempwhitelist
 	sleep 1
 }
 
@@ -235,13 +232,13 @@ esac
 # we implement a simple lockfile logic around here to
 # prevent multiple instances.
 # warn and dont run if lockfile exists
-[ -f $folder/bindhosts_lockfile ] && {
+[ -f $rwdir/bindhosts_lockfile ] && {
 	echo "[*] already running!"
 	# keep exit 0 here since this is a single instance lock
 	exit 0
 	}
 # if lockfile isnt there, we create one
-[ ! -f $folder/bindhosts_lockfile ] && touch $folder/bindhosts_lockfile
+[ ! -f $rwdir/bindhosts_lockfile ] && touch $rwdir/bindhosts_lockfile
 
 # toggle start!
 if [ -f $PERSISTENT_DIR/bindhosts_state ]; then
@@ -265,6 +262,6 @@ else
 fi
 
 # cleanup lockfile
-[ -f $folder/bindhosts_lockfile ] && rm $folder/bindhosts_lockfile > /dev/null 2>&1
+[ -f $rwdir/bindhosts_lockfile ] && rm $rwdir/bindhosts_lockfile > /dev/null 2>&1
 
 # EOF
