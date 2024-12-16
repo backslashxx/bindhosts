@@ -94,10 +94,16 @@ enable_cron() {
 }
 
 disable_cron() {
+	# kill busybox crond that we enabled
+	for i in $(busybox pidof busybox); do 
+		# super leet gamma knife
+		grep -q "bindhosts" /proc/$i/cmdline > /dev/null 2>&1 && {
+		echo "[x] killing pid $i"
+		busybox kill -9 $i
+		}
+	done
+	# clean entry
 	if grep -q "bindhosts.sh" $PERSISTENT_DIR/crontabs/root > /dev/null 2>&1; then
-		echo "[>] $(head -n1 $PERSISTENT_DIR/crontabs/root) " 
-		# todo: find a way to kill busybox crond
-		# with just toybox ps
 		rm -rf $PERSISTENT_DIR/crontabs
 		echo "[x] crontab entry removed!"
 	else
