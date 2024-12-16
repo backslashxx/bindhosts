@@ -162,6 +162,7 @@ download() {
 }        
 
 adblock() {
+	illusion
 	# source processing start!
 	echo "[+] processing sources"
 	sed '/#/d' $PERSISTENT_DIR/sources.txt | grep http > /dev/null || {
@@ -169,7 +170,6 @@ adblock() {
 			echo "[x] sources.txt needs correction 💢"
 			return
 			}
-	illusion
         # download routine start!
 	for url in $(sed '/#/d' $PERSISTENT_DIR/sources.txt | grep http) ; do 
 		echo "[+] grabbing.."
@@ -221,7 +221,6 @@ reset() {
 
 run() {
 	adblock
-	illusion
 	# store these as variables
 	# this way we dont do the grepping twice
 	custom=$( grep -vEc "0.0.0.0| localhost|#" $target_hostsfile)
