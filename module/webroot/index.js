@@ -242,12 +242,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-// Run bindhosts.sh
+// Run bindhosts.sh --action
 async function executeActionScript() {
     try {
         showPrompt("Script running...");
         setTimeout(async () => {
-            const command = "su -c 'sh /data/adb/modules/bindhosts/bindhosts.sh'";
+            const command = "su -c 'sh /data/adb/modules/bindhosts/bindhosts.sh --action'";
             const output = await execCommand(command);
             const lines = output.split("\n");
             lines.forEach(line => {
