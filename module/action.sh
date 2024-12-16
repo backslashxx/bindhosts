@@ -14,7 +14,7 @@ bindhosts_sh() {
 	# grab start time
 	start_time=$(date +%s)
 	# call bindhosts.sh
-	sh $MODDIR/bindhosts.sh
+	sh $MODDIR/bindhosts.sh --action
 	# print exec time
 	echo "[+] execution time: $(( $(date +%s) - start_time ))s"
 	# no need to sleep on Magisk and MMRL 
