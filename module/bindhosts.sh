@@ -88,15 +88,18 @@ enable_cron() {
 		echo "[+] running crond"
 		busybox crond -bc $PERSISTENT_DIR/crontabs -L /dev/null
 	}
-	echo "[+] adding crontab entry"
 	echo "0 4 * * * sh /data/adb/modules/bindhosts/bindhosts.sh --force-update > $rwdir/bindhosts_cron.log 2>&1 &" | busybox crontab -c $PERSISTENT_DIR/crontabs -
+	echo "[>] $(head -n1 $PERSISTENT_DIR/crontabs/root) " 
+	echo "[+] crontab entry added!"
 }
 
 disable_cron() {
 	if grep -q "bindhosts.sh" $PERSISTENT_DIR/crontabs/root > /dev/null 2>&1; then
-		echo "[ ] removing crontab entry"
-		echo "[ ] $(head -n1 $PERSISTENT_DIR/crontabs/root) " 
+		echo "[>] $(head -n1 $PERSISTENT_DIR/crontabs/root) " 
+		# todo: find a way to kill busybox crond
+		# with just toybox ps
 		rm -rf $PERSISTENT_DIR/crontabs
+		echo "[x] crontab entry removed!"
 	else
 		echo "[x] no crontab entry found!"
 	fi
