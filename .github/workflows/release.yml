@@ -45,19 +45,20 @@ jobs:
           echo "ZIP_NAME=bindhosts_$CURRENT_VERSION_CODE-$COMMIT_ID" >> $GITHUB_ENV
         fi
 
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.ZIP_NAME }}
+        path: module/
+
     - name: Compressing files
+      if: env.version_changed == 'true'
       run: |
         echo "Compressing files..."
         cd module/
         zip -r "${{ env.ZIP_NAME }}" *
         mv *.zip ../
         echo "Created zip file: ${{ env.ZIP_NAME }}"
-
-    - name: Upload artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.ZIP_NAME }}
-        path: module/
 
     - name: Create release
       if: env.version_changed == 'true'
