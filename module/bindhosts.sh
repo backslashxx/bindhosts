@@ -82,9 +82,9 @@ run_crond() {
 
 custom_cron() {
 	shift
-	# todo: think of a way to sanitize input
-	# this atleast will catch globbed
-	if [ -z "$1" ] || [ ! -z "$2" ]; then
+ 	# Make sure there are 5 args
+ 	# c/o changhuapeng
+	if [ ! "$(echo "$1" | wc -w)" -eq 5 ] || [ ! -z "$2" ]; then
 		# shoutout to native test and holmes
 		echo "[!] futile cronjob" 
 		echo "[!] syntax: --custom-cron \"0 2 * * *\" " 
