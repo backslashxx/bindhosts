@@ -15,9 +15,6 @@ echo "[+] bindhosts v$versionCode"
 echo "[%] bindhosts.sh"
 echo "[%] standalone hosts-based-adblocking implementation"
 
-find_rwdir
-echo "[ ] rwdir: $rwdir"
-
 [ -f $MODDIR/disable ] && {
 	echo "[*] not running since module has been disabled"
 	string="description=status: disabled ❌ | $(date)"
@@ -57,6 +54,9 @@ case $operating_mode in
 	8) target_hostsfile="/system/etc/hosts" ;;
 	*) true ;; # catch invalid modes
 esac
+
+find_rwdir
+echo "[%] mode: $operating_mode | rwdir: $rwdir "
 
 # check hosts file if writable, if not, warn and exit
 if [ ! -w $target_hostsfile ] ; then
