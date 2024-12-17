@@ -82,9 +82,56 @@ run_crond() {
 
 custom_cron() {
 	shift
-	# todo: think of a way to sanitize input
+	local error=false
+	# Has only 1 arg and it starts with @
+	if [ "$(echo "$1" | wc -w)" -eq 1 ] && [ "$(echo "$1" | grep "^@")" ]; then
+		# End check if arg is not these accepted @strings (case-sensitive)
+		(! echo "$1" | grep -Eqw "@reboot|@hourly|@midnight|@daily|@weekly|@monthly|@annually|@yearly") && error=true
+	# Has 5 args
+	elif [ "$(echo "$1" | wc -w)" -eq 5 ]; then
+		x=1
+		while [ $x -lt 6 ] ; do
+			arg=$(echo "$1" | cut -d ' ' -f "$x")
+			len=${#arg}
+			if [ "$len" -eq 1 ]; then
+				# End check if 1-character arg is not * or digit
+				[ "$(echo "$arg" | tr -d "\*[:digit:]" | wc -w)" -gt 0 ] && break
+				# Additional check if arg is a number
+				if (echo "$arg" | grep -q "[[:digit:]]"); then
+					case "$x" in
+						3) [ "$arg" -lt 1 ] && break ;;
+						4) [ "$arg" -lt 1 ] && break ;;
+						5) [ "$arg" -lt 0 ] || [ "$arg" -gt 7 ] && break ;;
+					esac
+				fi
+			elif [ "$len" -eq 2 ]; then
+				# End check if 2-character arg is not a number
+				[ "$(echo "$arg" | tr -d "[:digit:]" | wc -w)" -gt 0 ] && break
+				case "$x" in
+					1) [ "$arg" -lt 0 ] || [ "$arg" -gt 59 ] && break ;;
+					2) [ "$arg" -lt 0 ] || [ "$arg" -gt 23 ] && break ;;
+					3) [ "$arg" -lt 1 ] || [ "$arg" -gt 31 ] && break ;;
+					4) [ "$arg" -lt 1 ] || [ "$arg" -gt 12 ] && break ;;
+				esac
+			elif [ "$len" -eq 3 ]; then
+				# End check if 3-character arg (from MON and DAY fields) is not JAN-DEC or SUN-SAT (case-insensitive)
+				case "$x" in
+					4) (! echo "$arg" | grep -Eiqw "JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC") && break ;;
+					5) (! echo "$arg" | grep -Eiqw "SUN|MON|TUE|WED|THU|FRI|SAT") && break ;;
+					*) break ;;
+				esac
+			else
+				# End check if arg is blank or if arg length is longer than JAN-DEC or SUN-SAT
+				break
+			fi
+			x=$((x+1))
+		done
+		[ "$x" -lt 6 ] && error=true
+	else
+		error=true
+	fi
 	# this atleast will catch globbed
-	if [ -z "$1" ] || [ ! -z "$2" ]; then
+	if [ -z "$1" ] || [ ! -z "$2" ] || [ "$error" = true ]; then
 		# shoutout to native test and holmes
 		echo "[!] futile cronjob" 
 		echo "[!] syntax: --custom-cron \"0 2 * * *\" " 
