@@ -103,7 +103,7 @@ enable_cron() {
 	# run crond
 	run_crond
 	# add entry
-	echo "0 4 * * * sh $MODDIR/bindhosts.sh --force-update > $rwdir/bindhosts_cron.log 2>&1 &" | busybox crontab -c $PERSISTENT_DIR/crontabs -
+	echo "0 10 * * * sh $MODDIR/bindhosts.sh --force-update > $rwdir/bindhosts_cron.log 2>&1 &" | busybox crontab -c $PERSISTENT_DIR/crontabs -
 	echo "[>] $(head -n1 $PERSISTENT_DIR/crontabs/root) " 
 	echo "[+] crontab entry added!"
 }
@@ -298,7 +298,7 @@ show_help () {
 	printf " --force-reset \t\tforce a reset\n" 
 	printf " --custom-cron \t\tcustom schedule, syntax: \"0 2 * * *\" \n"
 	printf "\t\t\tif you do NOT know this, use --enable-cron\n"
-	printf " --enable-cron \t\tenables scheduled updates (4AM daily)\n"
+	printf " --enable-cron \t\tenables scheduled updates (10AM daily)\n"
 	printf " --disable-cron \tdisables scheduled updates\n"
 	printf " --help \t\tdisplays this message\n"
 }
