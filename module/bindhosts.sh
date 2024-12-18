@@ -82,12 +82,13 @@ run_crond() {
 
 custom_cron() {
 	shift
- 	# Make sure there are 5 args
- 	# c/o changhuapeng
-	if [ ! "$(echo "$1" | wc -w)" -eq 5 ] || [ ! -z "$2" ]; then
+	# c/o changhuapeng
+	if ( ! echo "$1" | grep -Eqw "^(@reboot|@hourly|@midnight|@daily|@weekly|@monthly|@annually|@yearly)$") && 
+		{ [ ! "$(echo "$1" | wc -w)" -eq 5 ] || [ ! -z "$2" ]; }; then
 		# shoutout to native test and holmes
 		echo "[!] futile cronjob" 
 		echo "[!] syntax: --custom-cron \"0 2 * * *\" " 
+		echo "[!] syntax: --custom-cron \"@hourly\" " 
 		exit 0
 	fi
 	# run crond
@@ -296,7 +297,7 @@ show_help () {
 	printf " --tcpdump \t\tsniff dns requests via tcpdump\n"
 	printf " --force-update \tforce an update\n" 
 	printf " --force-reset \t\tforce a reset\n" 
-	printf " --custom-cron \t\tcustom schedule, syntax: \"0 2 * * *\" \n"
+	printf " --custom-cron \t\tcustom update schedule\n"
 	printf "\t\t\tif you do NOT know this, use --enable-cron\n"
 	printf " --enable-cron \t\tenables scheduled updates (10AM daily)\n"
 	printf " --disable-cron \tdisables scheduled updates\n"
