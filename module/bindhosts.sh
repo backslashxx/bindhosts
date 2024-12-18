@@ -80,58 +80,114 @@ run_crond() {
 	}
 }
 
+_is_valid_cron_arg() { # return value: 0 = true, 1 = false
+(
+	valid_cron_x="$1"
+	valid_cron_arg="$2"
+	valid_cron_len=${#valid_cron_arg}
+	valid_cron_complex_check=false
+	[ "$valid_cron_len" -lt 1 ] && return 1 # End check if arg is empty
+	if [ "$valid_cron_len" -eq 1 ]; then
+		# End check if 1-char arg is not * or digit
+		[ "$(echo "$valid_cron_arg" | tr -d "\*[:digit:]" | wc -w)" -gt 0 ] && return 1
+		# Additional check if arg is a number
+		if (echo "$valid_cron_arg" | grep -q "[[:digit:]]"); then
+			case "$valid_cron_x" in
+				3) [ "$valid_cron_arg" -lt 1 ] && return 1 ;;
+				4) [ "$valid_cron_arg" -lt 1 ] && return 1 ;;
+				5) [ "$valid_cron_arg" -lt 0 ] || [ "$valid_cron_arg" -gt 7 ] && return 1 ;;
+			esac
+		fi
+	elif [ "$valid_cron_len" -eq 2 ]; then
+		# End check if 2-char arg is not a number
+		[ "$(echo "$valid_cron_arg" | tr -d "[:digit:]" | wc -w)" -gt 0 ] && return 1
+		case "$valid_cron_x" in
+			1) [ "$valid_cron_arg" -lt 0 ] || [ "$valid_cron_arg" -gt 59 ] && return 1 ;;
+			2) [ "$valid_cron_arg" -lt 0 ] || [ "$valid_cron_arg" -gt 23 ] && return 1 ;;
+			3) [ "$valid_cron_arg" -lt 1 ] || [ "$valid_cron_arg" -gt 31 ] && return 1 ;;
+			4) [ "$valid_cron_arg" -lt 1 ] || [ "$valid_cron_arg" -gt 12 ] && return 1 ;;
+		esac
+	elif [ "$valid_cron_len" -gt 2 ]; then
+		# Because the arg might be "1-6", "0,15,25" or even "1-7,7-21/3"
+		# We'll need extra check for these long arg (>= 3 char) if the arg is:
+		# - of the MONTH field but is not in JAN-DEC list
+		# - of the DAY_OF_WEEK field but is not in SUN-SAT list
+		# - of the MIN, HOUR or DAY_OF_MONTH fields
+		case "$valid_cron_x" in
+			4) (! echo "$valid_cron_arg" | grep -Eiqw "^(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)$") && valid_cron_complex_check=true ;;
+			5) (! echo "$valid_cron_arg" | grep -Eiqw "^(SUN|MON|TUE|WED|THU|FRI|SAT)$") && valid_cron_complex_check=true ;;
+			*) valid_cron_complex_check=true ;;
+		esac
+	fi
+
+	if [ "$valid_cron_complex_check" = true ]; then
+		# End check if long arg (>= 3 char) is a number
+		[ "$(echo "$valid_cron_arg" | tr -d "[:digit:]" | wc -w)" -eq 0 ] && return 1
+
+		valid_cron_delimiter=""
+		# To split complex arg in the order from , > / > -
+		if (echo "$valid_cron_arg" | grep -q "\,"); then
+			valid_cron_delimiter=","
+		elif (echo "$valid_cron_arg" | grep -q "\/"); then
+			valid_cron_delimiter="/"
+		elif (echo "$valid_cron_arg" | grep -q "\-"); then
+			valid_cron_delimiter="-"
+		else
+			return 1
+		fi
+		valid_cron_substring=""
+		while [ "$valid_cron_arg" != "$valid_cron_substring" ] ;do
+			# Extract the substring from start of arg up to delimiter
+			# Example: substring="JAN" from "JAN,MAR,JUN,SEP,DEC"
+			valid_cron_substring=${valid_cron_arg%%"$valid_cron_delimiter"*}
+			# Delete this first "substring" AND its delimiter, from arg
+			# Example: arg="MAR,JUN,SEP,DEC" from "JAN,MAR,JUN,SEP,DEC"
+			valid_cron_arg="${valid_cron_arg#"$valid_cron_substring""$valid_cron_delimiter"}"
+			# Validate substring recursively
+			valid_cron_valid_arg=false
+			_is_valid_cron_arg "$valid_cron_x" "$valid_cron_substring" && valid_cron_valid_arg=true
+			if [ "$valid_cron_valid_arg" = true ]; then
+				echo "[>] field #$valid_cron_x value [ $valid_cron_substring ] passed"
+			else
+				echo "[!] field #$valid_cron_x value [ $valid_cron_substring ] failed"
+				return 1
+			fi
+		done
+	fi
+	return 0
+)
+}
+
 custom_cron() {
 	shift
-	local error=false
+	echo "[+] validating custom cron expression"
+	custom_cron_error=false
 	# Has only 1 arg and it starts with @
-	if [ "$(echo "$1" | wc -w)" -eq 1 ] && [ "$(echo "$1" | grep "^@")" ]; then
+	if [ "$(echo "$1" | wc -w)" -eq 1 ] && (echo "$1" | grep -q "^@"); then
 		# End check if arg is not these accepted @strings (case-sensitive)
-		(! echo "$1" | grep -Eqw "@reboot|@hourly|@midnight|@daily|@weekly|@monthly|@annually|@yearly") && error=true
+		(! echo "$1" | grep -Eqw "^(@reboot|@hourly|@midnight|@daily|@weekly|@monthly|@annually|@yearly)$") && custom_cron_error=true
 	# Has 5 args
 	elif [ "$(echo "$1" | wc -w)" -eq 5 ]; then
-		x=1
-		while [ $x -lt 6 ] ; do
-			arg=$(echo "$1" | cut -d ' ' -f "$x")
-			len=${#arg}
-			if [ "$len" -eq 1 ]; then
-				# End check if 1-character arg is not * or digit
-				[ "$(echo "$arg" | tr -d "\*[:digit:]" | wc -w)" -gt 0 ] && break
-				# Additional check if arg is a number
-				if (echo "$arg" | grep -q "[[:digit:]]"); then
-					case "$x" in
-						3) [ "$arg" -lt 1 ] && break ;;
-						4) [ "$arg" -lt 1 ] && break ;;
-						5) [ "$arg" -lt 0 ] || [ "$arg" -gt 7 ] && break ;;
-					esac
-				fi
-			elif [ "$len" -eq 2 ]; then
-				# End check if 2-character arg is not a number
-				[ "$(echo "$arg" | tr -d "[:digit:]" | wc -w)" -gt 0 ] && break
-				case "$x" in
-					1) [ "$arg" -lt 0 ] || [ "$arg" -gt 59 ] && break ;;
-					2) [ "$arg" -lt 0 ] || [ "$arg" -gt 23 ] && break ;;
-					3) [ "$arg" -lt 1 ] || [ "$arg" -gt 31 ] && break ;;
-					4) [ "$arg" -lt 1 ] || [ "$arg" -gt 12 ] && break ;;
-				esac
-			elif [ "$len" -eq 3 ]; then
-				# End check if 3-character arg (from MON and DAY fields) is not JAN-DEC or SUN-SAT (case-insensitive)
-				case "$x" in
-					4) (! echo "$arg" | grep -Eiqw "JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC") && break ;;
-					5) (! echo "$arg" | grep -Eiqw "SUN|MON|TUE|WED|THU|FRI|SAT") && break ;;
-					*) break ;;
-				esac
+		custom_cron_x=1
+		while [ $custom_cron_x -lt 6 ] ; do
+			custom_cron_arg=$(echo "$1" | cut -d ' ' -f "$custom_cron_x")
+			echo "[>] checking field #$custom_cron_x: [ $custom_cron_arg ]"
+			custom_cron_valid_arg=false
+			_is_valid_cron_arg "$custom_cron_x" "$custom_cron_arg" && custom_cron_valid_arg=true
+			if [ "$custom_cron_valid_arg" = true ]; then
+				echo "[+] field #$custom_cron_x passed"
 			else
-				# End check if arg is blank or if arg length is longer than JAN-DEC or SUN-SAT
+				echo "[!] field #$custom_cron_x failed"
 				break
 			fi
-			x=$((x+1))
+			custom_cron_x=$((custom_cron_x+1))
 		done
-		[ "$x" -lt 6 ] && error=true
+		[ "$custom_cron_x" -lt 6 ] && custom_cron_error=true
 	else
-		error=true
+		custom_cron_error=true
 	fi
 	# this atleast will catch globbed
-	if [ -z "$1" ] || [ ! -z "$2" ] || [ "$error" = true ]; then
+	if [ -z "$1" ] || [ ! -z "$2" ] || [ "$custom_cron_error" = true ]; then
 		# shoutout to native test and holmes
 		echo "[!] futile cronjob" 
 		echo "[!] syntax: --custom-cron \"0 2 * * *\" " 
