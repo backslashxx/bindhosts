@@ -30,7 +30,7 @@ done
 
 # check for other systemless hosts modules and disable them
 # sorry I had to do this.
-modulenames="hosts systemless-hosts-KernelSU-module systemless-hosts Malwack Re-Malwack cubic-adblock"
+modulenames="hosts systemless-hosts-KernelSU-module systemless-hosts Malwack Re-Malwack cubic-adblock StevenBlock systemless_adblocker"
 for i in $modulenames; do
 	if [ -d /data/adb/modules/$i ] ; then
 		echo "[!] confliciting module found!"
