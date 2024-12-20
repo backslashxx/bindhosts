@@ -293,7 +293,7 @@ tcpdump () {
 show_help () {
 	echo "usage:"
 	printf " --action \t\tsimulate action.sh\n"
-	printf " --tcpdump \t\tsniff dns requests via tcpdump (experimental)\n"
+	printf " --tcpdump \t\tsniff dns requests via tcpdump\n"
 	printf " --force-update \tforce an update\n" 
 	printf " --force-reset \t\tforce a reset\n" 
 	printf " --custom-cron \t\tcustom schedule, syntax: \"0 2 * * *\" \n"
