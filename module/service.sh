@@ -117,9 +117,9 @@ esac
 
 # symlink for magisk
 # this way it can be used on termux
-# nicely enough termux adds /debug_ramdisk and /sbin 
+# nicely enough magisk adds /debug_ramdisk and /sbin 
 # on $PATH, heres how we abuse it
-command -v magisk > /dev/null 2>&1 && {
+[ -f /data/adb/magisk/magisk ] && {
 	find_rwdir
 	ln -sf $MODDIR/bindhosts.sh $rwdir/bindhosts
 	}
