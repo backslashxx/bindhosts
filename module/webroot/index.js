@@ -61,7 +61,7 @@ async function loadFile(fileType) {
 // Function to check if running in Magisk
 async function checkMagisk() {
     try {
-        const magiskEnv = await execCommand(`command -v magisk >/dev/null 2>&1 && echo "OK"`);
+        const magiskEnv = await execCommand(`[ -f /data/adb/magisk/magisk ] && echo "OK"`);
         if (magiskEnv.trim() === "OK") {
             console.log("Running under magisk environment, displaying element.");
             actionRedirectContainer.style.display = "flex";
