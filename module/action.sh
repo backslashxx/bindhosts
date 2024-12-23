@@ -29,7 +29,8 @@ bindhosts_sh() {
 [ -f $PERSISTENT_DIR/webui_setting.sh ] && . $PERSISTENT_DIR/webui_setting.sh
 
 # detect magisk environment here
-if [ ! -z "$MAGISKTMP" ] && [ $magisk_webui_redirect = 1 ] ; then
+# no need to redirect if inside mmrl
+if [ -z "$MMRL" ] && [ ! -z "$MAGISKTMP" ] && [ $magisk_webui_redirect = 1 ] ; then
 	# courtesy of kow
 	pm path io.github.a13e300.ksuwebui > /dev/null 2>&1 && {
 		echo "- Launching WebUI in KSUWebUIStandalone..."
