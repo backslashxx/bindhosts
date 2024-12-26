@@ -79,7 +79,7 @@ mode=8
       susfs-assisted generic overlayfs
       KernelSU only
       Requires susfs-patched kernel and userspace tool
-      opt-in only due to ksu_susfs_bind mode being a better choice
+      legacy susfs users will be forced here.
         echo "mode=8" > /data/adb/bindhosts/mode_override.sh
       Adaway compatible
       hiding: good but ksu_susfs_bind is easier
