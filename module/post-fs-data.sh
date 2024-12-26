@@ -21,14 +21,22 @@ mode=0
 skip_mount=0
 
 # ksu+susfs operating_mode
-# susfs exists so we can hide the bind mount if binary is available 
-# and kmsg has 'susfs_init'. though this has an issue if KSU_SUSFS_ENABLE_LOG=n
-# we just hope in here that they were built with =y
+# due to susfs4ksu policy change, theres a lot of fuckups that will
+# happen if I still try to keep bind mount for them
+# with this I'll be forcing ALL legacy susfs users pre 153 onto overlayfs mode.
 if [ ${KSU} = true ] && [ -f ${SUSFS_BIN} ] ; then
-	dmesg | grep -q "susfs_init" && {
+	if [ $(${SUSFS_BIN} show version | head -n1 | sed 's/v//; s/\.//g') -ge 153 ]; then
+		echo "bindhosts: post-fs-data.sh - susfs 153+ found" >> /dev/kmsg
 		mode=1
 		skip_mount=1
+	else
+		# theres no other way to probe for legacy susfs
+		dmesg | grep -q "susfs" > /dev/null && {
+		echo "bindhosts: post-fs-data.sh - legacy susfs found" >> /dev/kmsg
+		mode=8
+		skip_mount=1
 		}
+	fi
 fi
 
 # plain bindhosts operating mode, no hides at all
