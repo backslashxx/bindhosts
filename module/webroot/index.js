@@ -18,12 +18,40 @@ const actionRedirectContainer = document.getElementById('action-redirect-contain
 const actionRedirectStatus = document.getElementById('action-redirect');
 const cronContainer = document.getElementById('cron-toggle-container');
 const cronToggle = document.getElementById('toggle-cron');
+const rippleClasses = ['#mode-btn', '.action-button', '#status-box', '.input-box-wrapper', '.add-btn', '.toggle-list', '.prompt.reboot', '.learn-more', '#reset-mode'];
 
 let clickCount = 0;
 let timeout;
 let clickTimeout;
 let developerOption = false;
 let disableTimeout;
+
+// Function to add material design style ripple effect
+function applyRippleEffect() {
+    rippleClasses.forEach(selector => {
+        document.querySelectorAll(selector).forEach(element => {
+            element.addEventListener("pointerdown", function(event) {
+                const ripple = document.createElement("span");
+                ripple.classList.add("ripple");
+                const rect = element.getBoundingClientRect();
+                const width = rect.width;
+                const size = Math.max(rect.width, rect.height);
+                const x = event.clientX - rect.left - size / 2;
+                const y = event.clientY - rect.top - size / 2;
+                let duration = 0.2 + (width / 800) * 0.5;
+                duration = Math.min(0.8, Math.max(0.2, duration));
+                ripple.style.width = ripple.style.height = `${size}px`;
+                ripple.style.left = `${x}px`;
+                ripple.style.top = `${y}px`;
+                ripple.style.animationDuration = `${duration}s`;
+                element.appendChild(ripple);
+                ripple.addEventListener("animationend", () => {
+                    ripple.remove();
+                });
+            });
+        });
+    });
+}
 
 // Function to read a file and display its content in the UI
 async function loadFile(fileType) {
@@ -47,12 +75,6 @@ async function loadFile(fileType) {
             listElement.appendChild(listItem);
             listItem.querySelector(".delete-btn").addEventListener("click", () => removeLine(fileType, line));
         });
-        await getCurrentMode();
-        await updateStatusFromModuleProp();
-        await loadVersionFromModuleProp();
-        checkUpdateStatus();
-        checkRedirectStatus();
-        checkCronStatus();
     } catch (error) {
         console.error(`Failed to load ${fileType} file: ${error}`);
     }
@@ -81,7 +103,7 @@ async function getCurrentMode() {
         updateMode(mode.trim());
     } catch (error) {
         console.error("Failed to read description from mode.sh:", error);
-        updateMode("Error reading description from mode.sh");
+        updateMode("Error");
     }
 }
 
@@ -99,7 +121,7 @@ async function loadVersionFromModuleProp() {
         updateVersion(version.trim());
     } catch (error) {
         console.error("Failed to read version from module.prop:", error);
-        updateVersion("Error reading version from module.prop");
+        updateVersion("Error");
     }
 }
 
@@ -245,7 +267,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // Run bindhosts.sh --action
 async function executeActionScript() {
     try {
-        showPrompt("Script running...");
+        showPrompt("Script running...", true, 50000);
         setTimeout(async () => {
             const command = "su -c 'sh /data/adb/modules/bindhosts/bindhosts.sh --action'";
             const output = await execCommand(command);
@@ -285,9 +307,18 @@ document.getElementById("mode-btn").addEventListener("click", async () => {
     if (developerOption) {
         openOverlay(document.getElementById("mode-menu"));
     } else {
-        window.open("https://github.com/backslashxx/bindhosts/blob/master/Documentation/modes.md#bindhosts-operating-modes", "_blank");
+        linkRedirect('https://github.com/backslashxx/bindhosts/blob/master/Documentation/modes.md#bindhosts-operating-modes');
     }
 });
+
+// Function to redirect link on external browser
+async function linkRedirect(link) {
+    try {
+        await execCommand(`am start -a android.intent.action.VIEW -d ${link}`);
+    } catch (error) {
+        console.error('Error redirect link:', error);
+    }
+}
 
 // Event listener to enable developer option
 document.getElementById("status-box").addEventListener("click", async (event) => {  
@@ -321,7 +352,7 @@ async function saveModeSelection(mode) {
         } else {
             await execCommand(`echo "mode=${mode}" > /data/adb/bindhosts/mode_override.sh`);
         }
-        showPrompt("Reboot to take effect, tap to reboot", true);
+        showPrompt("Reboot to take effect, tap to reboot", true, 4000);
         await updateModeSelection();
         closeOverlay("mode-menu");
     } catch (error) {
@@ -354,6 +385,9 @@ function openOverlay(overlay) {
     updateModeSelection();
     overlay.classList.add("active");
     document.body.style.overflow = "hidden";
+    document.querySelector('.learn-more').addEventListener("click", function() {
+        linkRedirect('https://github.com/backslashxx/bindhosts/blob/master/Documentation/modes.md#bindhosts-operating-modes');
+    });
 }
 document.getElementById("mode-menu").addEventListener("click", (e) => {
     if (e.target === e.currentTarget) {
@@ -378,7 +412,7 @@ async function closeOverlay(id) {
 }
 
 // Function to show the prompt with a success or error message
-function showPrompt(message, isSuccess = true) {
+function showPrompt(message, isSuccess = true, duration = 2000) {
     const prompt = document.getElementById('prompt');
     prompt.textContent = message;
     prompt.classList.toggle('error', !isSuccess);
@@ -388,8 +422,12 @@ function showPrompt(message, isSuccess = true) {
     }
 
     if (message.includes("Reboot to take effect")) {
-        prompt.classList.add('pointer');
+        prompt.classList.add('reboot');
+        applyRippleEffect();
+        let countdownActive = false;
         prompt.onclick = () => {
+            if (countdownActive) return;
+            countdownActive = true;
             let countdown = 3;
             prompt.textContent = `Rebooting in ${countdown}...`;
             const countdownInterval = setInterval(() => {
@@ -398,6 +436,7 @@ function showPrompt(message, isSuccess = true) {
                     prompt.textContent = `Rebooting in ${countdown}...`;
                 } else {
                     clearInterval(countdownInterval);
+                    countdownActive = false;
                     execCommand("svc power reboot").catch(error => {
                         console.error("Failed to execute reboot command:", error);
                     });
@@ -405,18 +444,16 @@ function showPrompt(message, isSuccess = true) {
             }, 1000);
         };
     } else {
-        prompt.classList.remove('pointer');
-        prompt.onclick = null;
+        prompt.classList.remove('reboot');
     }
 
     setTimeout(() => {
         prompt.classList.add('visible');
         prompt.classList.remove('hidden');
-        const timeoutDuration = message.includes('running') ? 10000 : 3000;
         window.promptTimeout = setTimeout(() => {
             prompt.classList.remove('visible');
             prompt.classList.add('hidden');
-        }, timeoutDuration);
+        }, duration);
     }, 100);
 }
 
@@ -559,6 +596,15 @@ window.onload = () => {
     attachAddButtonListeners();
     attachHelpButtonListeners();
 };
+document.addEventListener('DOMContentLoaded', async () => {
+    await getCurrentMode();
+    await updateStatusFromModuleProp();
+    await loadVersionFromModuleProp();
+    applyRippleEffect();
+    checkUpdateStatus();
+    checkRedirectStatus();
+    checkCronStatus();
+});
 
 // Function to check if running in MMRL
 function adjustHeaderForMMRL() {

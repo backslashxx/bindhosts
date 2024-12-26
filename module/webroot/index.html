@@ -6,9 +6,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Bindhost</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="/styles.css" type="text/css">
+	<link rel="stylesheet" href="styles.css" type="text/css">
 	<link rel="stylesheet" type="text/css" href="/mmrl/insets.css" />
-	<script type="module" crossorigin src="/index.js"></script>
+	<script type="module" crossorigin src="index.js"></script>
 </head>
 
 <body>
@@ -29,6 +29,7 @@
 		</div>
 		<div class="box" id="control-panel">
 			<h2>Control Panel</h2>
+			<div class="control-panel">
 			<div class="toggle-list" id="update-toggle-container">
 				<i class="control-icon" id="update-icon">
 				    <svg xmlns="http://www.w3.org/2000/svg" height="26px" viewBox="0 -1000 960 960" width="26px"><path d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z"/></svg>
@@ -59,6 +60,7 @@
 					<span class="slider round"></span>
 				</label>
 			</div>
+			</div>
 		</div>
 		<div class="box">
 			<h2>
@@ -68,8 +70,10 @@
 				</button>
 			</h2>
 			<div class="category-container">
-				<input id="custom-input" type="text" placeholder="93.184.215.14 example.com" />
-				<button id="custom-add" onclick="handleAdd('custom')">+</button>
+			    <div class="input-box-wrapper">
+				    <input class="input-box" id="custom-input" type="text" placeholder="93.184.215.14 example.com" />
+				</div>
+				<button class="add-btn" id="custom-add" onclick="handleAdd('custom')">+</button>
 			</div>
 			<ul id="custom-list"></ul>
 		</div>
@@ -81,8 +85,10 @@
 				</button>
 			</h2>
 			<div class="category-container">
-				<input id="sources-input" type="text" placeholder="https://adaway.org/hosts.txt" />
-				<button id="sources-add" onclick="handleAdd('sources')">+</button>
+				<div class="input-box-wrapper">
+				    <input class="input-box" id="sources-input" type="text" placeholder="https://adaway.org/hosts.txt" />
+				</div>
+				<button class="add-btn" id="sources-add" onclick="handleAdd('sources')">+</button>
 			</div>
 			<ul id="sources-list"></ul>
 		</div>
@@ -94,8 +100,10 @@
 				</button>
 			</h2>
 			<div class="category-container">
-				<input id="blacklist-input" type="text" placeholder="host.to.block" />
-				<button id="blacklist-add" onclick="handleAdd('blacklist')">+</button>
+			    <div class="input-box-wrapper">
+				    <input class="input-box" id="blacklist-input" type="text" placeholder="host.to.block" />
+				</div>
+				<button class="add-btn" id="blacklist-add" onclick="handleAdd('blacklist')">+</button>
 			</div>
 			<ul id="blacklist-list"></ul>
 		</div>
@@ -107,8 +115,10 @@
 				</button>
 			</h2>
 			<div class="category-container">
-				<input id="whitelist-input" type="text" placeholder="domain.not.to.block" />
-				<button id="whitelist-add" onclick="handleAdd('whitelist')">+</button>
+			    <div class="input-box-wrapper">
+				    <input class="input-box" id="whitelist-input" type="text" placeholder="domain.not.to.block" />
+				</div>
+				<button class="add-btn" id="whitelist-add" onclick="handleAdd('whitelist')">+</button>
 			</div>
 			<ul id="whitelist-list"></ul>
 		</div>
@@ -163,46 +173,54 @@
 			<button class="close-btn" onclick="closeOverlay('mode-menu')">&#x2715;</button>
 			<h2>Operation Mode</h2>
 			<form id="mode-options">
-				<label>
+				<label class="custom-radio">
 					<input type="radio" name="mode" value="0">
-					<span><strong>Mode 0</strong><br> Default</span>
-				</label><br>
-				<label>
+					<span class="radio-circle"></span>
+                    <span class="radio-label">Mode 0<br><small>Default</small></span>
+				</label>
+				<label class="custom-radio">
 					<input type="radio" name="mode" value="1">
-					<span><strong>Mode 1</strong><br> ksu_susfs_bind</span>
-				</label><br>
-				<label>
+					<span class="radio-circle"></span>
+					<span class="radio-label">Mode 1<br><small>ksu_susfs_bind</small></span>
+				</label>
+				<label class="custom-radio">
 					<input type="radio" name="mode" value="2">
-					<span><strong>Mode 2</strong><br> plain bindhosts</span>
-				</label><br>
-				<label>
+					<span class="radio-circle"></span>
+					<span class="radio-label">Mode 2<br><small>plain bindhosts</small></span>
+				</label>
+				<label class="custom-radio">
 					<input type="radio" name="mode" value="3">
-					<span><strong>Mode 3</strong><br> apatch_hfr, hosts_file_redirect</span>
-				</label><br>
-				<label>
+					<span class="radio-circle"></span>
+					<span class="radio-label">Mode 3<br><small>apatch_hfr, hosts_file_redirect</small></span>
+				</label>
+				<label class="custom-radio">
 					<input type="radio" name="mode" value="4">
-					<span><strong>Mode 4</strong><br> zn_hostsredirect</span>
-				</label><br>
-				<label>
+					<span class="radio-circle"></span>
+					<span class="radio-label">Mode 4<br><small>zn_hostsredirect</small></span>
+				</label>
+				<label class="custom-radio">
 					<input type="radio" name="mode" value="5">
-					<span><strong>Mode 5</strong><br> ksu_susfs_open_redirect</span>
-				</label><br>
-				<label>
+					<span class="radio-circle"></span>
+					<span class="radio-label">Mode 5<br><small>ksu_susfs_open_redirect</small></span>
+				</label>
+				<label class="custom-radio">
 					<input type="radio" name="mode" value="6">
-					<span><strong>Mode 6</strong><br> ksu_source_mod</span>
-				</label><br>
-				<label>
+					<span class="radio-circle"></span>
+					<span class="radio-label">Mode 6<br><small>ksu_source_mod</small></span>
+				</label>
+				<label class="custom-radio">
 					<input type="radio" name="mode" value="7">
-					<span><strong>Mode 7</strong><br> generic_overlay</span>
-				</label><br>
-				<label>
+					<span class="radio-circle"></span>
+					<span class="radio-label">Mode 7<br><small>generic_overlay</small></span>
+				</label>
+				<label class="custom-radio">
 					<input type="radio" name="mode" value="8">
-					<span><strong>Mode 8</strong><br> ksu_susfs_overlay</span>
+					<span class="radio-circle"></span>
+					<span class="radio-label">Mode 8<br><small>ksu_susfs_overlay</small></span>
 				</label><br>
 			</form>
 			<div class="reference-reset">
-				<a href="https://github.com/backslashxx/bindhosts/blob/master/Documentation/modes.md#bindhosts-operating-modes"
-					class="learn-more">Learn more</a>
+		        <div class="learn-more">Learn more</div>
 				<button id="reset-mode">Reset (auto)</button>
 			</div>
 		</div>
