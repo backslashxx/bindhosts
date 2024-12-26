@@ -29,11 +29,8 @@ normal_mount() {
 }
 
 ksu_susfs_bind() { 
-	${SUSFS_BIN} add_sus_kstat '/system/etc/hosts'
 	mount_bind
-	${SUSFS_BIN} update_sus_kstat '/system/etc/hosts'
 	${SUSFS_BIN} add_try_umount $target_hostsfile 1
-	${SUSFS_BIN} add_try_umount $target_hostsfile > /dev/null 2>&1 #legacy susfs
 	echo "bindhosts: service.sh - mode ksu_susfs_bind" >> /dev/kmsg
 }
 
@@ -84,7 +81,7 @@ ksu_susfs_overlay() {
 	overlay_routine
 	${SUSFS_BIN} add_sus_mount /system/etc
 	${SUSFS_BIN} add_try_umount /system/etc 1
-	${SUSFS_BIN} add_try_umount /system/etc > /dev/null 2>&1 #legacy susfs
+	${SUSFS_BIN} add_try_umount /system/etc > /dev/null 2>&1 # ultra-legacy susfs
 	echo "bindhosts: service.sh - mode ksu_susfs_overlay" >> /dev/kmsg
 }
 
