@@ -17,9 +17,10 @@ bindhosts_sh() {
 	sh $MODDIR/bindhosts.sh --action
 	# print exec time
 	echo "[+] execution time: $(( $(date +%s) - start_time ))s"
-	# no need to sleep on Magisk and MMRL 
-	# environment stops exec and lets user read
-	[ -z "$MAGISKTMP" ] && [ -z "$MMRL" ] && sleep 2
+	# 2s sleep on APatch on KernelSU
+	if [ -z "$MMRL" ] && { [ "$KSU" = "true" ] || [ "$APATCH" = "true" ]; }; then
+		sleep 2
+	fi
 	# exit clean
 	exit 0
 }
