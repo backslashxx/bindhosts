@@ -30,24 +30,54 @@ let disableTimeout;
 function applyRippleEffect() {
     rippleClasses.forEach(selector => {
         document.querySelectorAll(selector).forEach(element => {
-            element.addEventListener("pointerdown", function(event) {
+            element.addEventListener("pointerdown", function (event) {
+                if (isScrolling) return;                
                 const ripple = document.createElement("span");
                 ripple.classList.add("ripple");
+
+                // Calculate ripple size and position
                 const rect = element.getBoundingClientRect();
                 const width = rect.width;
                 const size = Math.max(rect.width, rect.height);
                 const x = event.clientX - rect.left - size / 2;
                 const y = event.clientY - rect.top - size / 2;
-                let duration = 0.2 + (width / 800) * 0.5;
+
+                // Determine animation duration
+                let duration = 0.2 + (width / 800) * 0.4;
                 duration = Math.min(0.8, Math.max(0.2, duration));
+
+                // Set ripple styles
                 ripple.style.width = ripple.style.height = `${size}px`;
                 ripple.style.left = `${x}px`;
                 ripple.style.top = `${y}px`;
                 ripple.style.animationDuration = `${duration}s`;
+                ripple.style.transition = `opacity ${duration}s ease`;
+
+                // Adaptive color
+                const computedStyle = window.getComputedStyle(element);
+                const bgColor = computedStyle.backgroundColor || "rgba(0, 0, 0, 0)";
+                const textColor = computedStyle.color;
+                const isDarkColor = (color) => {
+                    const rgb = color.match(/\d+/g);
+                    if (!rgb) return false;
+                    const [r, g, b] = rgb.map(Number);
+                    return (r * 0.299 + g * 0.587 + b * 0.114) < 128; // Luma formula
+                };
+                ripple.style.backgroundColor = isDarkColor(bgColor) ? "rgba(255, 255, 255, 0.2)" : "";
+
+                // Append ripple and handle cleanup
                 element.appendChild(ripple);
-                ripple.addEventListener("animationend", () => {
-                    ripple.remove();
-                });
+                const handlePointerUp = () => {
+                    ripple.classList.add("end");
+                    setTimeout(() => {
+                        ripple.classList.remove("end");
+                        ripple.remove();
+                    }, duration * 1000);
+                    element.removeEventListener("pointerup", handlePointerUp);
+                    element.removeEventListener("pointercancel", handlePointerUp);
+                };
+                element.addEventListener("pointerup", handlePointerUp);
+                element.addEventListener("pointercancel", handlePointerUp);
             });
         });
     });
@@ -349,12 +379,12 @@ async function saveModeSelection(mode) {
     try {
         if (mode === "reset") {
             await execCommand("rm -f /data/adb/bindhosts/mode_override.sh");
+            closeOverlay("mode-menu");
         } else {
             await execCommand(`echo "mode=${mode}" > /data/adb/bindhosts/mode_override.sh`);
         }
         showPrompt("Reboot to take effect, tap to reboot", true, 4000);
         await updateModeSelection();
-        closeOverlay("mode-menu");
     } catch (error) {
         console.error("Error saving mode selection:", error);
     }
@@ -448,11 +478,13 @@ function showPrompt(message, isSuccess = true, duration = 2000) {
     }
 
     setTimeout(() => {
-        prompt.classList.add('visible');
-        prompt.classList.remove('hidden');
+        if (typeof ksu !== 'undefined' && ksu.mmrl) {
+            prompt.style.transform = 'translateY(calc((var(--window-inset-bottom) + 60%) * -1))';
+        } else {
+            prompt.style.transform = 'translateY(-60%)';
+        }
         window.promptTimeout = setTimeout(() => {
-            prompt.classList.remove('visible');
-            prompt.classList.add('hidden');
+            prompt.style.transform = 'translateY(100%)';
         }, duration);
     }, 100);
 }
@@ -480,8 +512,15 @@ inputs.forEach(input => {
 
 // Scroll event
 let lastScrollY = window.scrollY;
+let isScrolling = false;
+let scrollTimeout;
 const scrollThreshold = 25;
 window.addEventListener('scroll', () => {
+    isScrolling = true;
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => {
+        isScrolling = false;
+    }, 200);
     if (window.scrollY > lastScrollY && window.scrollY > scrollThreshold) {
         headerBlock.style.transform = 'translateY(-80px)';
         header.style.transform = 'translateY(-80px)';
