@@ -25,8 +25,9 @@ Fully standalone, self-updating.
 - [Operating Modes](Documentation/modes.md)
 
 ## Links
- - Download [here](https://github.com/backslashxx/bindhosts/releases)
- - Looking for more sources? [here](Documentation/sources.md)
+- Download [here](https://github.com/backslashxx/bindhosts/releases)
+- Looking for more sources? [here](Documentation/sources.md)
+- Localization [guide](Documentation/localize.md)
 
 ## Help and Support
 Report [here](https://github.com/backslashxx/bindhosts/issues) if you encounter any issues.
