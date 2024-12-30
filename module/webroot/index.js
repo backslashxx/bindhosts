@@ -1,3 +1,5 @@
+import { initializeAvailableLanguages, detectUserLanguage, loadTranslations, translations } from './language.js';
+
 const basePath = "/data/adb/bindhosts";
 
 const filePaths = {
@@ -7,6 +9,7 @@ const filePaths = {
     whitelist: `${basePath}/whitelist.txt`,
 };
 
+const cover = document.querySelector('.cover');
 const headerBlock = document.querySelector('.header-block');
 const header = document.querySelector('.header');
 const actionButton = document.querySelector('.action-button');
@@ -18,7 +21,7 @@ const actionRedirectContainer = document.getElementById('action-redirect-contain
 const actionRedirectStatus = document.getElementById('action-redirect');
 const cronContainer = document.getElementById('cron-toggle-container');
 const cronToggle = document.getElementById('toggle-cron');
-const rippleClasses = ['#mode-btn', '.action-button', '#status-box', '.input-box-wrapper', '.add-btn', '.toggle-list', '.prompt.reboot', '.learn-more', '#reset-mode'];
+const rippleClasses = ['#mode-btn', '.action-button', '#status-box', '.input-box-wrapper', '.add-btn', '.toggle-list', '.prompt.reboot', '.learn-more', '#reset-mode', '.language-option', '.language-improve'];
 
 let clickCount = 0;
 let timeout;
@@ -61,7 +64,7 @@ function applyRippleEffect() {
                     const rgb = color.match(/\d+/g);
                     if (!rgb) return false;
                     const [r, g, b] = rgb.map(Number);
-                    return (r * 0.299 + g * 0.587 + b * 0.114) < 128; // Luma formula
+                    return (r * 0.299 + g * 0.587 + b * 0.114) < 96; // Luma formula
                 };
                 ripple.style.backgroundColor = isDarkColor(bgColor) ? "rgba(255, 255, 255, 0.2)" : "";
 
@@ -255,10 +258,10 @@ async function removeLine(fileType, lineContent) {
 }
 
 // Help event listener
-document.addEventListener("DOMContentLoaded", () => {
+export let activeOverlay = null;
+function setupHelpMenu() {
     const helpButtons = document.querySelectorAll(".help-btn");
     const overlays = document.querySelectorAll(".overlay");
-    let activeOverlay = null;
     helpButtons.forEach(button => {
         button.addEventListener("click", () => {
             const type = button.dataset.type;
@@ -270,9 +273,17 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     overlays.forEach(overlay => {
         const closeButton = overlay.querySelector(".close-btn");
+        const languageContainer = document.getElementById('language-container');
+        const language = document.getElementById('language-help');
 
         if (closeButton) {
             closeButton.addEventListener("click", () => closeOverlay(overlay));
+        }
+
+        if (languageContainer) {
+            languageContainer.addEventListener('click', () => {
+            openOverlay(language);
+            });
         }
 
         overlay.addEventListener("click", (e) => {
@@ -292,7 +303,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.body.style.overflow = "";
         activeOverlay = null;
     }
-});
+}
 
 // Run bindhosts.sh --action
 async function executeActionScript() {
@@ -342,7 +353,7 @@ document.getElementById("mode-btn").addEventListener("click", async () => {
 });
 
 // Function to redirect link on external browser
-async function linkRedirect(link) {
+export async function linkRedirect(link) {
     try {
         await execCommand(`am start -a android.intent.action.VIEW -d ${link}`);
     } catch (error) {
@@ -636,6 +647,11 @@ window.onload = () => {
     attachHelpButtonListeners();
 };
 document.addEventListener('DOMContentLoaded', async () => {
+    await initializeAvailableLanguages();
+    const userLang = detectUserLanguage();
+    await loadTranslations(userLang);
+    cover.style.display = "none";
+    setupHelpMenu();
     await getCurrentMode();
     await updateStatusFromModuleProp();
     await loadVersionFromModuleProp();
@@ -656,7 +672,7 @@ function adjustHeaderForMMRL() {
 }
 
 // Execute shell commands
-async function execCommand(command) {
+export async function execCommand(command) {
     return new Promise((resolve, reject) => {
         const callbackName = `exec_callback_${Date.now()}`;
         window[callbackName] = (errno, stdout, stderr) => {

@@ -8,6 +8,17 @@ body.input-focused {
     padding-bottom: 250px;
 }
 
+.cover {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #fff;
+    z-index: 2000;
+}
+
 .header-block {
     background-color: #F5F5F5;
     display: none;
@@ -55,6 +66,10 @@ body.input-focused {
     position: relative;
     overflow: hidden;
     user-select: none;
+}
+
+#mode-text {
+    padding-left: 5px;
 }
 
 .action-button {
@@ -445,13 +460,57 @@ li:last-child {
 .overlay-content {
     background: white;
     padding: 20px;
-    border-radius: 10px;
+    border-radius: 15px;
     max-width: 600px;
     width: 75vw;
     max-height: 90vh;
     overflow-y: auto;
     position: relative;
     overflow-wrap: anywhere;
+}
+
+#language-help .overlay-content {
+    display: flex;
+    width: fit-content;
+    padding: 25px 40px;
+    max-width: 90vw;
+    flex-direction: column;
+    align-items: center;
+}
+
+#language-help h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.language-option {
+    font-size: 18px;
+    padding: 8px 5px;
+    background-color: #fff;
+    border: none;
+    width: 100%;
+    border-bottom: 1px solid #ccc;
+    white-space: nowrap;
+    position: relative;
+    overflow: hidden;
+    user-select: none;
+}
+
+.language-option:last-child {
+    border-bottom: none;
+}
+
+.language-improve {
+    background-color: #fff;
+    color: #3B3B3B;
+    cursor: none;
+    margin-top: 15px;
+    padding: 10px 10px;
+    border-radius: 50px 50px;
+    position: relative;
+    overflow: hidden;
+    user-select: none;
 }
 
 .close-btn {
@@ -527,16 +586,22 @@ li:last-child {
         color: #eee;
     }
 
+    .cover {
+        background-color: #000;
+    }
+    
     .header-block,
     .header {
         background-color: #121212;
     }
 
+    .language-option,
     .toggle-list,
     li {
         border-bottom: 1px solid #6E6E6E;
     }
 
+    .language-option,
     .toggle-list,
     .overlay-content,
     .help-btn {
@@ -548,6 +613,7 @@ li:last-child {
         background-color: #343434;
     }
 
+    .language-improve,
     .learn-more,
     #reset-mode,
     .radio-label small,

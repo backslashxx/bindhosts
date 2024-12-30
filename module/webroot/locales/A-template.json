@@ -1,0 +1,43 @@
+{
+    "language": "English",
+    "status": {
+        "title": "Status"
+    },
+    "control_panel": {
+        "title": "Control Panel",
+        "language": "Language",
+        "language_improve": "Bad Translation / Add a Language?",
+        "module_update": "Module Update",
+        "action_redirect": "Action Redirect",
+        "update_hosts_daily": "Update Hosts Daily"
+    },
+    "custom": {
+        "title": "Custom Rules",
+        "guide1": "Add custom redirects here",
+        "example": "Example:",
+        "warning": "WARNING: Custom rules are loaded on both run and reset!"
+    },
+    "source": {
+        "title": "Sources",
+        "guide1": "Blacklist sources",
+        "guide2": "Custom rulesets",
+        "format": "Format:",
+        "example": "Example:"
+    },
+    "blacklist": {
+        "title": "Blacklist",
+        "guide1": "Everything you add here will be blacklisted",
+        "example": "Example:"
+    },
+    "whitelist": {
+        "title": "Whitelist",
+        "guide1": "Everything you add here won't be blacklisted",
+        "example": "Example:"
+    },
+    "mode": {
+        "button": "Mode",
+        "title": "Operation Mode",
+        "detail": "Learn More",
+        "reset": "Reset (auto)"
+    }
+}

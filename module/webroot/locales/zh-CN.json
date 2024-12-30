@@ -1,0 +1,43 @@
+{
+    "language": "中文（简体）",
+    "status": {
+        "title": "状态栏"
+    },
+    "control_panel": {
+        "title": "控制面板",
+        "language": "语言",
+        "language_improve": "翻译问题 / 新增语言？",
+        "module_update": "模块更新",
+        "action_redirect": "Action 跳转 WebUI",
+        "update_hosts_daily": "每日自动更新 hosts"
+    },
+    "custom": {
+        "title": "自定义规则",
+        "guide1": "添加自定义规则",
+        "example": "例子：",
+        "warning": "警告：自定义规则在充值后依然会加载！"
+    },
+    "source": {
+        "title": "模板",
+        "guide1": "黑名单模板",
+        "guide2": "自定义规则模板",
+        "format": "格式",
+        "example": "例子："
+    },
+    "blacklist": {
+        "title": "黑名单",
+        "guide1": "将网址添加到黑名单中",
+        "example": "例子："
+    },
+    "whitelist": {
+        "title": "白名单",
+        "guide1": "将网址添加到白名单中",
+        "example": "例子："
+    },
+    "mode": {
+        "button": "模式",
+        "title": "工作模式",
+        "detail": "了解更多",
+        "reset": "重置（自动）"
+    }
+}

@@ -12,10 +12,12 @@
 </head>
 
 <body>
+	<div class="cover"></div>
 	<div class="header-block"></div>
 	<div class="header">
 		<div id="title">bindhosts <span id="version-text"></span></div>
-		<div id="mode-btn" class="current-mode-text">Mode: <span id="mode-text">X</span></div>
+		<div id="mode-btn" class="current-mode-text"><span data-i18n="mode.button"></span><span id="mode-text">X</span>
+		</div>
 	</div>
 	<div class="content">
 		<div class="float">
@@ -24,204 +26,232 @@
 			</button>
 		</div>
 		<div class="box" id="status-box">
-			<h2 id="status-header">Status</h2>
-			<p id="status-text">Initializing...</p>
+			<h2 id="status-header" data-i18n="status.title"></h2>
+			<p id="status-text">Initializing</p>
 		</div>
 		<div class="box" id="control-panel">
-			<h2>Control Panel</h2>
+			<div>
+				<h2 data-i18n="control_panel.title"></h2>
+			</div>
 			<div class="control-panel">
-			<div class="toggle-list" id="update-toggle-container">
-				<i class="control-icon" id="update-icon">
-				    <svg xmlns="http://www.w3.org/2000/svg" height="26px" viewBox="0 -1000 960 960" width="26px"><path d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z"/></svg>
-				</i>
-				<span class="toggle-text">Module Update</span>
-				<label class="toggle-switch">
-					<input type="checkbox" id="toggle-version" disabled>
-					<span class="slider round"></span>
-				</label>
-			</div>
-			<div class="toggle-list" id="action-redirect-container">
-				<i class="control-icon" id="action-icon">
-				    <svg xmlns="http://www.w3.org/2000/svg" height="26px" viewBox="60 -950 860 860" width="26px"><path d="M320-200v-560l440 280-440 280Zm80-280Zm0 134 210-134-210-134v268Z"/></svg>
-				</i>
-				<span class="toggle-text">Action Redirect</span>
-				<label class="toggle-switch">
-					<input type="checkbox" id="action-redirect" disabled>
-					<span class="slider round"></span>
-				</label>
-			</div>
-            <div class="toggle-list" id="cron-toggle-container">
-				<i class="control-icon" id="update-icon">
-				    <svg xmlns="http://www.w3.org/2000/svg" height="26px" viewBox="0 -1050 1000 1000" width="26px"><path d="M480-120q-75 0-140.5-28.5t-114-77q-48.5-48.5-77-114T120-480q0-75 28.5-140.5t77-114q48.5-48.5 114-77T480-840q82 0 155.5 35T760-706v-94h80v240H600v-80h110q-41-56-101-88t-129-32q-117 0-198.5 81.5T200-480q0 117 81.5 198.5T480-200q105 0 183.5-68T756-440h82q-15 137-117.5 228.5T480-120Zm112-192L440-464v-216h80v184l128 128-56 56Z"/></svg>
-				</i>
-				<span class="toggle-text">Update Hosts Daily</span>
-				<label class="toggle-switch">
-					<input type="checkbox" id="toggle-cron" disabled>
-					<span class="slider round"></span>
-				</label>
-			</div>
+				<div class="toggle-list" id="language-container">
+					<i class="control-icon" id="langauge-icon">
+						<svg xmlns="http://www.w3.org/2000/svg" height="26px" viewBox="0 -1050 1000 1000" width="26px"><path d="M480-80q-82 0-155-31.5t-127.5-86Q143-252 111.5-325T80-480q0-83 31.5-155.5t86-127Q252-817 325-848.5T480-880q83 0 155.5 31.5t127 86q54.5 54.5 86 127T880-480q0 82-31.5 155t-86 127.5q-54.5 54.5-127 86T480-80Zm0-82q26-36 45-75t31-83H404q12 44 31 83t45 75Zm-104-16q-18-33-31.5-68.5T322-320H204q29 50 72.5 87t99.5 55Zm208 0q56-18 99.5-55t72.5-87H638q-9 38-22.5 73.5T584-178ZM170-400h136q-3-20-4.5-39.5T300-480q0-21 1.5-40.5T306-560H170q-5 20-7.5 39.5T160-480q0 21 2.5 40.5T170-400Zm216 0h188q3-20 4.5-39.5T580-480q0-21-1.5-40.5T574-560H386q-3 20-4.5 39.5T380-480q0 21 1.5 40.5T386-400Zm268 0h136q5-20 7.5-39.5T800-480q0-21-2.5-40.5T790-560H654q3 20 4.5 39.5T660-480q0 21-1.5 40.5T654-400Zm-16-240h118q-29-50-72.5-87T584-782q18 33 31.5 68.5T638-640Zm-234 0h152q-12-44-31-83t-45-75q-26 36-45 75t-31 83Zm-200 0h118q9-38 22.5-73.5T376-782q-56 18-99.5 55T204-640Z" /></svg>
+					</i>
+					<span class="toggle-text" data-i18n="control_panel.language"></span>
+				</div>
+				<div class="toggle-list" id="update-toggle-container">
+					<i class="control-icon" id="update-icon">
+						<svg xmlns="http://www.w3.org/2000/svg" height="26px" viewBox="0 -1000 960 960" width="26px"><path d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z" /></svg>
+					</i>
+					<span class="toggle-text" data-i18n="control_panel.module_update"></span>
+					<label class="toggle-switch">
+						<input type="checkbox" id="toggle-version" disabled>
+						<span class="slider round"></span>
+					</label>
+				</div>
+				<div class="toggle-list" id="action-redirect-container">
+					<i class="control-icon" id="action-icon">
+						<svg xmlns="http://www.w3.org/2000/svg" height="26px" viewBox="60 -950 860 860" width="26px"><path d="M320-200v-560l440 280-440 280Zm80-280Zm0 134 210-134-210-134v268Z" /></svg>
+					</i>
+					<span class="toggle-text" data-i18n="control_panel.action_redirect"></span>
+					<label class="toggle-switch">
+						<input type="checkbox" id="action-redirect" disabled>
+						<span class="slider round"></span>
+					</label>
+				</div>
+				<div class="toggle-list" id="cron-toggle-container">
+					<i class="control-icon" id="update-icon">
+						<svg xmlns="http://www.w3.org/2000/svg" height="26px" viewBox="0 -1050 1000 1000" width="26px"><path d="M480-120q-75 0-140.5-28.5t-114-77q-48.5-48.5-77-114T120-480q0-75 28.5-140.5t77-114q48.5-48.5 114-77T480-840q82 0 155.5 35T760-706v-94h80v240H600v-80h110q-41-56-101-88t-129-32q-117 0-198.5 81.5T200-480q0 117 81.5 198.5T480-200q105 0 183.5-68T756-440h82q-15 137-117.5 228.5T480-120Zm112-192L440-464v-216h80v184l128 128-56 56Z" /></svg>
+					</i>
+					<span class="toggle-text" data-i18n="control_panel.update_hosts_daily"></span>
+					<label class="toggle-switch">
+						<input type="checkbox" id="toggle-cron" disabled>
+						<span class="slider round"></span>
+					</label>
+				</div>
 			</div>
 		</div>
 		<div class="box">
-			<h2>
-				Custom Rules
+			<div>
+				<h2 data-i18n="custom.title"></h2>
 				<button class="help-btn" data-type="custom">
 					<i class="fa fa-question-circle"></i>
 				</button>
-			</h2>
+			</div>
 			<div class="category-container">
-			    <div class="input-box-wrapper">
-				    <input class="input-box" id="custom-input" type="text" placeholder="93.184.215.14 example.com" />
+				<div class="input-box-wrapper">
+					<input class="input-box" id="custom-input" type="text" placeholder="93.184.215.14 example.com" />
 				</div>
 				<button class="add-btn" id="custom-add" onclick="handleAdd('custom')">+</button>
 			</div>
 			<ul id="custom-list"></ul>
 		</div>
 		<div class="box">
-			<h2>
-				Sources
+			<div>
+				<h2 data-i18n="source.title"></h2>
 				<button class="help-btn" data-type="sources">
 					<i class="fa fa-question-circle"></i>
 				</button>
-			</h2>
+			</div>
 			<div class="category-container">
 				<div class="input-box-wrapper">
-				    <input class="input-box" id="sources-input" type="text" placeholder="https://adaway.org/hosts.txt" />
+					<input class="input-box" id="sources-input" type="text"
+						placeholder="https://adaway.org/hosts.txt" />
 				</div>
 				<button class="add-btn" id="sources-add" onclick="handleAdd('sources')">+</button>
 			</div>
 			<ul id="sources-list"></ul>
 		</div>
 		<div class="box">
-			<h2>
-				Blacklist
+			<div>
+				<h2 data-i18n="blacklist.title"></h2>
 				<button class="help-btn" data-type="blacklist">
 					<i class="fa fa-question-circle"></i>
 				</button>
-			</h2>
+			</div>
 			<div class="category-container">
-			    <div class="input-box-wrapper">
-				    <input class="input-box" id="blacklist-input" type="text" placeholder="host.to.block" />
+				<div class="input-box-wrapper">
+					<input class="input-box" id="blacklist-input" type="text" placeholder="host.to.block" />
 				</div>
 				<button class="add-btn" id="blacklist-add" onclick="handleAdd('blacklist')">+</button>
 			</div>
 			<ul id="blacklist-list"></ul>
 		</div>
 		<div class="box">
-			<h2>
-				Whitelist
+			<div>
+				<h2 data-i18n="whitelist.title"></h2>
 				<button class="help-btn" data-type="whitelist">
 					<i class="fa fa-question-circle"></i>
 				</button>
-			</h2>
+			</div>
 			<div class="category-container">
-			    <div class="input-box-wrapper">
-				    <input class="input-box" id="whitelist-input" type="text" placeholder="domain.not.to.block" />
+				<div class="input-box-wrapper">
+					<input class="input-box" id="whitelist-input" type="text" placeholder="domain.not.to.block" />
 				</div>
 				<button class="add-btn" id="whitelist-add" onclick="handleAdd('whitelist')">+</button>
 			</div>
 			<ul id="whitelist-list"></ul>
 		</div>
 	</div>
+	<div id="language-help" class="overlay">
+		<div class="overlay-content">
+			<div>
+				<h2 data-i18n="control_panel.language"></h2>
+				<button class="close-btn" onclick="closeOverlay('language-help')">&#x2715;</button>
+			</div>
+			<div class="language-menu"></div>
+			<div class="language-improve" data-i18n="control_panel.language_improve"></div>
+		</div>
+	</div>
 	<div id="custom-help" class="overlay">
 		<div class="overlay-content">
 			<button class="close-btn" onclick="closeOverlay('custom-help')">&#x2715;</button>
-			<h2>Custom Rules</h2>
+			<h2 data-i18n="custom.title"></h2>
 			<ul>
-				<li>Add custom redirects here</li>
-				<li>Example:<br>1.1.1.1 one.one.one.one<br>93.184.215.14 example.com</li>
-				<li>WARNING: Custom rules are loaded on both run and reset!</li>
+				<li data-i18n="custom.guide1"></li>
+				<li data-i18n="custom.example"><br>1.1.1.1 one.one.one.one<br>93.184.215.14 example.com</li>
+				<li data-i18n="custom.warning"></li>
 			</ul>
 		</div>
 	</div>
 	<div id="sources-help" class="overlay">
 		<div class="overlay-content">
 			<button class="close-btn" onclick="closeOverlay('sources-help')">&#x2715;</button>
-			<h2>Sources</h2>
+			<h2 data-i18n="source.title"></h2>
 			<ul>
-				<li>Blacklist sources</li>
-				<li>Format:<br>127.0.0.1 some.ads.site<br>0.0.0.0 some.ads.site</li>
-				<li>Example:<br>https://adaway.org/hosts.txt<br>https://raw.githubusercontent.com/r-a-y/mobile-hosts/master/AdguardDNS.txt<br>
-				<li><br>Custom rulesets</li>
-				<li>Format:<br>186.2.163.20 nyaa.si</li>
-				<li>Example:<br>https://raw.githubusercontent.com/bebasid/bebasid/refs/heads/master/releases/hosts<br>
+				<li data-i18n="source.guide1"></li>
+				<li data-i18n="source.format"><br>127.0.0.1 some.ads.site<br>0.0.0.0 some.ads.site</li>
+				<li data-i18n="source.example"><br>https://adaway.org/hosts.txt<br>https://raw.githubusercontent.com/r-a-y/mobile-hosts/master/AdguardDNS.txt</li>
+				<br>
+				<li data-i18n="source.guide2"></li>
+				<li data-i18n="source.format"><br>186.2.163.20 nyaa.si</li>
+				<li data-i18n="source.example"><br>https://raw.githubusercontent.com/bebasid/bebasid/refs/heads/master/releases/hosts</li>
 			</ul>
 		</div>
 	</div>
 	<div id="blacklist-help" class="overlay">
 		<div class="overlay-content">
 			<button class="close-btn" onclick="closeOverlay('blacklist-help')">&#x2715;</button>
-			<h2>Blacklist</h2>
+			<h2 data-i18n="blacklist.title"></h2>
 			<ul>
-				<li>Everything you add here will be blacklisted</li>
-				<li>Example:<br>host.to.block</li>
+				<li data-i18n="blacklist.guide1"></li>
+				<li data-i18n="blacklist.example"><br>host.to.block</li>
 			</ul>
 		</div>
 	</div>
 	<div id="whitelist-help" class="overlay">
 		<div class="overlay-content">
 			<button class="close-btn" onclick="closeOverlay('whitelist-help')">&#x2715;</button>
-			<h2>Whitelist</h2>
+			<h2 data-i18n="whitelist.title"></h2>
 			<ul>
-				<li>Everything you add here won't be blacklisted</li>
-				<li>Example:<br>host.not.to.block</li>
+				<li data-i18n="whitelist.guide1"></li>
+				<li data-i18n="whitelist.example"><br>host.not.to.block</li>
 			</ul>
 		</div>
 	</div>
 	<div id="mode-menu" class="overlay">
 		<div class="overlay-content">
 			<button class="close-btn" onclick="closeOverlay('mode-menu')">&#x2715;</button>
-			<h2>Operation Mode</h2>
+			<h2 data-i18n="mode.title"></h2>
 			<form id="mode-options">
 				<label class="custom-radio">
 					<input type="radio" name="mode" value="0">
 					<span class="radio-circle"></span>
-                    <span class="radio-label">Mode 0<br><small>Default</small></span>
+					<span class="radio-label"><span data-i18n="mode.button"></span> 0<br><small>Default</small></span>
 				</label>
 				<label class="custom-radio">
 					<input type="radio" name="mode" value="1">
 					<span class="radio-circle"></span>
-					<span class="radio-label">Mode 1<br><small>ksu_susfs_bind</small></span>
+					<span class="radio-label"><span data-i18n="mode.button"></span>
+						1<br><small>ksu_susfs_bind</small></span>
 				</label>
 				<label class="custom-radio">
 					<input type="radio" name="mode" value="2">
 					<span class="radio-circle"></span>
-					<span class="radio-label">Mode 2<br><small>plain bindhosts</small></span>
+					<span class="radio-label"><span data-i18n="mode.button"></span> 2<br><small>plain
+							bindhosts</small></span>
 				</label>
 				<label class="custom-radio">
 					<input type="radio" name="mode" value="3">
 					<span class="radio-circle"></span>
-					<span class="radio-label">Mode 3<br><small>apatch_hfr, hosts_file_redirect</small></span>
+					<span class="radio-label"><span data-i18n="mode.button"></span> 3<br><small>apatch_hfr,
+							hosts_file_redirect</small></span>
 				</label>
 				<label class="custom-radio">
 					<input type="radio" name="mode" value="4">
 					<span class="radio-circle"></span>
-					<span class="radio-label">Mode 4<br><small>zn_hostsredirect</small></span>
+					<span class="radio-label"><span data-i18n="mode.button"></span>
+						4<br><small>zn_hostsredirect</small></span>
 				</label>
 				<label class="custom-radio">
 					<input type="radio" name="mode" value="5">
 					<span class="radio-circle"></span>
-					<span class="radio-label">Mode 5<br><small>ksu_susfs_open_redirect</small></span>
+					<span class="radio-label"><span data-i18n="mode.button"></span>
+						5<br><small>ksu_susfs_open_redirect</small></span>
 				</label>
 				<label class="custom-radio">
 					<input type="radio" name="mode" value="6">
 					<span class="radio-circle"></span>
-					<span class="radio-label">Mode 6<br><small>ksu_source_mod</small></span>
+					<span class="radio-label"><span data-i18n="mode.button"></span>
+						6<br><small>ksu_source_mod</small></span>
 				</label>
 				<label class="custom-radio">
 					<input type="radio" name="mode" value="7">
 					<span class="radio-circle"></span>
-					<span class="radio-label">Mode 7<br><small>generic_overlay</small></span>
+					<span class="radio-label"><span data-i18n="mode.button"></span>
+						7<br><small>generic_overlay</small></span>
 				</label>
 				<label class="custom-radio">
 					<input type="radio" name="mode" value="8">
 					<span class="radio-circle"></span>
-					<span class="radio-label">Mode 8<br><small>ksu_susfs_overlay</small></span>
-				</label><br>
+					<span class="radio-label"><span data-i18n="mode.button"></span>
+						8<br><small>ksu_susfs_overlay</small></span>
+				</label>
 			</form>
 			<div class="reference-reset">
-		        <div class="learn-more">Learn more</div>
-				<button id="reset-mode">Reset (auto)</button>
+				<div class="learn-more" data-i18n="mode.detail"></div>
+				<button id="reset-mode" data-i18n="mode.reset"></button>
 			</div>
 		</div>
 	</div>
