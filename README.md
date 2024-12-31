@@ -19,8 +19,9 @@ Fully standalone, self-updating.
 - [KsuWebUI](https://github.com/5ec1cff/KsuWebUIStandalone)
 - [MMRL](https://github.com/DerGoogler/MMRL)   <sup>👍</sup>
 
-## Hiding
-- Read [Hiding Guide](https://github.com/backslashxx/bindhosts/blob/master/Documentation/hiding.md)
+## Guides
+- [Usage](https://github.com/backslashxx/bindhosts/blob/master/Documentation/usage.md)
+- [Hiding Guide](https://github.com/backslashxx/bindhosts/blob/master/Documentation/hiding.md)
 
 ## Operating Modes
 - Read [bindhosts operation modes](https://github.com/backslashxx/bindhosts/blob/master/Documentation/modes.md).
