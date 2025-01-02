@@ -170,6 +170,7 @@ async function checkUpdateStatus() {
         const result = await execCommand("grep -q '^updateJson' /data/adb/modules/bindhosts/module.prop");
         toggleVersion.checked = !result;
     } catch (error) {
+        toggleVersion.checked = false;
         console.error('Error checking update status:', error);
     }
 }
@@ -180,6 +181,7 @@ async function checkRedirectStatus() {
         const result = await execCommand("su -c '[ ! -f /data/adb/bindhosts/webui_setting.sh ] || grep -q '^magisk_webui_redirect=1' /data/adb/bindhosts/webui_setting.sh' ");
         actionRedirectStatus.checked = !result;
     } catch (error) {
+        actionRedirectStatus.checked = false;
         console.error('Error checking action redirect status:', error);
     }
 }
@@ -190,8 +192,8 @@ async function checkCronStatus() {
         const result = await execCommand(`grep -q "bindhosts.sh" ${basePath}/crontabs/root`);
         cronToggle.checked = !result;
     } catch (error) {
+        cronToggle.checked = false;
         console.error('Error checking cron status:', error);
-        cronToggle.checked = 0;
     }
 }
 
@@ -214,7 +216,7 @@ function updateStatus(statusText) {
 }
 
 // Function to handle adding input to the file
-async function handleAdd(fileType) {
+async function handleAdd(fileType, prompt) {
     const inputElement = document.getElementById(`${fileType}-input`);
     const inputValue = inputElement.value.trim();
     console.log(`Input value for ${fileType}: "${inputValue}"`);
@@ -227,7 +229,7 @@ async function handleAdd(fileType) {
         const lines = fileContent.split('\n').map(line => line.trim()).filter(line => line !== "");
         if (lines.includes(inputValue)) {
             console.log(`"${inputValue}" is already in ${fileType}. Skipping add operation.`);
-            showPrompt(`"${inputValue}" is already in ${fileType}.`, false);
+            showPrompt(prompt, false, 2000, `${inputValue}`);
             inputElement.value = "";
             return;
         }
@@ -308,27 +310,32 @@ function setupHelpMenu() {
 // Run bindhosts.sh --action
 async function executeActionScript() {
     try {
-        showPrompt("Script running...", true, 50000);
-        setTimeout(async () => {
+        showPrompt("global.executing", true, 50000);
+        await new Promise(resolve => setTimeout(resolve, 200));
             const command = "su -c 'sh /data/adb/modules/bindhosts/bindhosts.sh --action'";
             const output = await execCommand(command);
             const lines = output.split("\n");
             lines.forEach(line => {
-                if (line.includes("[+]")) {
+                if (line.includes("[+] hosts file reset!")) {
+                    showPrompt("global.reset", true, undefined, "[+]");
+                } else if (line.includes("[+]")) {
                     showPrompt(line, true);
+                } else if (line.includes("[x] unwritable")) {
+                    showPrompt("global.unwritable", false, undefined, "[×]");
                 } else if (line.includes("[x]")) {
                     showPrompt(line, false);
+                } else if (line.includes("[*] not running")) {
+                    showPrompt("global.disabled", false, undefined, "[*]");
+                } else if (line.includes("[*] please reset")) {
+                    showPrompt("global.adaway", false, undefined, "[*]");
                 } else if (line.includes("[*]")) {
                     showPrompt(line, false);
-                } else if (line.includes("[%]")) {
-                    showPrompt(line, true);
                 }
             });
             await updateStatusFromModuleProp();
-        }, 1000);
     } catch (error) {
+        showPrompt("global.execute_error", false, undefined, undefined, error);
         console.error("Failed to execute action script:", error);
-        showPrompt(`Error executing action script: ${error}`, false);
     }
 }
 
@@ -374,13 +381,13 @@ document.getElementById("status-box").addEventListener("click", async (event) =>
         if (!developerOption) {
             try {
                 developerOption = true;
-                showPrompt("Developer option enabled", true);
+                showPrompt("global.dev_opt", true);
             } catch (error) {
                 console.error("Error enabling developer option:", error);
-                showPrompt("Error enabling developer option", false);
+                showPrompt("global.dev_opt_fail", false);
             }
         } else {
-            showPrompt("Developer option already enabled", true);
+            showPrompt("global.dev_opt_true", true);
         }
     }
 });
@@ -394,7 +401,7 @@ async function saveModeSelection(mode) {
         } else {
             await execCommand(`echo "mode=${mode}" > /data/adb/bindhosts/mode_override.sh`);
         }
-        showPrompt("Reboot to take effect, tap to reboot", true, 4000);
+        showPrompt("global.reboot", true, 4000);
         await updateModeSelection();
     } catch (error) {
         console.error("Error saving mode selection:", error);
@@ -453,15 +460,16 @@ async function closeOverlay(id) {
 }
 
 // Function to show the prompt with a success or error message
-function showPrompt(message, isSuccess = true, duration = 2000) {
+function showPrompt(key, isSuccess = true, duration = 2000, preValue = "", postValue = "") {
     const prompt = document.getElementById('prompt');
-    prompt.textContent = message;
+    const message = key.split('.').reduce((acc, k) => acc && acc[k], translations) || key;
+    const finalMessage = `${preValue} ${message} ${postValue}`.trim();
+    prompt.textContent = finalMessage;
     prompt.classList.toggle('error', !isSuccess);
 
     if (window.promptTimeout) {
         clearTimeout(window.promptTimeout);
     }
-
     if (message.includes("Reboot to take effect")) {
         prompt.classList.add('reboot');
         applyRippleEffect();
@@ -553,23 +561,24 @@ document.getElementById("actionButton").addEventListener("click", executeActionS
 
 // Attach event listeners to the add buttons
 function attachAddButtonListeners() {
-    document.getElementById("custom-input").addEventListener("keypress", (e) => {
-        if (e.key === "Enter") handleAdd("custom");
+    const elements = [
+        { id: "custom-input", type: "custom", fail: "custom.prompt_fail" },
+        { id: "sources-input", type: "sources", fail: "source.prompt_fail" },
+        { id: "blacklist-input", type: "blacklist", fail: "blacklist.prompt_fail" },
+        { id: "whitelist-input", type: "whitelist", fail: "whitelist.prompt_fail" }
+    ];
+    elements.forEach(({ id, type, fail }) => {
+        const inputElement = document.getElementById(id);
+        const buttonElement = document.getElementById(`${type}-add`);
+        if (inputElement) {
+            inputElement.addEventListener("keypress", (e) => {
+                if (e.key === "Enter") handleAdd(type, fail);
+            });
+        }
+        if (buttonElement) {
+            buttonElement.addEventListener("click", () => handleAdd(type, fail));
+        }
     });
-    document.getElementById("sources-input").addEventListener("keypress", (e) => {
-        if (e.key === "Enter") handleAdd("sources");
-    });
-    document.getElementById("blacklist-input").addEventListener("keypress", (e) => {
-        if (e.key === "Enter") handleAdd("blacklist");
-    });
-    document.getElementById("whitelist-input").addEventListener("keypress", (e) => {
-        if (e.key === "Enter") handleAdd("whitelist");
-    });
-
-    document.getElementById("custom-add").addEventListener("click", () => handleAdd("custom"));
-    document.getElementById("sources-add").addEventListener("click", () => handleAdd("sources"));
-    document.getElementById("blacklist-add").addEventListener("click", () => handleAdd("blacklist"));
-    document.getElementById("whitelist-add").addEventListener("click", () => handleAdd("whitelist"));
 }
 
 // Attach event listeners for mode options
@@ -586,14 +595,13 @@ document.getElementById("reset-mode").addEventListener("click", () => {
 // Event listener for the update toggle switch
 toggleContainer.addEventListener('click', async function () {
     try {
-        toggleVersion.checked = !toggleVersion.checked;
         const result = await execCommand("su -c 'sh /data/adb/modules/bindhosts/bindhosts.sh --toggle-updatejson'");
         const lines = result.split("\n");
         lines.forEach(line => {
             if (line.includes("[+]")) {
-                showPrompt(line, true);
+                showPrompt("control_panel.update_true", true, undefined, "[+]");
             } else if (line.includes("[x]")) {
-                showPrompt(line, false);
+                showPrompt("control_panel.update_false", false, undefined, "[×]");
             }
         });
         checkUpdateStatus();
@@ -605,9 +613,12 @@ toggleContainer.addEventListener('click', async function () {
 // Event listener for the action redirect switch
 actionRedirectContainer.addEventListener('click', async function () {
     try {
-        actionRedirectStatus.checked = !actionRedirectStatus.checked;
-        await execCommand(`su -c 'echo "magisk_webui_redirect=${actionRedirectStatus.checked ? 1 : 0}" > /data/adb/bindhosts/webui_setting.sh'`);
-        showPrompt(`${actionRedirectStatus.checked ? '[+] Enabled' : '[x] Disabled'} Magisk action redirect WebUI`, actionRedirectStatus.checked);
+        await execCommand(`su -c 'echo "magisk_webui_redirect=${actionRedirectStatus.checked ? 0 : 1}" > /data/adb/bindhosts/webui_setting.sh'`);
+        if (actionRedirectStatus.checked) {
+            showPrompt("control_panel.action_prompt_false", false, undefined, "[×]");
+        } else {
+            showPrompt("control_panel.action_prompt_true", true, undefined, "[+]");
+        }
         checkRedirectStatus();
     } catch (error) {
         console.error("Failed to execute change status", error);
@@ -617,20 +628,19 @@ actionRedirectContainer.addEventListener('click', async function () {
 // Event listener for the cron toggle switch
 cronContainer.addEventListener('click', async function () {
     try {
-        cronToggle.checked = !cronToggle.checked;
         let command;
         if (cronToggle.checked) {
-            command = "su -c 'sh /data/adb/modules/bindhosts/bindhosts.sh --enable-cron'";
-        } else {
             command = "su -c 'sh /data/adb/modules/bindhosts/bindhosts.sh --disable-cron'";
+        } else {
+            command = "su -c 'sh /data/adb/modules/bindhosts/bindhosts.sh --enable-cron'";
         }
         const result = await execCommand(command);
         const lines = result.split("\n");
         lines.forEach(line => {
             if (line.includes("[+]")) {
-                showPrompt(line, true);
+                showPrompt("control_panel.cron_true", true, undefined, "[+]");
             } else if (line.includes("[x]")) {
-                showPrompt(line, false);
+                showPrompt("control_panel.cron_false", false, undefined, "[×]");
             }
         });
         checkCronStatus();

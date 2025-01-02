@@ -3,36 +3,59 @@
     "status": {
         "title": "状态栏"
     },
+    "global": {
+        "executing": "执行中...",
+        "execute_error": "执行失败：",
+        "unwritable": "hosts 无法写入，需要修正",
+        "reset": "Hosts 已重置",
+        "disabled": "模块已禁用",
+        "adaway": "请先在 Adaway 重置 hosts",
+        "dev_opt": "开发者模式已启用",
+        "dev_opt_true": "您已处于开发者模式",
+        "dev_opt_fail": "开发者模式启用失败",
+        "reboot": "重启生效，点击重启"
+    },
     "control_panel": {
         "title": "控制面板",
         "language": "语言",
-        "language_improve": "翻译问题 / 新增语言？",
+        "bad_translation": "翻译问题",
+        "add_language": "新增语言",
         "module_update": "模块更新",
+        "update_true": "已开启模块更新",
+        "update_false": "已关闭模块更新",
         "action_redirect": "Action 跳转 WebUI",
-        "update_hosts_daily": "每日自动更新 hosts"
+        "action_prompt_true": "已开启 Action 跳转 WebUI",
+        "action_prompt_false": "已关闭 Action 跳转 WebUI",
+        "update_hosts_daily": "每日自动更新 hosts",
+        "cron_true": "已开启 hosts 每日更新",
+        "cron_false": "已关闭 hosts 每日更新"
     },
     "custom": {
         "title": "自定义规则",
         "guide1": "添加自定义规则",
         "example": "例子：",
-        "warning": "警告：自定义规则在充值后依然会加载！"
+        "warning": "警告：自定义规则在充值后依然会加载！",
+        "prompt_fail": "已存在于自定义规则"
     },
     "source": {
         "title": "模板",
         "guide1": "黑名单模板",
         "guide2": "自定义规则模板",
         "format": "格式",
-        "example": "例子："
+        "example": "例子：",
+        "prompt_fail": "已存在于模板"
     },
     "blacklist": {
         "title": "黑名单",
         "guide1": "将网址添加到黑名单中",
-        "example": "例子："
+        "example": "例子：",
+        "prompt_fail": "已存在于黑名单"
     },
     "whitelist": {
         "title": "白名单",
         "guide1": "将网址添加到白名单中",
-        "example": "例子："
+        "example": "例子：",
+        "prompt_fail": "已存在于白名单"
     },
     "mode": {
         "button": "模式",

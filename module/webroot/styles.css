@@ -490,23 +490,37 @@ li:last-child {
     background-color: #fff;
     border: none;
     width: 100%;
-    border-bottom: 1px solid #ccc;
     white-space: nowrap;
     position: relative;
     overflow: hidden;
     user-select: none;
 }
 
-.language-option:last-child {
-    border-bottom: none;
+.language-option::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 20px;
+    width: calc(100% - 40px);
+    height: 1px;
+    background-color: #ccc;
+}
+
+.language-option:last-child::after {
+    content: none;
+}
+
+.improve-button-container {
+    gap: 0;
+    margin-top: 20px;
 }
 
 .language-improve {
     background-color: #fff;
+    font-size: 14px;
+    text-align: center;
     color: #3B3B3B;
-    cursor: none;
-    margin-top: 15px;
-    padding: 10px 10px;
+    padding: 5px 10px;
     border-radius: 50px 50px;
     position: relative;
     overflow: hidden;
@@ -548,16 +562,12 @@ li:last-child {
 }
 
 .footer {
-    padding: 20px;
+    font-size: 16px;
+    padding: 25px;
     position: relative;
     color: #6E6E6E;
     text-align: center;
     user-select: none;
-}
-
-.footer>div {
-    margin-bottom: 10px;
-    display: block;
 }
 
 .ripple {
@@ -595,7 +605,9 @@ li:last-child {
         background-color: #121212;
     }
 
-    .language-option,
+    .language-option::after {
+        background-color: #6E6E6E;
+    }
     .toggle-list,
     li {
         border-bottom: 1px solid #6E6E6E;

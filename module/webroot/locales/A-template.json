@@ -3,36 +3,59 @@
     "status": {
         "title": "Status"
     },
+    "global": {
+        "executing": "Script running...",
+        "execute_error": "Error executing action script:",
+        "unwritable": "Unwritable hosts file, need correction",
+        "reset": "Hosts file reset!",
+        "disabled": "Module has been disabled",
+        "adaway": "Reset hosts in Adaway before continuing",
+        "dev_opt": "Developer option enabled",
+        "dev_opt_true": "Developer option already enabled",
+        "dev_opt_fail": "Error enabling developer option",
+        "reboot": "Reboot to take effect, tap to reboot"
+    },
     "control_panel": {
         "title": "Control Panel",
         "language": "Language",
-        "language_improve": "Bad Translation / Add a Language?",
+        "bad_translation": "Bad Translation",
+        "add_language": "Add a Language",
         "module_update": "Module Update",
+        "update_true": "Module update enabled",
+        "update_false": "Module update disabled",
         "action_redirect": "Action Redirect",
-        "update_hosts_daily": "Update Hosts Daily"
+        "action_prompt_true": "Enabled Magisk action redirect WebUI",
+        "action_prompt_false": "Disabled Magisk action redirect WebUI",
+        "update_hosts_daily": "Update Hosts Daily",
+        "cron_true": "Crontab entry added",
+        "cron_false": "Crontab entry removed"
     },
     "custom": {
         "title": "Custom Rules",
         "guide1": "Add custom redirects here",
         "example": "Example:",
-        "warning": "WARNING: Custom rules are loaded on both run and reset!"
+        "warning": "WARNING: Custom rules are loaded on both run and reset!",
+        "prompt_fail": "is already in custom rule"
     },
     "source": {
         "title": "Sources",
         "guide1": "Blacklist sources",
         "guide2": "Custom rulesets",
         "format": "Format:",
-        "example": "Example:"
+        "example": "Example:",
+        "prompt_fail": "is already in source"
     },
     "blacklist": {
         "title": "Blacklist",
         "guide1": "Everything you add here will be blacklisted",
-        "example": "Example:"
+        "example": "Example:",
+        "prompt_fail": "is already in blacklist"
     },
     "whitelist": {
         "title": "Whitelist",
         "guide1": "Everything you add here won't be blacklisted",
-        "example": "Example:"
+        "example": "Example:",
+        "prompt_fail": "is already in whitelist"
     },
     "mode": {
         "button": "Mode",
