@@ -508,25 +508,23 @@ function showPrompt(key, isSuccess = true, duration = 2000, preValue = "", postV
     }, 100);
 }
 
-// Function to handle input focus
-function handleFocus(event) {
-    setTimeout(() => {
-        document.body.classList.add(focusClass);
-        event.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }, 100);
-}
-
-// Function to handle input blur
-function handleBlur() {
-    setTimeout(() => {
-        document.body.classList.remove(focusClass);
-    }, 100);
-}
-
-// Add event listeners to each input
+// Prevent input box blocked by keyboard
 inputs.forEach(input => {
-    input.addEventListener('focus', handleFocus);
-    input.addEventListener('blur', handleBlur);
+    input.addEventListener('focus', event => {
+        document.body.classList.add(focusClass);
+        setTimeout(() => {
+            const offsetAdjustment = window.innerHeight * 0.1;
+            const targetPosition = event.target.getBoundingClientRect().top + window.scrollY;
+            const adjustedPosition = targetPosition - (window.innerHeight / 2) + offsetAdjustment;
+            window.scrollTo({
+                top: adjustedPosition,
+                behavior: 'smooth',
+            });
+        }, 100);
+    });
+    input.addEventListener('blur', () => {
+        document.body.classList.remove(focusClass);
+    });
 });
 
 // Scroll event

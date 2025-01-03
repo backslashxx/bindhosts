@@ -2,10 +2,11 @@ body {
     background-color: #F5F5F5;
     padding-top: var(--window-inset-top);
     padding-bottom: var(--window-inset-bottom);
+    transition: padding-bottom 0.2s ease;
 }
 
 body.input-focused {
-    padding-bottom: 250px;
+    padding-bottom: 50vh;
 }
 
 .cover {
