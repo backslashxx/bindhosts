@@ -1,0 +1,66 @@
+{
+    "language": "Deutsch",
+    "status": {
+        "title": "Status"
+    },
+    "global": {
+        "executing": "Script wird ausgeführt...",
+        "execute_error": "Fehler beim Ausführen des Aktionsskripts:",
+        "unwritable": "Nicht beschreibbare hosts-Datei, Korrektur erforderlich",
+        "reset": "Hosts-Datei zurückgesetzt!",
+        "disabled": "Das Modul wurde deaktiviert",
+        "adaway": "Setzen Sie die Hosts in Adaway zurück, bevor Sie fortfahren.",
+        "dev_opt": "Entwickler-Option aktiviert",
+        "dev_opt_true": "Entwickler-Option bereits aktiviert",
+        "dev_opt_fail": "Fehler beim Aktivieren der Entwickler-Option",
+        "reboot": "Betätigen Sie die Taste zum Neustart, damit die Änderungen wirksam werden."
+    },
+    "control_panel": {
+        "title": "Kontrollzentrum",
+        "language": "Sprache",
+        "bad_translation": "Schlechte Übersetzung",
+        "add_language": "Füge eine Sprache hinzu",
+        "module_update": "Das Modul aktualisieren",
+        "update_true": "Modulaktualisierung aktiviert",
+        "update_false": "Modulaktualisierung deaktiviert",
+        "action_redirect": "Umleitung der Aktion",
+        "action_prompt_true": "Aktivierte Magisk-Aktion leitet WebUI um",
+        "action_prompt_false": "Deaktivierte Magisk-Aktion leitet WebUI um",
+        "update_hosts_daily": "Tägliche Aktualisierung der Hosts",
+        "cron_true": "Crontab-Eintrag hinzugefügt",
+        "cron_false": "Crontab-Eintrag entfernt"
+    },
+    "custom": {
+        "title": "Benutzerdefinierte Regeln",
+        "guide1": "Benutzerdefinierte Weiterleitungen hier hinzufügen",
+        "example": "Beispiel:",
+        "warning": "WARNUNG: Benutzerdefinierte Regeln werden sowohl beim Start als auch beim Zurücksetzen geladen!",
+        "prompt_fail": "ist bereits in der benutzerdefinierten Regel"
+    },
+    "source": {
+        "title": "Quellen",
+        "guide1": "Quellen auf der schwarzen Liste",
+        "guide2": "Benutzerdefinierte Regelsätze",
+        "format": "Format:",
+        "example": "Beispiel:",
+        "prompt_fail": "Ist bereits in der Quelle enthalten"
+    },
+    "blacklist": {
+        "title": "Schwarze Liste",
+        "guide1": "Alles, was Sie hier eintragen, kommt auf die schwarze Liste.",
+        "example": "Beispiel:",
+        "prompt_fail": "Ist bereits auf der schwarzen Liste"
+    },
+    "whitelist": {
+        "title": "Ausnahmeliste",
+        "guide1": "Alles, was Sie hier hinzufügen, wird nicht in die schwarze Liste aufgenommen.",
+        "example": "Beispiel:",
+        "prompt_fail": "Ist bereits in der Ausnahmeliste"
+    },
+    "mode": {
+        "button": "Modus",
+        "title": "Betriebsmodus",
+        "detail": "Erfahren Sie mehr",
+        "reset": "Zurücksetzen (Auto)"
+    }
+}
