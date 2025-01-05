@@ -116,10 +116,10 @@ esac
 # this way it can be used on termux
 # nicely enough magisk adds /debug_ramdisk and /sbin 
 # on $PATH, heres how we abuse it
-[ -f /data/adb/magisk/magisk ] && {
+if [ -z "$KSU" ] && [ -z "$APATCH" ]; then
 	find_rwdir
 	ln -sf $MODDIR/bindhosts.sh $rwdir/bindhosts
-	}
+fi
 
 ##################
 until [ "$(getprop sys.boot_completed)" == "1" ]; do
