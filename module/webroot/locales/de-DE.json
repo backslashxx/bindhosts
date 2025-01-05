@@ -43,6 +43,7 @@
         "guide2": "Benutzerdefinierte Regelsätze",
         "format": "Format:",
         "example": "Beispiel:",
+        "source_page": "Mehr Quellen",
         "prompt_fail": "Ist bereits in der Quelle enthalten"
     },
     "blacklist": {

@@ -294,13 +294,15 @@ button.delete-btn {
     overflow: hidden;
 }
 
-ul {
+.box ul,
+.overlay-content ul {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-li {
+.box li,
+.overlay-content li {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -308,7 +310,8 @@ li {
     border-bottom: 1px solid #ccc;
 }
 
-li span {
+.box li span,
+.overlay-content li span {
     font-size: 14px;
     word-wrap: break-word;
     word-break: break-word;
@@ -316,7 +319,8 @@ li span {
     max-width: calc(100% - 40px);
 }
 
-li:last-child {
+.box li:last-child,
+.overlay-content li:last-child {
     border-bottom: none;
 }
 
@@ -405,7 +409,7 @@ li:last-child {
     transform: translate(-50%, -50%) scale(1.5);
 }
 
-.learn-more {
+#learn-btn {
     color: inherit;
     background-color: #fff;
     cursor: none;
@@ -417,6 +421,7 @@ li:last-child {
     user-select: none;
 }
 
+.docs-btn,
 #reset-mode {
     color: #3B3B3B;
     background-color: #fff;
@@ -429,6 +434,12 @@ li:last-child {
     user-select: none;
 }
 
+#source-btn {
+    left: 50%;
+    transform: translateX(-50%);
+    border: 1px solid #9e9e9e;
+}
+
 .reference-reset {
     color: #3B3B3B;
     display: flex;
@@ -437,6 +448,7 @@ li:last-child {
     margin-top: 10px;
 }
 
+.docs,
 .overlay {
     position: fixed;
     top: 0;
@@ -453,6 +465,7 @@ li:last-child {
     z-index: 1300;
 }
 
+.docs.active,
 .overlay.active {
     opacity: 1;
     visibility: visible;
@@ -468,6 +481,24 @@ li:last-child {
     overflow-y: auto;
     position: relative;
     overflow-wrap: anywhere;
+}
+
+.docs-content {
+    background: white;
+    padding: 20px 30px;
+    border-radius: 15px;
+    width: 80vw;
+    max-width: 850px;
+    position: relative;
+    overflow-wrap: anywhere;
+    overflow: hidden;
+}
+
+.documents {
+    max-height: calc(90vh - 40px);
+    white-space: nowarp;
+    overflow-y: auto;
+    user-select: none;
 }
 
 #language-help .overlay-content {
@@ -511,23 +542,23 @@ li:last-child {
     content: none;
 }
 
-.improve-button-container {
+#translate-btn {
     gap: 0;
     margin-top: 20px;
 }
 
 .language-improve {
+    margin: 0;
     background-color: #fff;
     font-size: 14px;
     text-align: center;
     color: #3B3B3B;
-    padding: 5px 10px;
-    border-radius: 50px 50px;
     position: relative;
     overflow: hidden;
     user-select: none;
 }
 
+.close-docs-btn,
 .close-btn {
     position: absolute;
     top: 10px;
@@ -597,6 +628,10 @@ li:last-child {
         color: #eee;
     }
 
+    .documents {
+        color: #fff;
+    }
+
     .cover {
         background-color: #000;
     }
@@ -609,14 +644,17 @@ li:last-child {
     .language-option::after {
         background-color: #6E6E6E;
     }
+
     .toggle-list,
-    li {
+    .box li,
+    .overlay-content li {
         border-bottom: 1px solid #6E6E6E;
     }
 
     .language-option,
     .toggle-list,
     .overlay-content,
+    .docs-content,
     .help-btn {
         background-color: #343434;
         color: #eee
@@ -626,8 +664,9 @@ li:last-child {
         background-color: #343434;
     }
 
+    .docs-btn,
     .language-improve,
-    .learn-more,
+    #learn-btn,
     #reset-mode,
     .radio-label small,
     .reference-reset {

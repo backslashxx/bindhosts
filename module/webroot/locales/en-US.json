@@ -43,6 +43,7 @@
         "guide2": "Custom rulesets",
         "format": "Format:",
         "example": "Example:",
+        "source_page": "More Sources",
         "prompt_fail": "is already in source"
     },
     "blacklist": {

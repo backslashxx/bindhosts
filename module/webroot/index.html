@@ -7,8 +7,11 @@
 	<title>Bindhost</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="styles.css" type="text/css">
+	<link rel="stylesheet" href="markdown.css" type="text/css">
 	<link rel="stylesheet" type="text/css" href="/mmrl/insets.css" />
-	<script type="module" crossorigin src="index.js"></script>
+	<script type="module" crossorigin src="scripts/index.js"></script>
+	<script type="module" crossorigin src="scripts/docs.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 
 <body>
@@ -141,10 +144,10 @@
 				<button class="close-btn" onclick="closeOverlay('language-help')">&#x2715;</button>
 			</div>
 			<div class="language-menu"></div>
-			<div class="improve-button-container">
+			<button class="docs-btn" id="translate-btn" data-type="translate">
 			    <div class="language-improve" id="bad-translation" data-i18n="control_panel.bad_translation"></div>
 			    <div class="language-improve" id="add-language" data-i18n="control_panel.add_language"></div>
-			</div>
+			</button>
 		</div>
 	</div>
 	<div id="custom-help" class="overlay">
@@ -171,6 +174,7 @@
 				<li data-i18n="source.format"><br>186.2.163.20 nyaa.si</li>
 				<li data-i18n="source.example"><br>https://raw.githubusercontent.com/bebasid/bebasid/refs/heads/master/releases/hosts</li>
 			</ul>
+			<button class="docs-btn" id="source-btn" data-type="source" data-i18n="source.source_page"></button>
 		</div>
 	</div>
 	<div id="blacklist-help" class="overlay">
@@ -193,6 +197,34 @@
 			</ul>
 		</div>
 	</div>
+	
+	<div id="source-docs" class="docs">
+		<div class="docs-content">
+			<button class="close-docs-btn" onclick="closeOverlay('source-docs')">&#x2715;</button>
+			<div class="documents">
+			    <div id="source-content">Loading...</div>
+			</div>
+		</div>
+	</div>
+
+    <div id="translate-docs" class="docs">
+		<div class="docs-content">
+			<button class="close-docs-btn" onclick="closeOverlay('translate-docs')">&#x2715;</button>
+			<div class="documents">
+			    <div id="translate-content">Loading...</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="modes-docs" class="docs">
+		<div class="docs-content">
+			<button class="close-docs-btn" onclick="closeOverlay('modes-docs')">&#x2715;</button>
+			<div class="documents">
+			    <div id="modes-content">Loading...</div>
+			</div>
+		</div>
+	</div>
+
 	<div id="mode-menu" class="overlay">
 		<div class="overlay-content">
 			<button class="close-btn" onclick="closeOverlay('mode-menu')">&#x2715;</button>
@@ -253,7 +285,7 @@
 				</label>
 			</form>
 			<div class="reference-reset">
-				<div class="learn-more" data-i18n="mode.detail"></div>
+			    <button class="docs-btn" id="learn-btn" data-type="modes" data-i18n="mode.detail"></button>
 				<button id="reset-mode" data-i18n="mode.reset"></button>
 			</div>
 		</div>

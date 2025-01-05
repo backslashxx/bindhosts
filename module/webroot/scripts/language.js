@@ -101,11 +101,3 @@ languageMenu.addEventListener("click", (e) => {
         activeOverlay = null;
     }
 });
-
-document.getElementById('bad-translation').addEventListener("click", function() {
-   linkRedirect('https://github.com/backslashxx/bindhosts/blob/master/Documentation/localize.md');
-});
-
-document.getElementById('add-language').addEventListener("click", function() {
-   linkRedirect('https://github.com/backslashxx/bindhosts/blob/master/Documentation/localize.md#add-a-new-language');
-});

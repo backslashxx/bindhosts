@@ -43,6 +43,7 @@
         "guide2": "自定义规则模板",
         "format": "格式",
         "example": "例子：",
+        "source_page": "更多模板",
         "prompt_fail": "已存在于模板"
     },
     "blacklist": {

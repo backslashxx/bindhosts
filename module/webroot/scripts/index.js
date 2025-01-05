@@ -1,4 +1,5 @@
 import { initializeAvailableLanguages, detectUserLanguage, loadTranslations, translations } from './language.js';
+import { setupDocsMenu } from './docs.js';
 
 const basePath = "/data/adb/bindhosts";
 
@@ -21,7 +22,7 @@ const actionRedirectContainer = document.getElementById('action-redirect-contain
 const actionRedirectStatus = document.getElementById('action-redirect');
 const cronContainer = document.getElementById('cron-toggle-container');
 const cronToggle = document.getElementById('toggle-cron');
-const rippleClasses = ['#mode-btn', '.action-button', '#status-box', '.input-box-wrapper', '.add-btn', '.toggle-list', '.prompt.reboot', '.learn-more', '#reset-mode', '.language-option', '.language-improve'];
+const rippleClasses = ['#mode-btn', '.action-button', '#status-box', '.input-box-wrapper', '.add-btn', '.toggle-list', '.prompt.reboot', '#reset-mode', '.language-option', '.docs-btn', '#copy-link'];
 
 let clickCount = 0;
 let timeout;
@@ -30,7 +31,7 @@ let developerOption = false;
 let disableTimeout;
 
 // Function to add material design style ripple effect
-function applyRippleEffect() {
+export function applyRippleEffect() {
     rippleClasses.forEach(selector => {
         document.querySelectorAll(selector).forEach(element => {
             if (element.dataset.rippleListener !== "true") {
@@ -278,11 +279,16 @@ function setupHelpMenu() {
     });
     overlays.forEach(overlay => {
         const closeButton = overlay.querySelector(".close-btn");
+        const docsButtons = overlay.querySelector(".docs-btn");
         const languageContainer = document.getElementById('language-container');
         const language = document.getElementById('language-help');
 
         if (closeButton) {
             closeButton.addEventListener("click", () => closeOverlay(overlay));
+        }
+
+        if (docsButtons) {
+            docsButtons.addEventListener("click", () => closeOverlay(overlay));
         }
 
         if (languageContainer) {
@@ -436,9 +442,6 @@ function openOverlay(overlay) {
     updateModeSelection();
     overlay.classList.add("active");
     document.body.style.overflow = "hidden";
-    document.querySelector('.learn-more').addEventListener("click", function() {
-        linkRedirect('https://github.com/backslashxx/bindhosts/blob/master/Documentation/modes.md#bindhosts-operating-modes');
-    });
 }
 document.getElementById("mode-menu").addEventListener("click", (e) => {
     if (e.target === e.currentTarget) {
@@ -663,6 +666,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     await loadTranslations(userLang);
     cover.style.display = "none";
     setupHelpMenu();
+    setupDocsMenu();
     await getCurrentMode();
     await updateStatusFromModuleProp();
     await loadVersionFromModuleProp();
@@ -702,4 +706,8 @@ export async function execCommand(command) {
             reject(error);
         }
     });
+}
+
+export function toast(message) {
+    ksu.toast(message);
 }
