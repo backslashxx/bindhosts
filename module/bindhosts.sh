@@ -462,6 +462,7 @@ tcpdump () {
 }
 
 show_help () {
+	echo "[%] $( grep '^description=' $MODDIR/module.prop | sed 's/description=//' )"
 	echo "usage:"
 	printf " --action \t\tsimulate action.sh\n"
 	printf " --tcpdump \t\tsniff dns requests via tcpdump\n"
