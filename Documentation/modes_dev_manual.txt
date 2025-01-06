@@ -58,8 +58,10 @@ mode=6
       KernelSU only
       requires source modification
         https://github.com/tiann/KernelSU/commit/2b2b0733d7c57324b742c017c302fc2c411fe0eb
+      KernelSU NEXT 12183+ 
+        https://github.com/rifsxd/KernelSU-Next/commit/9f30b48e559fb5ddfd088c933af147714841d673
       WARNING: conflicts with susfs, you dont need this if you can implement susfs
-      opt-in only due to lack of heuristic if krenel has it
+      opt-in only (plain ksu) due to lack of heuristic if krenel has it
         echo "mode=6" > /data/adb/bindhosts/mode_override.sh
       Adaway compatible
       hiding, best in its class as long as path_umount is available
