@@ -55,10 +55,12 @@ body.input-focused {
     font-size: 16px;
 }
 
-.current-mode-text {
+#mode-btn {
     font-size: 16px;
+    font-weight: bold;
     color: #fff;
     background-color: #007bff;
+    border: none;
     border-radius: 8px;
     padding: 5px 10px;
     text-decoration: none;
@@ -435,6 +437,7 @@ button.delete-btn {
 }
 
 #source-btn {
+    color: #333;
     left: 50%;
     transform: translateX(-50%);
     border: 1px solid #9e9e9e;
@@ -474,6 +477,7 @@ button.delete-btn {
 .overlay-content {
     background: white;
     padding: 20px;
+    padding-top: 40px;
     border-radius: 15px;
     max-width: 600px;
     width: 75vw;
@@ -483,28 +487,43 @@ button.delete-btn {
     overflow-wrap: anywhere;
 }
 
+.overlay-content h2 {
+    margin-top: 0;
+}
+
 .docs-content {
     background: white;
-    padding: 20px 30px;
+    padding-top: 40px;
+    padding-bottom: 20px;
     border-radius: 15px;
-    width: 80vw;
+    width: 95vw;
     max-width: 850px;
     position: relative;
-    overflow-wrap: anywhere;
     overflow: hidden;
 }
 
 .documents {
-    max-height: calc(90vh - 40px);
-    white-space: nowarp;
+    color: #333;
+    padding: 0 25px;
+    max-height: calc(80vh - 40px);
     overflow-y: auto;
     user-select: none;
+    white-space: normal;
+    overflow-wrap: break-word;
+}
+
+.credit-marked {
+    text-align: center;
+    font-size: 14px;
+    padding-top: 15px;
+    width: 100%;
+    color: #ccc;
 }
 
 #language-help .overlay-content {
     display: flex;
     width: fit-content;
-    padding: 25px 40px;
+    padding: 25px 10px;
     max-width: 90vw;
     flex-direction: column;
     align-items: center;
@@ -532,8 +551,8 @@ button.delete-btn {
     content: "";
     position: absolute;
     bottom: 0;
-    left: 20px;
-    width: calc(100% - 40px);
+    left: 30px;
+    width: calc(100% - 60px);
     height: 1px;
     background-color: #ccc;
 }
@@ -651,6 +670,7 @@ button.delete-btn {
         border-bottom: 1px solid #6E6E6E;
     }
 
+    #source-btn,
     .language-option,
     .toggle-list,
     .overlay-content,

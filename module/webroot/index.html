@@ -15,23 +15,32 @@
 </head>
 
 <body>
+    <!-- Header -->
 	<div class="cover"></div>
 	<div class="header-block"></div>
 	<div class="header">
 		<div id="title">bindhosts <span id="version-text"></span></div>
-		<div id="mode-btn" class="current-mode-text"><span data-i18n="mode.button"></span><span id="mode-text">X</span>
-		</div>
+		<button class="docs-btn" id="mode-btn" data-type="modes">
+		    <span data-i18n="mode.button"></span><span id="mode-text">X</span>
+		</button>
 	</div>
+	
+	<!-- Start of box content -->
 	<div class="content">
+	    <!-- Action button -->
 		<div class="float">
 			<button id="actionButton" class="action-button">
 				<i class="fa fa-play"></i>
 			</button>
 		</div>
+
+		<!-- Status box -->
 		<div class="box" id="status-box">
 			<h2 id="status-header" data-i18n="status.title"></h2>
 			<p id="status-text">Initializing</p>
 		</div>
+
+        <!-- Control Panel box -->
 		<div class="box" id="control-panel">
 			<div>
 				<h2 data-i18n="control_panel.title"></h2>
@@ -75,6 +84,8 @@
 				</div>
 			</div>
 		</div>
+		
+		<!-- Custom box -->
 		<div class="box">
 			<div>
 				<h2 data-i18n="custom.title"></h2>
@@ -90,6 +101,8 @@
 			</div>
 			<ul id="custom-list"></ul>
 		</div>
+
+        <!-- Source box -->
 		<div class="box">
 			<div>
 				<h2 data-i18n="source.title"></h2>
@@ -106,6 +119,8 @@
 			</div>
 			<ul id="sources-list"></ul>
 		</div>
+
+        <!-- Blacklist box -->
 		<div class="box">
 			<div>
 				<h2 data-i18n="blacklist.title"></h2>
@@ -121,6 +136,8 @@
 			</div>
 			<ul id="blacklist-list"></ul>
 		</div>
+
+        <!-- Whitelist box -->
 		<div class="box">
 			<div>
 				<h2 data-i18n="whitelist.title"></h2>
@@ -137,6 +154,9 @@
 			<ul id="whitelist-list"></ul>
 		</div>
 	</div>
+    <!-- End of box content -->
+
+    <!-- Help overlay -->
 	<div id="language-help" class="overlay">
 		<div class="overlay-content">
 			<div>
@@ -197,34 +217,37 @@
 			</ul>
 		</div>
 	</div>
-	
+
+	<!-- Docs overlay -->
 	<div id="source-docs" class="docs">
 		<div class="docs-content">
 			<button class="close-docs-btn" onclick="closeOverlay('source-docs')">&#x2715;</button>
 			<div class="documents">
 			    <div id="source-content">Loading...</div>
+			    <div class="credit-marked">Markdown Parser by markedjs/marked</div>
 			</div>
 		</div>
 	</div>
-
     <div id="translate-docs" class="docs">
 		<div class="docs-content">
 			<button class="close-docs-btn" onclick="closeOverlay('translate-docs')">&#x2715;</button>
 			<div class="documents">
 			    <div id="translate-content">Loading...</div>
+			    <div class="credit-marked">Markdown Parser by markedjs/marked</div>
 			</div>
 		</div>
 	</div>
-
 	<div id="modes-docs" class="docs">
 		<div class="docs-content">
 			<button class="close-docs-btn" onclick="closeOverlay('modes-docs')">&#x2715;</button>
 			<div class="documents">
 			    <div id="modes-content">Loading...</div>
+			    <div class="credit-marked">Markdown Parser by markedjs/marked</div>
 			</div>
 		</div>
 	</div>
 
+    <!-- Mode menu overlay -->
 	<div id="mode-menu" class="overlay">
 		<div class="overlay-content">
 			<button class="close-btn" onclick="closeOverlay('mode-menu')">&#x2715;</button>
@@ -290,7 +313,11 @@
 			</div>
 		</div>
 	</div>
+
+    <!-- Prompt -->
 	<div id="prompt" class="prompt"></div>
+
+    <!-- Footer -->
 	<div class="footer">
 		<div id="module">bindhosts</div>
 		<div id="webui">WebUI by KOWX712</div>

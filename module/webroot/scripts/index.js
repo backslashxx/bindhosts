@@ -27,8 +27,9 @@ const rippleClasses = ['#mode-btn', '.action-button', '#status-box', '.input-box
 let clickCount = 0;
 let timeout;
 let clickTimeout;
-let developerOption = false;
 let disableTimeout;
+export let developerOption = false;
+export let learnMore = false;
 
 // Function to add material design style ripple effect
 export function applyRippleEffect() {
@@ -313,6 +314,9 @@ function setupHelpMenu() {
         overlay.classList.remove("active");
         document.body.style.overflow = "";
         activeOverlay = null;
+        setTimeout(() => {
+                learnMore = false;
+        }, 50);
     }
 }
 
@@ -363,8 +367,7 @@ document.getElementById("mode-btn").addEventListener("click", async () => {
     await checkDevOption();
     if (developerOption) {
         openOverlay(document.getElementById("mode-menu"));
-    } else {
-        linkRedirect('https://github.com/backslashxx/bindhosts/blob/master/Documentation/modes.md#bindhosts-operating-modes');
+        learnMore = true;
     }
 });
 
@@ -407,6 +410,7 @@ async function saveModeSelection(mode) {
         if (mode === "reset") {
             await execCommand("rm -f /data/adb/bindhosts/mode_override.sh");
             closeOverlay("mode-menu");
+            learnMore = false;
         } else {
             await execCommand(`echo "mode=${mode}" > /data/adb/bindhosts/mode_override.sh`);
         }

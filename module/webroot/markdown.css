@@ -12,20 +12,15 @@
     user-select: none;
 }
 
-.documents h1 {
-	margin-bottom: 5px;
-}
-
-.documents h2 {
-    margin-bottom: 5px;
-}
-
-.documents h3 {
-    margin-bottom: 5px;
-}
-
+.documents h1,
+.documents h2,
+.documents h3,
 .documents h4 {
     margin-bottom: 5px;
+}
+
+.documents h1 {
+    margin-top: 0;
 }
 
 .documents ul {
@@ -43,10 +38,11 @@
 .documents a {
     color: black;
     cursor: none;
+    transition: color 0.1s ease-out;
 }
 
 .documents a:active {
-    color: blue;
+    color: #2079CF;
 }
 
 .documents pre {
@@ -59,6 +55,9 @@
 .documents code {
 	font-family: monospace;
 	color: #333;
+	background-color: #f4f4f4;
+	border-radius: 5px;
+	padding: 1px;
 	user-select: auto;
 }
 
@@ -72,11 +71,16 @@
         background-color: #343434;
     }
 
+    .documents a:active {
+        color: #339BFF;
+    }
+
     .documents pre {
         background-color: #6E6E6E;
     }
 
     .documents code {
-        color: #eee;
+        color: #fff;
+        background-color: #6E6E6E;
     }
 }

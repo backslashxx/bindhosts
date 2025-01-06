@@ -1,4 +1,4 @@
-import { linkRedirect, applyRippleEffect, toast } from './index.js';
+import { linkRedirect, applyRippleEffect, toast, developerOption, learnMore } from './index.js';
 
 // Function to fetch documents
 function getDocuments(link, element) {
@@ -75,6 +75,7 @@ export function setupDocsMenu() {
         button.addEventListener("click", () => {
             const type = button.dataset.type;
             const overlay = document.getElementById(`${type}-docs`);
+            if (type === 'modes' && developerOption && !learnMore) return;
             if (overlay) {
                 openOverlay(overlay);
                 const { link, element } = docsData[type] || {};
