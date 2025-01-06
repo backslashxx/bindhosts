@@ -37,7 +37,7 @@
   - Pro: https://raw.githubusercontent.com/badmojr/1Hosts/master/Pro/hosts.txt
 
 ### [d3ward](https://github.com/d3ward/toolz)
-  - For easy pass on: https://d3ward.github.io/toolz/adblock
+  - For easy pass on: [Ad Block Test](https://d3ward.github.io/toolz/adblock)
   - https://raw.githubusercontent.com/d3ward/toolz/master/src/d3host.txt
 
 ### [andryou](https://gitlab.com/andryou/block)
