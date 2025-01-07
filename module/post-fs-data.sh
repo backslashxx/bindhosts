@@ -36,9 +36,9 @@ if [ "$KSU" = true ] && [ -f ${SUSFS_BIN} ] ; then
 		mode=1
 	else
 		# theres no other way to probe for legacy susfs
-		dmesg | grep -q "susfs" > /dev/null && {
+		dmesg | grep -q "susfs" > /dev/null 2>&1 && {
 		echo "bindhosts: post-fs-data.sh - legacy susfs found" >> /dev/kmsg
-		mode=8
+		mode=1
 		}
 	fi
 fi

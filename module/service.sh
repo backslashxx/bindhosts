@@ -29,8 +29,16 @@ normal_mount() {
 }
 
 ksu_susfs_bind() { 
-	mount_bind
-	${SUSFS_BIN} add_try_umount $target_hostsfile 1
+	if [ "$( ${SUSFS_BIN} show version | head -n1 | sed 's/v//; s/\.//g' )" -ge 153 ]; then
+		mount_bind
+		${SUSFS_BIN} add_try_umount $target_hostsfile 1
+	else
+		${SUSFS_BIN} add_sus_kstat '/system/etc/hosts'
+		mount_bind
+		${SUSFS_BIN} update_sus_kstat '/system/etc/hosts'
+		${SUSFS_BIN} add_try_umount $target_hostsfile 1
+		${SUSFS_BIN} add_try_umount $target_hostsfile > /dev/null 2>&1 #legacy susfs
+	fi
 	echo "bindhosts: service.sh - mode ksu_susfs_bind" >> /dev/kmsg
 }
 
