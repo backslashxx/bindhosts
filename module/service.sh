@@ -16,8 +16,8 @@ mount_bind() {
 
 overlay_routine() {
 	devicename=overlay
-	[ ${KSU} = true ] && devicename=KSU
-	[ $APATCH = true ] && devicename=APatch
+	[ "$KSU" = true ] && devicename=KSU
+	[ "$APATCH" = true ] && devicename=APatch
 	target_hostsfile="/system/etc/hosts"
 	[ ! -d $MODDIR/workdir ] && mkdir $MODDIR/workdir
 	mount -t overlay -o lowerdir=/system/etc,upperdir=$MODDIR/system/etc,workdir=$MODDIR/workdir $devicename /system/etc
@@ -122,7 +122,7 @@ if [ -z "$KSU" ] && [ -z "$APATCH" ]; then
 fi
 
 ##################
-until [ "$(getprop sys.boot_completed)" == "1" ]; do
+until [ "$(getprop sys.boot_completed)" = "1" ]; do
     sleep 1
 done
 
