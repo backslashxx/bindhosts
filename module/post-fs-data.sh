@@ -8,7 +8,7 @@ SUSFS_BIN=/data/adb/ksu/bin/ksu_susfs
 if [ ! -f $MODDIR/system/etc/hosts ]; then
 	mkdir -p $MODDIR/system/etc
 	cat /system/etc/hosts > $MODDIR/system/etc/hosts
-	printf "127.0.0.1 localhost\n::1 localhost\n" >> $MODPATH/system/etc/hosts
+	printf "127.0.0.1 localhost\n::1 localhost\n" >> "$MODPATH/system/etc/hosts"
 fi
 susfs_clone_perm "$MODDIR/system/etc/hosts" /system/etc/hosts
 
@@ -18,31 +18,27 @@ susfs_clone_perm "$MODDIR/system/etc/hosts" /system/etc/hosts
 # all managers? (citation needed) can operate at this operating_mode
 # this assures that we have atleast a base operating operating_mode
 mode=0
-skip_mount=0
 
 # ksu next 12183
 # ksu next added try_umount /system/etc/hosts recently
 # lets try to add it onto the probe
 if [ "$KSU_NEXT" = "true" ] && [ "$KSU_KERNEL_VER_CODE" -ge 12183 ]; then
 	mode=6
-	skip_mount=1
 fi
 
 # ksu+susfs operating_mode
 # due to susfs4ksu policy change, theres a lot of fuckups that will
 # happen if I still try to keep bind mount for them
 # with this I'll be forcing ALL legacy susfs users pre 153 onto overlayfs mode.
-if [ ${KSU} = true ] && [ -f ${SUSFS_BIN} ] ; then
-	if [ $(${SUSFS_BIN} show version | head -n1 | sed 's/v//; s/\.//g') -ge 153 ]; then
+if [ "$KSU" = true ] && [ -f ${SUSFS_BIN} ] ; then
+	if [ "$( ${SUSFS_BIN} show version | head -n1 | sed 's/v//; s/\.//g' )" -ge 153 ]; then
 		echo "bindhosts: post-fs-data.sh - susfs 153+ found" >> /dev/kmsg
 		mode=1
-		skip_mount=1
 	else
 		# theres no other way to probe for legacy susfs
 		dmesg | grep -q "susfs" > /dev/null && {
 		echo "bindhosts: post-fs-data.sh - legacy susfs found" >> /dev/kmsg
 		mode=8
-		skip_mount=1
 		}
 	fi
 fi
@@ -55,20 +51,18 @@ fi
 # if no envar or false, mode 2.
 # this logic we catch old versions that doesnt have the envvar
 # so every apatch on overlayfs will fall onto this.
-if [ $APATCH = true ] && [ ! -f /data/adb/.bind_mount_enable ]; then 
-	if [ -z $APATCH_BIND_MOUNT ] || [ $APATCH_BIND_MOUNT = false ]; then
+if [ "$APATCH" = true ] && [ ! -f /data/adb/.bind_mount_enable ]; then 
+	if [ -z "$APATCH_BIND_MOUNT" ] || [ "$APATCH_BIND_MOUNT" = false ]; then
 		mode=2
-		skip_mount=1
 	fi
 fi
 
 # hosts_file_redirect operating_mode
 # this method is APatch only
 # no other heuristic other than dmesg
-if [ $APATCH = true ]; then
+if [ "$APATCH" = true ]; then
 	dmesg | grep -q "hosts_file_redirect" && {
 	mode=3
-	skip_mount=1
 	}
 fi
 
@@ -81,21 +75,26 @@ fi
 if [ -d /data/adb/modules/hostsredirect ] && [ ! -f /data/adb/modules/hostsredirect/disable ] && 
 	[ -d /data/adb/modules/zygisksu ] && [ ! -f /data/adb/modules/zygisksu/disable ]; then
 	mode=4
-	skip_mount=1
 fi
 
 # override operating mode here
 [ -f /data/adb/bindhosts/mode_override.sh ] && {
 	echo "bindhosts: post-fs-data.sh - mode_override found!" >> /dev/kmsg
-	skip_mount=1 
 	. /data/adb/bindhosts/mode_override.sh
-	[ $mode = 0 ] && skip_mount=0
 	}
 
 # write operating mode to mode.sh 
 # service.sh will read it
 echo "operating_mode=$mode" > $MODDIR/mode.sh
-# skip_mount or not
+
+# skip_mount logic
+# every mode other than 0 is skip_mount=1
+skip_mount=1 
+[ $mode = 0 ] && skip_mount=0
+
+# we do it like this instead of doing mode=0, mode -ge 1
+# since more modes will likely be added in the future
+# and I will probably be using letters
 [ $skip_mount = 0 ] && ( [ -f $MODDIR/skip_mount ] && rm $MODDIR/skip_mount )
 [ $skip_mount = 1 ] && ( [ ! -f $MODDIR/skip_mount ] && touch $MODDIR/skip_mount )
 
