@@ -113,7 +113,6 @@
 - susfs-assisted overlayfs rw mount
 - KernelSU only  
 - Requires susfs-patched kernel and userspace tool
-- legacy susfs users will be forced to this mode.
 - Adaway compatible
 - Hiding: good method but ksu_susfs_bind is easier
 
