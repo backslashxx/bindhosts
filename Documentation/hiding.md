@@ -3,14 +3,14 @@
 ## APatch
  Hiding in APatch is a bit challenging due to the following reasons:
   1. it uses OverlayFS but lacks a built-in unmount mechanism
-  2. magic mount is NOT widely adopted
+  2. bind mount is NOT widely adopted
 
  Recommendations: 
+   - move to bind mount and use [Zygisk Assistant](https://github.com/snake-4/Zygisk-Assistant) OR [ZygiskNext](https://github.com/Dr-TSNG/ZygiskNext)'s enforce denylist
    - use hosts_file_redirect kpm
       - [Usage Tutorial](https://github.com/backslashxx/bindhosts/issues/3)
       - [Download here](https://github.com/AndroidPatch/kpm/releases)
    - if hosts_file_redirect fails, install [ZN-hostsredirect](https://github.com/aviraxp/ZN-hostsredirect/releases)
-   - move to magic mount and install [Zygisk Assistant](https://github.com/snake-4/Zygisk-Assistant)
 
 ## KernelSU
  Hiding in KernelSU should just work, provided that:
@@ -32,8 +32,8 @@
    - some root detections now includes and check for modified hosts file.
  - How do I check for detections?
    - Read [how to check for detections](https://github.com/backslashxx/bindhosts/issues/4)
- - How do I move to magic mount on APatch?
+ - How do I move to bind mount on APatch?
    - get ci builds [here](https://github.com/bmax121/APatch/actions)
 
 ## Glossary of terms
- - magic mount - mounting method primarily used by Magisk
+ - bind mount - APatch's term for magic mount, mounting method primarily used by Magisk.
