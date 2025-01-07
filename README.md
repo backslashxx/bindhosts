@@ -1,6 +1,6 @@
 # bindhosts
 
-Systemless hosts for Apatch, KernelSU and Magisk
+Systemless hosts for APatch, KernelSU and Magisk
 
 Fully standalone, self-updating.
 
