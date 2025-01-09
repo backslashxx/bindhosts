@@ -674,6 +674,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     await getCurrentMode();
     await updateStatusFromModuleProp();
     await loadVersionFromModuleProp();
+    await checkDevOption();
     applyRippleEffect();
     checkUpdateStatus();
     checkRedirectStatus();
