@@ -522,9 +522,9 @@ button.delete-btn {
 
 #language-help .overlay-content {
     display: flex;
-    width: fit-content;
-    padding: 25px 10px;
-    max-width: 90vw;
+    padding: 25px 15px;
+    width: calc(55vw + 50px);
+    max-width: 300px;
     flex-direction: column;
     align-items: center;
 }
