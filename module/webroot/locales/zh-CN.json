@@ -4,9 +4,9 @@
         "title": "状态栏"
     },
     "global": {
-        "executing": "执行中...",
+        "executing": "正在执行...",
         "execute_error": "执行失败：",
-        "unwritable": "hosts 无法写入，需要修正",
+        "unwritable": "hosts 无法写入，需要修复",
         "reset": "Hosts 已重置",
         "disabled": "模块已禁用",
         "adaway": "请先在 Adaway 重置 hosts",
@@ -18,7 +18,7 @@
     "control_panel": {
         "title": "控制面板",
         "language": "语言",
-        "bad_translation": "翻译问题",
+        "bad_translation": "反馈翻译错误",
         "add_language": "新增语言",
         "module_update": "模块更新",
         "update_true": "已开启模块更新",
@@ -34,7 +34,7 @@
         "title": "自定义规则",
         "guide1": "添加自定义规则",
         "example": "例子：",
-        "warning": "警告：自定义规则在充值后依然会加载！",
+        "warning": "警告：自定义规则在重置后依然会加载！",
         "prompt_fail": "已存在于自定义规则"
     },
     "source": {
