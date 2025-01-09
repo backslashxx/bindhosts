@@ -1,0 +1,67 @@
+{
+    "language": "Bahasa Indonesia",
+    "status": {
+        "title": "Status"
+    },
+    "global": {
+        "executing": "Menjalankan script...",
+        "execute_error": "Gagal menjalankan action script:",
+        "unwritable": "File hosts tidak dapat ditulis, butuh koreksi",
+        "reset": "Hosts file diatur ulang!",
+        "disabled": "Modul telah dinonaktifkan",
+        "adaway": "Atur ulang hosts di Adaway sebelum melanjutkan",
+        "dev_opt": "Opsi pengembang diaktifkan",
+        "dev_opt_true": "Opsi pengembang telah di diaktifkan",
+        "dev_opt_fail": "Gagal mengaktifkan opsi pengembang",
+        "reboot": "Reboot untuk menerapkan, tap untuk reboot"
+    },
+    "control_panel": {
+        "title": "Panel Kontrol",
+        "language": "Bahasa",
+        "bad_translation": "Terjemahan Buruk",
+        "add_language": "Tambahkan Bahasa Lainnya",
+        "module_update": "Pembaruan Modul",
+        "update_true": "Pembaharuan Modul diaktifkan",
+        "update_false": "Pembaharuan Modul dinonaktifkan",
+        "action_redirect": "Action Redirect",
+        "action_prompt_true": "Redirect Magisk action ke WebUI diaktifkan",
+        "action_prompt_false": "Redirect Magisk action ke WebUI dinonaktifkan",
+        "update_hosts_daily": "Perbarui Host Setiap Hari",
+        "cron_true": "Crontab entry ditambahkan",
+        "cron_false": "Crontab entry dihapus"
+    },
+    "custom": {
+        "title": "Aturan kustom",
+        "guide1": "Tambahkan pengalihan kustom disini",
+        "example": "Contoh:",
+        "warning": "PERINGATAN: Aturan kustom dimuat saat run dan reset!",
+        "prompt_fail": "sudah ada di aturan kustom"
+    },
+    "source": {
+        "title": "Sources",
+        "guide1": "Sumber daftar hitam",
+        "guide2": "Aturan kustom",
+        "format": "Format:",
+        "example": "Contoh:",
+        "source_page": "Sumber lainnya",
+        "prompt_fail": "sudah ada di source"
+    },
+    "blacklist": {
+        "title": "Daftar hitam",
+        "guide1": "Apapun yang Anda tambahkan di sini akan masuk ke daftar hitam",
+        "example": "Contoh:",
+        "prompt_fail": "sudah ada di daftar hitam"
+    },
+    "whitelist": {
+        "title": "Daftar putih",
+        "guide1": "Apapun yang Anda tambahkan di sini tidak akan masuk ke daftar hitam",
+        "example": "Contoh:",
+        "prompt_fail": "sudah ada di daftar putih"
+    },
+    "mode": {
+        "button": "Mode",
+        "title": "Mode Operasi",
+        "detail": "Pelajari lebih lanjut",
+        "reset": "Atur ulang (auto)"
+    }
+}
