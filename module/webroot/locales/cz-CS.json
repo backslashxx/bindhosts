@@ -1,0 +1,67 @@
+{
+    "language": "Čeština",
+    "status": {
+        "title": "Stav"
+    },
+    "global": {
+        "executing": "Skript se spouští...",
+        "execute_error": "Chyba při spuštění akčního skriptu:",
+        "unwritable": "Soubor hosts není zapisovatelný, je třeba oprava",
+        "reset": "Soubor hosts byl resetován!",
+        "disabled": "Modul byl deaktivován",
+        "adaway": "Resetujte hosts v Adaway před pokračováním",
+        "dev_opt": "Možnost vývojáře povolena",
+        "dev_opt_true": "Možnost vývojáře je již povolena",
+        "dev_opt_fail": "Chyba při povolování možnosti vývojáře",
+        "reboot": "Restartujte zařízení, aby se změny projevily, klepněte pro restart"
+    },
+    "control_panel": {
+        "title": "Ovládací panel",
+        "language": "Jazyk",
+        "bad_translation": "Špatný překlad",
+        "add_language": "Přidat jazyk",
+        "module_update": "Aktualizace modulu",
+        "update_true": "Aktualizace modulu povolena",
+        "update_false": "Aktualizace modulu zakázána",
+        "action_redirect": "Přesměrování akce",
+        "action_prompt_true": "Povoleno přesměrování akce Magisk WebUI",
+        "action_prompt_false": "Zakázáno přesměrování akce Magisk WebUI",
+        "update_hosts_daily": "Denní aktualizace hosts",
+        "cron_true": "Záznam v crontabu přidán",
+        "cron_false": "Záznam v crontabu odstraněn"
+    },
+    "custom": {
+        "title": "Vlastní pravidla",
+        "guide1": "Přidejte vlastní přesměrování zde",
+        "example": "Příklad:",
+        "warning": "UPOZORNĚNÍ: Vlastní pravidla se načítají při spuštění i resetu!",
+        "prompt_fail": "již existuje ve vlastním pravidle"
+    },
+    "source": {
+        "title": "Zdroje",
+        "guide1": "Zdroje blacklistu",
+        "guide2": "Vlastní sady pravidel",
+        "format": "Formát:",
+        "example": "Příklad:",
+        "source_page": "Další zdroje",
+        "prompt_fail": "již existuje ve zdroji"
+    },
+    "blacklist": {
+        "title": "Blacklist",
+        "guide1": "Vše, co zde přidáte, bude na blacklistu",
+        "example": "Příklad:",
+        "prompt_fail": "již existuje na blacklistu"
+    },
+    "whitelist": {
+        "title": "Whitelist",
+        "guide1": "Vše, co zde přidáte, nebude na blacklistu",
+        "example": "Příklad:",
+        "prompt_fail": "již existuje na whitelistu"
+    },
+    "mode": {
+        "button": "Režim",
+        "title": "Provozní režim",
+        "detail": "Zjistit více",
+        "reset": "Reset (automatický)"
+    }
+}
