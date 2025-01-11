@@ -522,26 +522,26 @@ button.delete-btn {
 
 #language-help .overlay-content {
     display: flex;
-    padding: 25px 15px;
-    width: calc(55vw + 50px);
-    max-width: 300px;
+    padding: 15px 35px;
+    width: auto;
+    max-width: auto;
     flex-direction: column;
     align-items: center;
 }
 
 #language-help h2 {
-    margin-top: 0;
+    margin-top: 15px;
     margin-bottom: 15px;
     width: 100%;
 }
 
 .language-option {
+    display: block;
     font-size: 18px;
-    padding: 8px 5px;
+    padding: 8px 10px;
     background-color: #fff;
     border: none;
     width: 100%;
-    white-space: nowrap;
     position: relative;
     overflow: hidden;
     user-select: none;
@@ -551,8 +551,8 @@ button.delete-btn {
     content: "";
     position: absolute;
     bottom: 0;
-    left: 30px;
-    width: calc(100% - 60px);
+    left: 10px;
+    width: calc(100% - 20px);
     height: 1px;
     background-color: #ccc;
 }
