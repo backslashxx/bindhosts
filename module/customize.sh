@@ -10,6 +10,51 @@ versionCode=$(grep versionCode $MODPATH/module.prop | sed 's/versionCode=//g' )
 echo "[+] bindhosts v$versionCode "
 echo "[%] customize.sh "
 
+# Install App Section
+echo "[?] Press Volume UP to skip."
+echo "[+] Installing BindHosts-app, Ref:github.com/itejo443/BindHosts-app"
+
+# Function to detect key press (Volume Up or Volume Down) or timeout
+detect_key_press() {
+    timeout_seconds=6  # Modify this to change the wait time
+
+    echo "[+] Waiting for (Volume Up or Down) OR for $timeout_seconds seconds..."
+
+    # Read input with timeout using a pipe and capture the exit code
+    read -r -t $timeout_seconds line < <(getevent -ql)
+
+    # Check if input was read or timed out
+    if [[ $? -eq 142 ]]; then  # Timeout exit code
+        echo "[!] No key pressed within $timeout_seconds seconds. Installing Bindhosts-app"
+        return 0
+    fi
+
+    # Process key press based on the detected input
+    if echo "$line" | grep -q "KEY_VOLUMEUP"; then
+        echo "[+] Volume Up detected. Skipping installation..."
+        return 1  # Skip installation
+    elif echo "$line" | grep -q "KEY_VOLUMEDOWN"; then
+        echo "[+] Volume Down detected. Proceeding with installation..."
+        return 0  # Installing Bindhosts-app
+    fi
+
+    # Handle unexpected input
+    echo "[!] Unrecognized key press. Installing Bindhosts-app"
+    return 0
+}
+
+# Run the function and perform action based on key press
+if detect_key_press; then
+    echo "[+] Installing BindHosts-app..."
+    sh $MODPATH/bindhosts-app.sh
+else
+    # No key pressed or unexpected key, skip installation
+    echo "[!] Skipping installation of BindHosts-app"
+fi
+
+# Continue with other operations below...
+echo "[+] Continuing with other operations..."
+
 # persistence
 [ ! -d $PERSISTENT_DIR ] && mkdir -p $PERSISTENT_DIR
 # make our hosts file dir
