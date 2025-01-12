@@ -144,8 +144,7 @@ h2{
     display: flex;
     align-items: center;
     background-color: #fff;
-    padding: 5px 10px;
-    height: 38px;
+    padding: 8px 10px;
     white-space: nowrap;
     text-align: left;
     border-bottom: 1px solid #ccc;
@@ -166,6 +165,8 @@ h2{
     font-size: 16px;
     font-weight: bold;
     padding-left: 10px;
+    white-space: wrap;
+    max-width: calc(100% - 76px);
     user-select: none;
 }
 
