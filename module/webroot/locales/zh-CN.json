@@ -4,10 +4,10 @@
         "title": "状态栏"
     },
     "global": {
-        "executing": "正在执行...",
-        "execute_error": "执行失败：",
-        "unwritable": "hosts 无法写入，需要修复",
-        "reset": "Hosts 已重置",
+        "executing": "正在执行…",
+        "execute_error": "执行脚本失败：",
+        "unwritable": "无法写入 hosts 文件，需要修复",
+        "reset": "Hosts 已重置！",
         "disabled": "模块已禁用",
         "adaway": "请先在 Adaway 重置 hosts",
         "dev_opt": "开发者模式已启用",
@@ -32,29 +32,29 @@
     },
     "custom": {
         "title": "自定义规则",
-        "guide1": "添加自定义规则",
+        "guide1": "在此处添加自定义的跳转规则",
         "example": "例子：",
-        "warning": "警告：自定义规则在重置后依然会加载！",
+        "warning": "警告：自定义规则在模块运行期间和重置后均会加载！",
         "prompt_fail": "已存在于自定义规则"
     },
     "source": {
-        "title": "模板",
-        "guide1": "黑名单模板",
-        "guide2": "自定义规则模板",
+        "title": "规则（源）",
+        "guide1": "黑名单规则",
+        "guide2": "自定义规则集",
         "format": "格式",
         "example": "例子：",
-        "source_page": "更多模板",
-        "prompt_fail": "已存在于模板"
+        "source_page": "更多规则（源）",
+        "prompt_fail": "已存在于规则"
     },
     "blacklist": {
         "title": "黑名单",
-        "guide1": "将网址添加到黑名单中",
+        "guide1": "添加到此处的规则均会被拉黑",
         "example": "例子：",
         "prompt_fail": "已存在于黑名单"
     },
     "whitelist": {
         "title": "白名单",
-        "guide1": "将网址添加到白名单中",
+        "guide1": "添加到此处的规则均会被放行",
         "example": "例子：",
         "prompt_fail": "已存在于白名单"
     },
