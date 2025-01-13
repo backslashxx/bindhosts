@@ -14,7 +14,7 @@ const cover = document.querySelector('.cover');
 const headerBlock = document.querySelector('.header-block');
 const header = document.querySelector('.header');
 const actionButton = document.querySelector('.action-button');
-const inputs = document.querySelectorAll('input');
+const inputs = document.querySelectorAll('textarea');
 const focusClass = 'input-focused';
 const toggleContainer = document.getElementById('update-toggle-container');
 const toggleVersion = document.getElementById('toggle-version');
@@ -229,22 +229,26 @@ async function handleAdd(fileType, prompt) {
         console.error("Input is empty. Skipping add operation.");
         return;
     }
+    const inputLines = inputValue.split('\n').map(line => line.trim()).filter(line => line !== "");
     try {
         const fileContent = await execCommand(`cat ${filePaths[fileType]}`);
-        const lines = fileContent.split('\n').map(line => line.trim()).filter(line => line !== "");
-        if (lines.includes(inputValue)) {
-            console.log(`"${inputValue}" is already in ${fileType}. Skipping add operation.`);
-            showPrompt(prompt, false, 2000, `${inputValue}`);
-            inputElement.value = "";
-            return;
+        const existingLines = fileContent.split('\n').map(line => line.trim()).filter(line => line !== "");
+
+        for (const line of inputLines) {
+            if (existingLines.includes(line)) {
+                console.log(`"${line}" is already in ${fileType}. Skipping add operation.`);
+                showPrompt(prompt, false, 2000, `${line}`);
+                continue;
+            }
+            await execCommand(`echo "${line}" >> ${filePaths[fileType]}`);
+            console.log(`Added "${line}" to ${fileType} successfully.`);
         }
-        await execCommand(`echo "${inputValue}" >> ${filePaths[fileType]}`);
-        console.log(`Added "${inputValue}" to ${fileType} successfully.`);
+
         inputElement.value = "";
         console.log(`Input box for ${fileType} cleared.`);
         loadFile(fileType);
     } catch (error) {
-        console.error(`Failed to add "${inputValue}" to ${fileType}: ${error}`);
+        console.error(`Failed to process input for ${fileType}: ${error}`);
     }
 }
 
