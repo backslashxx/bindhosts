@@ -19,6 +19,12 @@ susfs_clone_perm "$MODDIR/system/etc/hosts" /system/etc/hosts
 # this assures that we have atleast a base operating operating_mode
 mode=0
 
+# plain bindhosts operating mode, no hides at all
+# we enable this on apatch overlayfs
+if [ "$APATCH" = "true" ] && [ ! "$APATCH_BIND_MOUNT" = "true" ]; then
+	mode=2
+fi
+
 # ksu next 12183
 # ksu next added try_umount /system/etc/hosts recently
 # lets try to add it onto the probe
@@ -40,20 +46,6 @@ if [ "$KSU" = true ] && [ -f ${SUSFS_BIN} ] ; then
 		echo "bindhosts: post-fs-data.sh - legacy susfs found" >> /dev/kmsg
 		mode=1
 		}
-	fi
-fi
-
-# plain bindhosts operating mode, no hides at all
-# we enable this on apatch if its NOT on magisk mount
-# as this allows better compatibility
-# on current apatch ci, magic mount is now opt-out
-# if apatch and doesnt have override; then check for envvar
-# if no envar or false, mode 2.
-# this logic we catch old versions that doesnt have the envvar
-# so every apatch on overlayfs will fall onto this.
-if [ "$APATCH" = true ] && [ ! -f /data/adb/.bind_mount_enable ]; then 
-	if [ -z "$APATCH_BIND_MOUNT" ] || [ "$APATCH_BIND_MOUNT" = false ]; then
-		mode=2
 	fi
 fi
 
