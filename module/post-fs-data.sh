@@ -20,8 +20,11 @@ susfs_clone_perm "$MODDIR/system/etc/hosts" /system/etc/hosts
 mode=0
 
 # plain bindhosts operating mode, no hides at all
-# we enable this on apatch overlayfs
-if [ "$APATCH" = "true" ] && [ ! "$APATCH_BIND_MOUNT" = "true" ]; then
+# we enable this on apatch overlayfs, APatch litemode, MKSU nomount
+# while it is basically hideless, this still works.
+if { [ "$APATCH" = "true" ] && [ ! "$APATCH_BIND_MOUNT" = "true" ]; } || 
+	{ [ "$APATCH_BIND_MOUNT" = "true" ] && [ -f /data/adb/.litemode_enable ]; } || 
+	{ [ "$KSU_MAGIC_MOUNT" = "true" ] && [ -f /data/adb/ksu/.nomount ]; }; then
 	mode=2
 fi
 
