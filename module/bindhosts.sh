@@ -43,7 +43,7 @@ helper_mode=""
 # and have them fall to * but im gonna leave it 
 # here for clarity
 case $operating_mode in
-	0) if [ -f /data/adb/ksu/bin/ksud ] || [ -f /data/adb/ap/bin/apd ]; then adaway_warn ; fi ;;
+	0) if [ -f /data/adb/ksu/modules.img ] || [ -f /data/adb/ap/modules.img ]; then adaway_warn ; fi ;;
 	1) true ;;
 	2) true ;;
 	3) target_hostsfile="/data/adb/hosts" ; helper_mode="| hosts_file_redirect 💉" ; adaway_warn ;;
