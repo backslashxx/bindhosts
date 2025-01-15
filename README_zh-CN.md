@@ -1,4 +1,4 @@
-[English](https://github.com/backslashxx/bindhosts/blob/master/README.md) | **简体中文**
+[English](https://github.com/bindhosts/bindhosts/blob/master/README.md) | **简体中文**
 
 # bindhosts
 
@@ -32,12 +32,12 @@
 
 ## 链接
 
-- [下载](https://github.com/backslashxx/bindhosts/releases)
+- [下载](https://github.com/bindhosts/bindhosts/releases)
 - [查看更多来源(开放源代码许可) ](Documentation/sources.md)
 - [本地化引导](Documentation/localize.md)
 
 ## 帮助与支持
 
-如果遇到问题请在 [这里](https://github.com/backslashxx/bindhosts/issues) 提交你的 issues
+如果遇到问题请在 [这里](https://github.com/bindhosts/bindhosts/issues) 提交你的 issues
 
-我们始终欢迎你们来提交 [请求](https://github.com/backslashxx/bindhosts/pulls)
+我们始终欢迎你们来提交 [请求](https://github.com/bindhosts/bindhosts/pulls)

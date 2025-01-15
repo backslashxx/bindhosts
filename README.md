@@ -1,4 +1,4 @@
-**English** | [简体中文](https://github.com/backslashxx/bindhosts/blob/master/README_zh-CN.md)
+**English** | [简体中文](https://github.com/bindhosts/bindhosts/blob/master/README_zh-CN.md)
 
 # bindhosts
 
@@ -27,12 +27,12 @@ Fully standalone, self-updating.
 - [Operating Modes](Documentation/modes.md)
 
 ## Links
-- Download [here](https://github.com/backslashxx/bindhosts/releases)
+- Download [here](https://github.com/bindhosts/bindhosts/releases)
 - Looking for more sources? [here](Documentation/sources.md)
 - Localization [guide](Documentation/localize.md)
 
 ## Help and Support
-Report [here](https://github.com/backslashxx/bindhosts/issues) if you encounter any issues.
+Report [here](https://github.com/bindhosts/bindhosts/issues) if you encounter any issues.
 
-[Pull requests](https://github.com/backslashxx/bindhosts/pulls) are always welcome.
+[Pull requests](https://github.com/bindhosts/bindhosts/pulls) are always welcome.
 

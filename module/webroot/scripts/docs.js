@@ -57,15 +57,15 @@ let activeDocs = null;
 export function setupDocsMenu() {
     const docsData = {
         source: {
-            link: 'https://raw.githubusercontent.com/backslashxx/bindhosts/master/Documentation/sources.md',
+            link: 'https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/sources.md',
             element: 'source-content',
         },
         translate: {
-            link: 'https://raw.githubusercontent.com/backslashxx/bindhosts/master/Documentation/localize.md',
+            link: 'https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/localize.md',
             element: 'translate-content',
         },
         modes: {
-            link: 'https://raw.githubusercontent.com/backslashxx/bindhosts/master/Documentation/modes.md',
+            link: 'https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/modes.md',
             element: 'modes-content',
         },
     };

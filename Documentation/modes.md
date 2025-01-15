@@ -1,6 +1,6 @@
 # bindhosts operating modes
 - These are currently defined operating modes that are either probed at auto or available as opt-in
-- You can change operating mode by accessing to [developer option](https://github.com/backslashxx/bindhosts/issues/10#issue-2703531116).
+- You can change operating mode by accessing to [developer option](https://github.com/bindhosts/bindhosts/issues/10#issue-2703531116).
 
 #### Glossary of terms
  - magic mount - mounting method primarily used by magisk
@@ -53,7 +53,7 @@
 - in-kernel redirection of /system/etc/hosts for uid 0
 - APatch only, requires hosts_file_redirect KPM  
   - [hosts_file_redirect](https://github.com/AndroidPatch/kpm/blob/main/src/hosts_file_redirect/)  
-  - [How-to-Guide](https://github.com/backslashxx/bindhosts/issues/3)
+  - [How-to-Guide](https://github.com/bindhosts/bindhosts/issues/3)
 - Doesn't seem to work on all setups, hit-and-miss  
 - No Adaway compatibility  
 - Hiding: **best method for APatch, no mounts at all**

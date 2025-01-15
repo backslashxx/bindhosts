@@ -1,9 +1,9 @@
 {
-    "readme": "https://raw.githubusercontent.com/backslashxx/bindhosts/refs/heads/master/README.md",
+    "readme": "https://raw.githubusercontent.com/bindhosts/bindhosts/refs/heads/master/README.md",
     "screenshots": [
-    "https://raw.githubusercontent.com/backslashxx/bindhosts/refs/heads/master/Documentation/screenshots/mmrl_manager.png",
-    "https://raw.githubusercontent.com/backslashxx/bindhosts/refs/heads/master/Documentation/screenshots/mmrl_webui.png",
-    "https://raw.githubusercontent.com/backslashxx/bindhosts/refs/heads/master/Documentation/screenshots/manager_action.png"
+    "https://raw.githubusercontent.com/bindhosts/bindhosts/refs/heads/master/Documentation/screenshots/mmrl_manager.png",
+    "https://raw.githubusercontent.com/bindhosts/bindhosts/refs/heads/master/Documentation/screenshots/mmrl_webui.png",
+    "https://raw.githubusercontent.com/bindhosts/bindhosts/refs/heads/master/Documentation/screenshots/manager_action.png"
   ],
     "categories": [
         "Adblocking and Hosts Files",
@@ -11,6 +11,6 @@
         "KernelSU",
         "Magisk"
     ],
-    "support": "https://github.com/backslashxx/bindhosts/issues",
+    "support": "https://github.com/bindhosts/bindhosts/issues",
     "license": "WTFPL"
 }
