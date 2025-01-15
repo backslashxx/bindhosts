@@ -11,13 +11,8 @@ APP_PACKAGE="me.itejo443.bindhosts"
 TEMP_DIR="/data/local/tmp/bindhosts-app"
 APK_PATH="$TEMP_DIR/app.apk"
 
-# Directory to save the APK if devpts hooks fail
-FAILSAFE_DIR="/sdcard/download/bindhosts-app"
-FAILSAFE_PATH="$FAILSAFE_DIR/app.apk"
-
 # Create necessary directories
 mkdir -p "$TEMP_DIR"
-mkdir -p "$FAILSAFE_DIR"
 
 download() {
 	if command -v curl > /dev/null 2>&1; then
@@ -41,33 +36,24 @@ fi
 echo "Latest APK URL: $latest_release_url"
 
 # Download the APK file using download()
-download "$latest_release_url" > "$APK_PATH" 
-
-# Check if the download was successful
-if [ $? -ne 0 ]; then
-    echo "Error: Failed to download the APK. Exiting."
-    exit 1
-fi
+download "$latest_release_url" > "$APK_PATH" || echo "[x] Failed to download the APK."
 
 # Install the APK as a user app
-pm install -r "$APK_PATH"
+pm install -r "$APK_PATH" 2>&1 </dev/null | cat
 
 # Check if the installation was successful by verifying the app's presence
-pm list packages | grep "$APP_PACKAGE" > /dev/null
-
-if [ $? -eq 0 ]; then
+pm path "$APP_PACKAGE" > /dev/null 2>&1 && {
     echo "APK installed successfully as a user app."
     echo "[+] BindHosts-app Installed"
     echo "[+] Enable SU with Capabilities"
     echo "[+] Enable Tile Bindhosts-app Tile && Notification Permission"
-else
-    echo "Error: devpts hooks failed (pm commands issue). Saving APK to failsafe location."
-    
+} || {
+    echo "[x] Failed to install apk."
     # Save the APK to the failsafe directory if devpts hooks fail
-    cp "$APK_PATH" "$FAILSAFE_PATH"
-    
-    echo "[+] Please Install app from sdcard/download/bindhosts-app"
-fi
+    mkdir -p /sdcard/Download/bindhosts-app
+    cp -f "$APK_PATH" /sdcard/Download/bindhosts-app/app.apk
+    echo "[*] Please manually install app from /sdcard/Download/bindhosts-app"
+}
 
 # Clean up
 rm -rf "$TEMP_DIR"

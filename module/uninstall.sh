@@ -10,4 +10,7 @@ rm /data/adb/ksu/bin/bindhosts
 # znhr
 [ -f /data/adb/hostsredirect/hosts ] && printf "127.0.0.1 localhost\n::1 localhost\n" > /data/adb/hostsredirect/hosts
 
+# uninstall bindhosts app if installed
+pm path "$APP_PACKAGE" > /dev/null 2>&1 && pm uninstall me.itejo443.bindhosts
+
 # EOF

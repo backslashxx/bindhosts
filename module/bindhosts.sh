@@ -461,31 +461,6 @@ tcpdump () {
 	fi
 }
 
-bindhosts_app () {
-        echo "[+] Installing BindHosts-app..."
-        
-        # Check if the script exists before running it
-        if [ -f "/data/adb/modules/bindhosts/bindhosts-app.sh" ]; then
-        	su -c "sh /data/adb/modules/bindhosts/bindhosts-app.sh"
-        else
-        	echo "[-] bindhosts-app.sh not found!"
-        fi
-}
-
-bindhosts_app_uninstall () {
-        echo "[+] Checking if the package 'me.itejo443.bindhosts' is installed..."
-        echo "[!] If you don't have devpts hooks, then please uninstall manually ..."
-
-        # Check if the package is installed
-        if pm list packages | grep -q "me.itejo443.bindhosts"; then
-        	echo "[+] Package found. Uninstalling..."
-        	# Uninstall the package
-        	su -c "pm uninstall me.itejo443.bindhosts"
-        else
-        	echo "[-] Package 'me.itejo443.bindhosts' not found. Skipping..."
-        fi
-}
-
 show_help () {
 	echo "[%] $( grep '^description=' $MODDIR/module.prop | sed 's/description=//' )"
 	echo "usage:"
@@ -493,8 +468,6 @@ show_help () {
 	printf " --tcpdump \t\tsniff dns requests via tcpdump\n"
 	printf " --force-update \t\tforce an update\n" 
 	printf " --force-reset \t\tforce a reset\n"
-        printf " --install-bindhosts-app \t\tBindHosts-app installation\n"
-        printf " --bindhosts-app-uninstall \t\tBindHosts-app uninstallation\n"
 	printf " --custom-cron \t\tcustom update schedule\n"
 	printf "\t\t\tif you do NOT know this, use --enable-cron\n"
 	printf " --enable-cron \t\tenables scheduled updates (10AM daily)\n"
@@ -508,8 +481,6 @@ case "$1" in
 	--tcpdump) tcpdump; exit ;;
 	--force-update) run; exit ;;
 	--force-reset) reset; exit ;;
-        --install-bindhosts-app) bindhosts_app; exit ;;
-        --bindhosts-app-uninstall) bindhosts_app_uninstall; exit ;;
 	--custom-cron) custom_cron "$@"; exit ;;
 	--enable-cron) enable_cron; exit ;;
 	--disable-cron) disable_cron; exit ;;
