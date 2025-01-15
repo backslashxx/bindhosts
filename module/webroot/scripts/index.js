@@ -16,6 +16,7 @@ const header = document.querySelector('.header');
 const actionButton = document.querySelector('.action-button');
 const inputs = document.querySelectorAll('textarea');
 const focusClass = 'input-focused';
+const tilesContainer = document.getElementById('tiles-container');
 const toggleContainer = document.getElementById('update-toggle-container');
 const toggleVersion = document.getElementById('toggle-version');
 const actionRedirectContainer = document.getElementById('action-redirect-container');
@@ -218,6 +219,38 @@ async function updateStatusFromModuleProp() {
 function updateStatus(statusText) {
     const statusElement = document.getElementById('status-text');
     statusElement.textContent = statusText;
+}
+
+// function to check the if user has installed bindhosts app
+async function checkBindhostsApp() {
+    try {
+        const appInstalled = await execCommand(`pm path me.itejo443.bindhosts >/dev/null 2>&1 || echo "NO"`);
+        if (appInstalled.trim() === "NO") {
+            tilesContainer.style.display = "flex";
+        }
+    } catch (error) {
+        console.error("Error while checking bindhosts app:", error);
+    }
+    tilesContainer.addEventListener('click', async () => {
+        try {
+            showPrompt("control_panel.installing", true, undefined, "[+]");
+            await new Promise(resolve => setTimeout(resolve, 200));
+            const output = await execCommand("su -c 'sh /data/adb/modules/bindhosts/bindhosts-app.sh'");
+            const lines = output.split("\n");
+            lines.forEach(line => {
+                if (line.includes("[+]")) {
+                    showPrompt("control_panel.installed", true, 5000, "[+]");
+                    tilesContainer.style.display = "none";
+                } else if (line.includes("[x] Failed to download")) {
+                    showPrompt("control_panel.download_fail", false, undefined, "[×]");
+                } else if (line.includes("[*]")) {
+                    showPrompt("control_panel.install_fail", false, 5000, "[×]");
+                }
+            });
+        } catch (error) {
+            console.error("Execution failed:", error);
+        }
+    });
 }
 
 // Function to handle adding input to the file
@@ -679,6 +712,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     await updateStatusFromModuleProp();
     await loadVersionFromModuleProp();
     await checkDevOption();
+    checkBindhostsApp();
     applyRippleEffect();
     checkUpdateStatus();
     checkRedirectStatus();
