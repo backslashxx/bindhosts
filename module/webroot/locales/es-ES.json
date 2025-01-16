@@ -1,0 +1,72 @@
+{
+    "language": "Español",
+    "status": {
+        "title": "Estado"
+    },
+    "global": {
+        "executing": "Ejecutando el script...",
+        "execute_error": "Error al ejecutar el script:",
+        "unwritable": "No se puede escribir en el archivo de hosts, se necesita corrección",
+        "reset": "¡Archivo de hosts restablecido!",
+        "disabled": "El módulo ha sido desactivado",
+        "adaway": "Restablece los hosts en Adaway antes de continuar",
+        "dev_opt": "Opción de desarrollador activada",
+        "dev_opt_true": "La opción de desarrollador ya estaba activada",
+        "dev_opt_fail": "Error al activar la opción de desarrollador",
+        "reboot": "Reinicia para aplicar los cambios, toca para reiniciar"
+    },
+    "control_panel": {
+        "title": "Panel de Control",
+        "language": "Idioma",
+        "bad_translation": "Traducción incorrecta",
+        "add_language": "Añadir un idioma",
+        "get_tiles": "Obtener tile QS (mosaico)",
+        "installing": "Instalando...",
+        "installed": "Instalado, por favor habilita los privilegios SU para la app bindhosts",
+        "download_fail": "No se pudo descargar, revisa tu conexión a internet",
+        "install_fail": "No se pudo instalar, por favor instala manualmente desde /sdcard/Download/bindhosts-app",
+        "module_update": "Actualización del módulo",
+        "update_true": "Actualización del módulo activada",
+        "update_false": "Actualización del módulo desactivada",
+        "action_redirect": "Redirección de acción",
+        "action_prompt_true": "Redirección de acción WebUI de Magisk activada",
+        "action_prompt_false": "Redirección de acción WebUI de Magisk desactivada",
+        "update_hosts_daily": "Actualizar hosts todos los días",
+        "cron_true": "Entrada crontab añadida",
+        "cron_false": "Entrada crontab eliminada"
+    },
+    "custom": {
+        "title": "Reglas Personalizadas",
+        "guide1": "Añade redirecciones personalizadas aquí",
+        "example": "Ejemplo:",
+        "warning": "ADVERTENCIA: ¡Las reglas personalizadas se cargan tanto al ejecutarse como al restablecerse!",
+        "prompt_fail": "ya está en la regla personalizada"
+    },
+    "source": {
+        "title": "Fuentes",
+        "guide1": "Fuentes en la lista negra",
+        "guide2": "Conjuntos de reglas personalizadas",
+        "format": "Formato:",
+        "example": "Ejemplo:",
+        "source_page": "Más fuentes",
+        "prompt_fail": "ya está en la fuente"
+    },
+    "blacklist": {
+        "title": "Lista Negra",
+        "guide1": "Todo lo que agregues aquí será bloqueado",
+        "example": "Ejemplo:",
+        "prompt_fail": "ya está en la lista negra"
+    },
+    "whitelist": {
+        "title": "Lista Blanca",
+        "guide1": "Todo lo que agregues aquí no será bloqueado",
+        "example": "Ejemplo:",
+        "prompt_fail": "ya está en la lista blanca"
+    },
+    "mode": {
+        "button": "Modo",
+        "title": "Modo de Operación",
+        "detail": "Más información",
+        "reset": "Restablecer (automático)"
+    }
+}
