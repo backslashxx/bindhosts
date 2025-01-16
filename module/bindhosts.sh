@@ -332,10 +332,11 @@ adblock() {
 			}
         # download routine start!
 	for url in $(sed '/#/d' $PERSISTENT_DIR/sources.txt | grep http) ; do 
-		echo "[+] grabbing.."
-		echo "[>] $url"
-		download "$url" >> $rwdir/temphosts || echo "[x] failed downloading $url"
+		echo "[>] fetching $url"
+		(download "$url" >> $rwdir/temphosts || echo "[x] failed downloading $url") &
 	done
+	# wait until all download jobs done
+	wait
 	# if temphosts is empty
 	# its either user did something
 	# or inaccessible urls / no internet
