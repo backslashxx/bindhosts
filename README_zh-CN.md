@@ -21,8 +21,8 @@
 
 ### 同样支持的第三方模块管理器
 
-- [KsuWebUI](https://github.com/5ec1cff/KsuWebUIStandalone)
-- [MMRL](https://github.com/DerGoogler/MMRL)   <sup>👍</sup>
+- [KsuWebUI](https://github.com/5ec1cff/KsuWebUIStandalone)   <sup>🌐</sup>
+- [MMRL](https://github.com/DerGoogler/MMRL)   <sup>▶ 🌐</sup>
 
 ## 所有用法(没翻译)
 

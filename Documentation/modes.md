@@ -103,6 +103,7 @@
 - should work on all managers  
 - **OPT-IN** only due to **awfully high** susceptability to detections
 - leaks an overlayfs mount (with /data/adb upperdir), leaks globally modified hosts file
+- will NOT likely work on APatch bind_mount / MKSU if user has native f2fs /data casefolding
 - Adaway compatible
 - Hiding: essentially no hiding, needs assistance
 
@@ -113,6 +114,7 @@
 - susfs-assisted overlayfs rw mount
 - KernelSU only  
 - Requires susfs-patched kernel and userspace tool
+- will NOT likely work on APatch bind_mount / MKSU if user has native f2fs /data casefolding
 - Adaway compatible
 - Hiding: good method but ksu_susfs_bind is easier
 

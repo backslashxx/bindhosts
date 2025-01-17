@@ -6,7 +6,7 @@
   2. bind mount is NOT widely adopted
 
  Recommendations: 
-   - move to bind mount and use [Zygisk Assistant](https://github.com/snake-4/Zygisk-Assistant) OR [ZygiskNext](https://github.com/Dr-TSNG/ZygiskNext)'s enforce denylist
+   - move to bind mount and use [ZygiskNext](https://github.com/Dr-TSNG/ZygiskNext)'s enforce denylist
    - use hosts_file_redirect kpm
       - [Usage Tutorial](https://github.com/bindhosts/bindhosts/issues/3)
       - [Download here](https://github.com/AndroidPatch/kpm/releases)
@@ -25,7 +25,7 @@
 ## Magisk
  Hiding in Magisk (and clones) should just work as is.
  - Add the apps you want to hide root from to the denylist.
- - optionally you can also use [Shamiko](https://github.com/LSPosed/LSPosed.github.io/releases/) or [Zygisk Assistant](https://github.com/snake-4/Zygisk-Assistant)
+ - optionally you can also use [Shamiko](https://github.com/LSPosed/LSPosed.github.io/releases/)
 
 # FAQ
  - Why is this needed?

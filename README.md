@@ -18,8 +18,8 @@ Fully standalone, self-updating.
 - [Magisk](https://github.com/topjohnwu/Magisk)  <sup>([no WebUI](https://github.com/topjohnwu/Magisk/issues/8609#event-15568590949)👀)</sup>
 
 ### Also Supported on
-- [KsuWebUI](https://github.com/5ec1cff/KsuWebUIStandalone)
-- [MMRL](https://github.com/DerGoogler/MMRL)   <sup>👍</sup>
+- [KsuWebUI](https://github.com/5ec1cff/KsuWebUIStandalone)   <sup>🌐</sup>
+- [MMRL](https://github.com/DerGoogler/MMRL)   <sup>▶ 🌐</sup>
 
 ## Resources
 - [Usage](Documentation/usage.md)
