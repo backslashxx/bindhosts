@@ -315,7 +315,7 @@ toggle_updatejson() {
 # no one is looking at unencrypted data because everyone wants encrypted data to crack
 download() {
 	if command -v curl > /dev/null 2>&1; then
-		curl --connect-timeout 10 -s "$1"
+		curl --connect-timeout 10 -Z -Ls "$1"
         else
 		busybox wget -T 10 --no-check-certificate -qO - "$1"
         fi
