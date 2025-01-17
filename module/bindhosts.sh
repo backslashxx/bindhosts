@@ -462,6 +462,10 @@ tcpdump () {
 	fi
 }
 
+hosts_lastmod () {
+	echo "[+] Last update at: $(date -r $target_hostsfile)"
+}
+
 show_help () {
 	echo "[%] $( grep '^description=' $MODDIR/module.prop | sed 's/description=//' )"
 	echo "usage:"
@@ -486,6 +490,7 @@ case "$1" in
 	--enable-cron) enable_cron; exit ;;
 	--disable-cron) disable_cron; exit ;;
 	--toggle-updatejson) toggle_updatejson; exit ;;
+	--hosts-lastmod) hosts_lastmod; exit ;;
 	--help|*) show_help; exit ;;
 esac
 
