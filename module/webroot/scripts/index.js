@@ -134,14 +134,14 @@ async function checkMagisk() {
     }
 }
 
-// Function to load the version from module.prop and load the version in the WebUI
+// Function to load current mode
 async function getCurrentMode() {
     try {
         const command = "grep '^operating_mode=' /data/adb/modules/bindhosts/mode.sh | cut -d'=' -f2";
         const mode = await execCommand(command);
         updateMode(mode.trim());
     } catch (error) {
-        console.error("Failed to read description from mode.sh:", error);
+        console.error("Failed to read current mode from mode.sh:", error);
         updateMode("Error");
     }
 }
@@ -208,17 +208,24 @@ async function updateStatusFromModuleProp() {
     try {
         const command = "grep '^description=' /data/adb/modules/bindhosts/module.prop | sed 's/description=status: //'";
         const description = await execCommand(command);
+        if (!description.trim()) {
+            throw new Error("Description is empty");
+        }
         updateStatus(description.trim());
     } catch (error) {
         console.error("Failed to read description from module.prop:", error);
-        updateStatus("Error reading description from module.prop");
+        if (typeof ksu !== 'undefined' && ksu.mmrl) {
+            updateStatus("Please enable JavaScript API in MMRL settings:\n1. Settings\n2. Security\n3. Allow JavaScript API\n4. Bindhosts\n5. Enable both option");
+        } else {
+            updateStatus("Error reading description from module.prop");
+        }
     }
 }
 
 // Function to update the status text dynamically in the WebUI
 function updateStatus(statusText) {
     const statusElement = document.getElementById('status-text');
-    statusElement.textContent = statusText;
+    statusElement.innerHTML = statusText.replace(/\n/g, '<br>');
 }
 
 // function to check the if user has installed bindhosts app
