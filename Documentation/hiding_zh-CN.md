@@ -19,7 +19,6 @@
 
  建议:
   - 若为非gki内核且内核不包含 path_umount，请咨询内核开发者 [backport 该功能特性](https://github.com/tiann/KernelSU/pull/1464)
-  - 若你坚持使用 Magical OverlayFS, [请使用该fork](https://github.com/backslashxx/magic_overlayfs), 该fork遵循 skip_mount
   - 还有一个替代方案, 只需安装 [ZN-hostsredirect](https://github.com/aviraxp/ZN-hostsredirect/releases)
 
 ## Magisk
