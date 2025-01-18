@@ -4,12 +4,12 @@
         "title": "状态栏"
     },
     "global": {
-        "executing": "正在执行…",
+        "executing": "正在执行脚本…",
         "execute_error": "执行脚本失败：",
         "unwritable": "无法写入 hosts 文件，需要修复",
-        "reset": "Hosts 已重置！",
+        "reset": "Hosts 文件已重置！",
         "disabled": "模块已禁用",
-        "adaway": "请先在 Adaway 重置 hosts",
+        "adaway": "请先在 Adaway 内重置 hosts",
         "dev_opt": "开发者模式已启用",
         "dev_opt_true": "您已处于开发者模式",
         "dev_opt_fail": "开发者模式启用失败",
@@ -20,9 +20,9 @@
         "language": "语言",
         "bad_translation": "反馈翻译错误",
         "add_language": "新增语言",
-        "get_tiles": "获取 QS 磁帖",
+        "get_tiles": "获取快速设置（QS）磁帖",
         "installing": "正在安装...",
-        "installed": "安装完成, 请给予 BindHosts app SU 权限",
+        "installed": "安装完成, 请授予 BindHosts app SU 权限",
         "download_fail": "下载失败，请检查您的网络",
         "install_fail": "安装失败，请到 /sdcard/Download/bindhosts-app 手动安装",
         "module_update": "模块更新",
@@ -37,31 +37,31 @@
     },
     "custom": {
         "title": "自定义规则",
-        "guide1": "在此处添加自定义的跳转规则",
-        "example": "例子：",
+        "guide1": "在此处添加自定义跳转规则",
+        "example": "例如：",
         "warning": "警告：自定义规则在模块运行期间和重置后均会加载！",
-        "prompt_fail": "已存在于自定义规则"
+        "prompt_fail": "已存在于自定义规则内"
     },
     "source": {
         "title": "规则（源）",
-        "guide1": "黑名单规则",
-        "guide2": "自定义规则集",
+        "guide1": "黑名单",
+        "guide2": "自定义规则",
         "format": "格式",
-        "example": "例子：",
+        "example": "例如：",
         "source_page": "更多规则（源）",
-        "prompt_fail": "已存在于规则"
+        "prompt_fail": "已存在于规则内"
     },
     "blacklist": {
         "title": "黑名单",
-        "guide1": "添加到此处的规则均会被拉黑",
-        "example": "例子：",
-        "prompt_fail": "已存在于黑名单"
+        "guide1": "添加到此处的域名均会被拉黑",
+        "example": "例如：",
+        "prompt_fail": "已存在于黑名单内"
     },
     "whitelist": {
         "title": "白名单",
-        "guide1": "添加到此处的规则均会被放行",
-        "example": "例子：",
-        "prompt_fail": "已存在于白名单"
+        "guide1": "添加到此处的域名均会被放行",
+        "example": "例如：",
+        "prompt_fail": "已存在于白名单内"
     },
     "mode": {
         "button": "模式",
