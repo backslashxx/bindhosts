@@ -1,5 +1,4 @@
 import { initializeAvailableLanguages, detectUserLanguage, loadTranslations, translations } from './language.js';
-import { setupDocsMenu } from './docs.js';
 
 const basePath = "/data/adb/bindhosts";
 
@@ -714,7 +713,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     await loadTranslations(userLang);
     cover.style.display = "none";
     setupHelpMenu();
-    setupDocsMenu();
     await getCurrentMode();
     await updateStatusFromModuleProp();
     await loadVersionFromModuleProp();

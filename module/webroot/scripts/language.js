@@ -1,4 +1,5 @@
 import { execCommand, activeOverlay, linkRedirect } from './index.js';
+import { setupDocsMenu } from './docs.js';
 
 const languageMenu = document.querySelector('.language-menu');
 
@@ -36,6 +37,7 @@ export async function loadTranslations(lang) {
     try {
         const response = await fetch(`/locales/${lang}.json`);
         translations = await response.json();
+        setupDocsMenu(lang);
         applyTranslations();
     } catch (error) {
         console.error(`Error loading translations for ${lang}:`, error);

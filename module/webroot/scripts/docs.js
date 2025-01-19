@@ -1,11 +1,16 @@
 import { linkRedirect, applyRippleEffect, toast, developerOption, learnMore } from './index.js';
 
 // Function to fetch documents
-function getDocuments(link, element) {
+function getDocuments(link, fallbackLink, element) {
     fetch(link)
         .then(response => {
             if (!response.ok) {
-                throw new Error('Connection error');
+                return fetch(fallbackLink).then(fallbackResponse => {
+                    if (!fallbackResponse.ok) {
+                        throw new Error(`Fallback link failed with status ${fallbackResponse.status}`);
+                    }
+                    return fallbackResponse.text();
+                });
             }
             return response.text();
         })
@@ -34,6 +39,7 @@ function getDocuments(link, element) {
             applyRippleEffect();
         })
         .catch(error => {
+            console.error('Error fetching documents:', error);
             document.getElementById(element).textContent = 'Failed to load content: ' + error.message;
         });
 }
@@ -54,39 +60,47 @@ function addCopyToClipboardListeners() {
 
 // Setup documents menu
 let activeDocs = null;
-export function setupDocsMenu() {
+let docsButtonListeners = [];
+export async function setupDocsMenu(docsLang) {
+    docsButtonListeners.forEach(({ button, listener }) => {
+        button.removeEventListener("click", listener);
+    });
+    docsButtonListeners = [];
+    const originalDocsLang = `_${docsLang}`;
     const docsData = {
         source: {
-            link: 'https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/sources.md',
+            link: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/sources${originalDocsLang}.md`,
+            fallbackLink: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/sources.md`,
             element: 'source-content',
         },
         translate: {
-            link: 'https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/localize.md',
+            link: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/localize${originalDocsLang}.md`,
+            fallbackLink: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/localize.md`,
             element: 'translate-content',
         },
         modes: {
-            link: 'https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/modes.md',
+            link: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/modes${originalDocsLang}.md`,
+            fallbackLink: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/modes.md`,
             element: 'modes-content',
         },
     };
+
     const docsButtons = document.querySelectorAll(".docs-btn");
     const docsOverlay = document.querySelectorAll(".docs");
+
     docsButtons.forEach(button => {
-        button.addEventListener("click", () => {
+        const listener = () => {
             const type = button.dataset.type;
             const overlay = document.getElementById(`${type}-docs`);
             if (type === 'modes' && developerOption && !learnMore) return;
-            if (overlay) {
-                openOverlay(overlay);
-                const { link, element } = docsData[type] || {};
-                if (link && element) {
-                    getDocuments(link, element);
-                } else {
-                    console.error(`No document data found for type: ${type}`);
-                }
-            }
-        });
+            openOverlay(overlay);
+            const { link, fallbackLink, element } = docsData[type] || {};
+            getDocuments(link, fallbackLink, element);
+        };
+        button.addEventListener("click", listener);
+        docsButtonListeners.push({ button, listener });
     });
+
     docsOverlay.forEach(overlay => {
         const closeButton = overlay.querySelector(".close-docs-btn");
         if (closeButton) {
@@ -98,15 +112,17 @@ export function setupDocsMenu() {
             }
         });
     });
-    function openOverlay(overlay) {
-        if (activeDocs) closeOverlay(activeDocs);
-        overlay.classList.add("active");
-        document.body.style.overflow = "hidden";
-        activeDocs = overlay;
-    }
-    function closeOverlay(overlay) {
-        overlay.classList.remove("active");
-        document.body.style.overflow = "";
-        activeDocs = null;
-    }
+}
+
+function openOverlay(overlay) {
+    if (activeDocs) closeOverlay(activeDocs);
+    overlay.classList.add("active");
+    document.body.style.overflow = "hidden";
+    activeDocs = overlay;
+}
+
+function closeOverlay(overlay) {
+    overlay.classList.remove("active");
+    document.body.style.overflow = "";
+    activeDocs = null;
 }
