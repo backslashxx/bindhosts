@@ -1,6 +1,6 @@
-# bindhosts 操作模式
-- 这些是目前已定义的操作模式，支持自动检测或手动切换
-- 你可以通过访问 [开发者选项](https://github.com/bindhosts/bindhosts/issues/10#issue-2703531116) 切换操作模式。
+# bindhosts 工作模式
+- 这些是目前已定义的工作模式，支持自动检测或手动切换
+- 你可以通过访问 [开发者选项](https://github.com/bindhosts/bindhosts/issues/10#issue-2703531116) 切换工作模式。
 
 #### 术语表
  - magic mount - 主要用于Magisk的挂载方式
@@ -13,8 +13,7 @@
  - **APatch** 
    - OverlayFS / magic mount
    - magic mount 兼容 Adaway，OverlayFS 不兼容 Adaway
-   - 隐藏: 无法在 OverlayFS 模式下无隐藏方法。
-   - 隐藏: 对于 magic mount 请使用 [zygisk-assistant](https://github.com/snake-4/Zygisk-Assistant)
+   - 隐藏: 使用 [ZygiskNext](https://github.com/Dr-TSNG/ZygiskNext) 并开启遵循排除列表
  - **Magisk** 
    - magic mount  
    - 兼容 Adaway  
@@ -27,7 +26,7 @@
 ---
 
 ## mode=1
-### ksu_susfs_bind 模式
+### ksu_susfs_bind
 - susfs assisted mount --bind
 - 仅 KernelSU 可用  
 - 需要被susfs修补过的内核以及对应的用户空间工具  
@@ -39,7 +38,7 @@
 ## mode=2
 ### plain bindhosts
 - mount --bind
-- **兼容性最强**
+- **兼容性最好**
 - 实际上在所有的管理器均能工作，但并未真正可用
 - 会泄露bind mount, 泄露全局修改的 hosts 文件  
 - 当 APatch 处于 OverlayFS (默认模式) 时选择，因为其提供更好的兼容性。
@@ -88,7 +87,7 @@
 
 ## mode=6
 ### ksu_source_mod
-- KernelSU try_umount assisted mount --bind
+- KernelSU try_umount 协助的 mount --bind
 - 需要修改源: 参阅[此处](https://github.com/tiann/KernelSU/commit/2b2b0733d7c57324b742c017c302fc2c411fe0eb)  
 - 支持 KernelSU NEXT 12183+，另请参阅[此处](https://github.com/rifsxd/KernelSU-Next/commit/9f30b48e559fb5ddfd088c933af147714841d673)
 - **警告**: 与 SuSFS 冲突，如果你能使用 SuSFS 实现则不需要该模式
@@ -111,7 +110,7 @@
 
 ## mode=8
 ### ksu_susfs_overlay
-- susfs-assisted overlayfs rw mount
+- susfs 协助的 overlayfs rw 挂载
 - 仅 KernelSU 可用  
 - 需要被susfs修补过的内核以及对应的用户空间工具  
 - 可能不会在 APatch bind_mount / MKSU 上工作，若用户有原生 f2fs /data 字符折叠支持

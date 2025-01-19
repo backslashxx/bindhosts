@@ -13,8 +13,7 @@
  - **APatch** 
    - OverlayFS / magic mount
    - magic mount is Adaway compatible, OverlayFS is NOT
-   - Hiding: for OverlayFS mode, none.
-   - Hiding: for magic mount [zygisk-assistant](https://github.com/snake-4/Zygisk-Assistant)
+   - Hiding: [ZygiskNext](https://github.com/Dr-TSNG/ZygiskNext)'s enforce denylist
  - **Magisk** 
    - magic mount  
    - Adaway compatible  
@@ -27,7 +26,7 @@
 ---
 
 ## mode=1
-### ksu_susfs_bind mode
+### ksu_susfs_bind
 - susfs assisted mount --bind
 - KernelSU only  
 - Requires susfs-patched kernel and userspace tool  
